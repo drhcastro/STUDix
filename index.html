@@ -11,60 +11,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        .tab-active { border-bottom-color: #4f46e5; }
-        .tab-inactive { border-bottom-color: transparent; color: #4b5563; }
+        .main-tab-active { border-bottom-color: #4f46e5; color: #3730a3; }
+        .main-tab-inactive { border-bottom-color: transparent; color: #4b5563; }
+        .sub-tab-active { background-color: #e0e7ff; color: #3730a3; font-weight: 600; }
+        .sub-tab-inactive { background-color: #f9fafb; color: #4b5563; }
         .module-content { animation: fadeIn 0.5s ease-in-out; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         .calculator-card { transition: all 0.3s ease; }
         .result-box { background-color: #eef2ff; border-left: 4px solid #4f46e5; }
-        .image-placeholder {
-            background-color: #f3f4f6;
-            border: 2px dashed #d1d5db;
-            height: 12rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #6b7280;
-            border-radius: 0.5rem;
-            margin: 1.5rem 0;
-            font-style: italic;
-            text-align: center;
-            padding: 1rem;
-        }
-        .accordion-button {
-            background-color: #f9fafb;
-            border: 1px solid #e5e7eb;
-            width: 100%;
-            text-align: left;
-            padding: 0.75rem 1.25rem;
-            border-radius: 0.375rem;
-            font-weight: 600;
-            color: #1f2937;
-            cursor: pointer;
-            transition: background-color 0.2s;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .accordion-button:hover {
-            background-color: #f3f4f6;
-        }
-        .accordion-button .icon::after {
-            content: '+';
-            font-size: 1.5rem;
-            color: #6b7280;
-        }
-        .accordion-button.active .icon::after {
-            content: '−';
-        }
-        .accordion-content {
-            display: none;
-            padding: 1.5rem;
-            border: 1px solid #e5e7eb;
-            border-top: 0;
-            border-radius: 0 0 0.375rem 0.375rem;
-            background-color: #ffffff;
-        }
+        .image-placeholder { background-color: #f3f4f6; border: 2px dashed #d1d5db; height: 12rem; display: flex; align-items: center; justify-content: center; color: #6b7280; border-radius: 0.5rem; margin: 1.5rem 0; font-style: italic; text-align: center; padding: 1rem; }
+        .accordion-button { background-color: #f9fafb; border: 1px solid #e5e7eb; width: 100%; text-align: left; padding: 0.75rem 1.25rem; border-radius: 0.375rem; font-weight: 600; color: #1f2937; cursor: pointer; transition: background-color 0.2s; display: flex; justify-content: space-between; align-items: center; }
+        .accordion-button:hover { background-color: #f3f4f6; }
+        .accordion-button .icon::after { content: '+'; font-size: 1.5rem; color: #6b7280; }
+        .accordion-button.active .icon::after { content: '−'; }
+        .accordion-content { display: none; padding: 1.5rem; border: 1px solid #e5e7eb; border-top: 0; border-radius: 0 0 0.375rem 0.375rem; background-color: #ffffff; }
         .prose-custom h3 { margin-top: 2rem; margin-bottom: 1rem; font-size: 1.5rem; font-weight: 700; }
         .prose-custom h4 { margin-top: 1.5rem; margin-bottom: 0.75rem; font-size: 1.25rem; font-weight: 600; }
         .prose-custom p { margin-bottom: 1rem; line-height: 1.6; }
@@ -72,6 +32,8 @@
         .prose-custom table { width: 100%; margin-top: 1.5rem; margin-bottom: 1.5rem; border-collapse: collapse; }
         .prose-custom th, .prose-custom td { border: 1px solid #d1d5db; padding: 0.75rem; text-align: left; }
         .prose-custom th { background-color: #f9fafb; font-weight: 600; }
+        .clinical-pearl { background-color: #fff7ed; border-left: 4px solid #fb923c; padding: 1rem; margin-top: 2rem; border-radius: 0.25rem; }
+        .clinical-pearl strong { color: #c2410c; }
     </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
@@ -83,210 +45,133 @@
                 <p class="text-base text-gray-600 mt-1">Cursos de Posgrado</p>
                 <p class="text-lg font-semibold text-indigo-700 mt-1">Dr. Héctor Castro Villela</p>
             </div>
-            <nav class="border-b border-gray-200">
+            <nav id="main-nav" class="border-b border-gray-200">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div class="flex -mb-px">
-                        <button id="tab-hellp" class="course-tab text-sm sm:text-base font-semibold py-4 px-4 sm:px-6 border-b-2 focus:outline-none">Síndrome de HELLP</button>
-                        <button id="tab-neuro" class="course-tab text-sm sm:text-base font-semibold py-4 px-4 sm:px-6 border-b-2 focus:outline-none">Paciente Neurocrítico</button>
+                        <button id="tab-hellp" class="course-tab main-tab-inactive text-sm sm:text-base font-semibold py-4 px-4 sm:px-6 border-b-2 focus:outline-none">Síndrome de HELLP</button>
+                        <button id="tab-neuro" class="course-tab main-tab-inactive text-sm sm:text-base font-semibold py-4 px-4 sm:px-6 border-b-2 focus:outline-none">Paciente Neurocrítico</button>
                     </div>
                 </div>
             </nav>
         </header>
 
-        <main id="course-content" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <!-- El contenido del curso se cargará aquí -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div id="sub-nav-container" class="mb-6"></div>
+            <div id="course-content"></div>
         </main>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const courseContent = document.getElementById('course-content');
-            const tabs = document.querySelectorAll('.course-tab');
+            const mainTabs = document.querySelectorAll('.course-tab');
+            const subNavContainer = document.getElementById('sub-nav-container');
+            
             let currentCourse = 'hellp';
-            let currentModule = 0;
+            let currentModuleIndex = 0;
 
             const courses = {
                 hellp: {
                     title: "Manejo Integral del Síndrome de HELLP",
                     modules: [
                         {
-                            title: "Módulo 1: Fundamentos: Epidemiología y Fisiopatología",
+                            title: "Módulo 1: Fundamentos",
                             content: `
                                 <div class="prose-custom">
-                                    <h3 class="text-indigo-800">1.1. Definiendo la Entidad: Más que una Variante de la Preeclampsia</h3>
-                                    <p>El síndrome de HELLP es una emergencia obstétrica que amenaza la vida, definida por su acrónimo en inglés: <strong>H</strong>emolysis (hemólisis), <strong>E</strong>levated <strong>L</strong>iver enzymes (elevación de enzimas hepáticas) y <strong>L</strong>ow <strong>P</strong>latelets (plaquetopenia). Tradicionalmente se ha considerado una variante o una complicación de la preeclampsia severa; sin embargo, esta visión ha sido matizada por la evidencia de que entre el 15% y el 20% de los casos se presentan sin hipertensión arterial o proteinuria preexistentes. Este hallazgo sugiere que el síndrome de HELLP podría representar un proceso patológico distinto, aunque con una superposición fisiopatológica significativa con los trastornos hipertensivos del embarazo.</p>
+                                    <h3>1.1. Definiendo la Entidad</h3>
+                                    <p>El síndrome de HELLP es una emergencia obstétrica definida por su acrónimo: <strong>H</strong>emolysis, <strong>E</strong>levated <strong>L</strong>iver enzymes, y <strong>L</strong>ow <strong>P</strong>latelets. Aunque se asocia a la preeclampsia severa, hasta un 20% de los casos ocurren sin hipertensión o proteinuria previas.</p>
                                     <div class="image-placeholder">Espacio para Gráfico: Intersección entre Preeclampsia y HELLP</div>
-                                    <p>Desde el punto de vista epidemiológico, el síndrome complica entre el 0.1% y el 0.9% de todas las gestaciones y afecta a un 10-20% de las pacientes con preeclampsia severa. Su presentación es más frecuente en el tercer trimestre, típicamente entre las semanas 27 y 37 de gestación. No obstante, un dato de crucial importancia clínica es que hasta el 30% de los casos se diagnostican en el posparto, la mayoría dentro de las primeras 48 a 72 horas, un periodo de alta vulnerabilidad que exige una vigilancia continua.</p>
-                                    
-                                    <h3 class="text-indigo-800">1.2. El Mecanismo Fisiopatológico Central: Una Microangiopatía Trombótica (MAT) Sistémica</h3>
-                                    <p>Para comprender el síndrome de HELLP es indispensable reconocer su base fisiopatológica fundamental: es una microangiopatía trombótica (MAT) sistémica. Este proceso se inicia con un desarrollo placentario defectuoso, que conduce a la liberación de factores antiangiogénicos y mediadores proinflamatorios en la circulación materna. Estas sustancias provocan una disfunción y activación endotelial sistémica, desencadenando una cascada de eventos microtrombóticos.</p>
+                                    <h3>1.2. Fisiopatología: Una Microangiopatía Trombótica</h3>
+                                    <p>La base es una lesión endotelial sistémica que provoca la formación de microtrombos, consumiendo plaquetas, dañando el hígado y fragmentando glóbulos rojos.</p>
                                     <div class="image-placeholder">Espacio para Diagrama Fisiopatológico de HELLP</div>
-                                    <ul>
-                                        <li><strong>Hemólisis (H):</strong> La lesión endotelial sistémica promueve la deposición de hebras de fibrina en la luz de los capilares. A medida que los eritrocitos son forzados a pasar, sufren un estrés de cizallamiento mecánico que los fragmenta. La evidencia directa de este fenómeno se observa en el frotis de sangre periférica, que muestra la presencia de <strong>esquistocitos</strong>.</li>
-                                        <li><strong>Elevación de Enzimas Hepáticas (EL):</strong> El mismo proceso de trombosis microvascular ocurre en los sinusoides hepáticos. La oclusión de estos vasos conduce a isquemia hepatocelular y necrosis periportal, provocando la liberación de transaminasas (AST y ALT).</li>
-                                        <li><strong>Plaquetopenia (LP):</strong> La disfunción endotelial generalizada expone el colágeno subendotelial, lo que activa masivamente a las plaquetas. Se adhieren y agregan, formando microtrombos y generando un consumo acelerado que supera la capacidad de producción de la médula ósea.</li>
-                                    </ul>
-
-                                    <h3 class="text-indigo-800">1.3. Estadificación y Clasificación: Cuantificando la Severidad</h3>
-                                    <p>Para estandarizar el diagnóstico y estratificar la severidad, se han desarrollado dos sistemas de clasificación principales: el de Mississippi y el de Tennessee. Estas clasificaciones son herramientas pronósticas y guían la intensidad del manejo clínico.</p>
-                                    <h4>Tabla 1: Criterios Diagnósticos y de Estadificación para el Síndrome de HELLP</h4>
-                                    <table>
-                                        <thead><tr><th>Criterio</th><th>ACOG</th><th>Tennessee (Completo)</th><th>Mississippi Clase I (Severo)</th><th>Mississippi Clase II (Moderado)</th><th>Mississippi Clase III (Leve)</th></tr></thead>
-                                        <tbody>
-                                            <tr><td><strong>Plaquetas (/mm³)</strong></td><td>&lt; 100,000</td><td>&leq; 100,000</td><td>&leq; 50,000</td><td>&gt; 50,000 a &leq; 100,000</td><td>&gt; 100,000 a &leq; 150,000</td></tr>
-                                            <tr><td><strong>AST o ALT (UI/L)</strong></td><td>&gt; 2 &times; LSN*</td><td>&geq; 70</td><td>&geq; 70</td><td>&geq; 70</td><td>&geq; 40</td></tr>
-                                            <tr><td><strong>LDH (UI/L)</strong></td><td>&gt; 600</td><td>&geq; 600</td><td>&geq; 600</td><td>&geq; 600</td><td>&geq; 600</td></tr>
-                                        </tbody>
-                                    </table>
-                                    <p class="text-sm italic">*LSN: Límite Superior de la Normalidad del laboratorio local.</p>
-
-                                    <div id="calculator-hellp" class="bg-white p-6 rounded-lg shadow-md border border-gray-200 calculator-card mt-12">
-                                        <h4 class="text-lg font-semibold text-gray-900 mb-4">Herramienta Interactiva: Calculadora de Estadificación del Síndrome de HELLP</h4>
-                                        <p class="text-sm text-gray-600 mb-4">Ingrese los valores de laboratorio para obtener una clasificación automática e instantánea de la severidad del síndrome de HELLP, aplicando simultáneamente los criterios de Mississippi y Tennessee.</p>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div><label for="platelets" class="block text-sm font-medium text-gray-700">Plaquetas (/mm³)</label><input type="number" id="platelets" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Ej: 45000"></div>
-                                            <div><label for="ast" class="block text-sm font-medium text-gray-700">AST (UI/L)</label><input type="number" id="ast" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Ej: 80"></div>
-                                            <div><label for="ldh" class="block text-sm font-medium text-gray-700">LDH (UI/L)</label><input type="number" id="ldh" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm" placeholder="Ej: 700"></div>
-                                        </div>
-                                        <button id="calculate-hellp" class="mt-6 w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Calcular Estadificación</button>
-                                        <div id="hellp-results" class="mt-6 hidden"></div>
+                                    <div class="clinical-pearl">
+                                        <p><strong>Perla Clínica:</strong> HELLP sin hipertensión existe. Hasta un 20% de las pacientes pueden no presentar hipertensión ni proteinuria. El síndrome puede ser la primera y única manifestación.</p>
                                     </div>
                                 </div>
                             `
                         },
                         {
-                            title: "Módulo 2: Diagnóstico Clínico-Laboratorial y Diferencial",
+                            title: "Módulo 2: Diagnóstico",
                             content: `
                                 <div class="prose-custom">
-                                    <h3 class="text-indigo-800">2.1. Presentación Clínica: El Gran Simulador</h3>
-                                    <p>El síndrome de HELLP es conocido como "el gran simulador" debido a que su presentación clínica es a menudo vaga e inespecífica. Los síntomas más comunes son el <strong>malestar general</strong> (90%), el <strong>dolor en epigastrio o hipocondrio derecho</strong> (hasta 90%), y <strong>náuseas o vómitos</strong> (hasta 84%). El dolor abdominal se debe a la distensión de la cápsula de Glisson por la necrosis y el edema hepático.</p>
-                                    <p class="font-bold text-red-700 bg-red-100 p-3 rounded-md">Perla Clínica: Toda mujer en la segunda mitad del embarazo o puerperio con malestar y/o dolor epigástrico debe ser evaluada para HELLP, independientemente de su presión arterial.</p>
-                                    
+                                    <h3>2.1. Presentación Clínica: El Gran Simulador</h3>
+                                    <p>Los síntomas más comunes son malestar general (90%), dolor en epigastrio o hipocondrio derecho (90%), y náuseas o vómitos (84%).</p>
                                     <div class="image-placeholder">Espacio para Imagen: Localización del dolor en HELLP</div>
-
-                                    <h3 class="text-indigo-800">2.2. Clase Magistral de Interpretación de Laboratorio</h3>
-                                    <p>Un abordaje sistemático de las pruebas de laboratorio es crucial. A continuación, se detallan los hallazgos clave:</p>
-                                    <div class="space-y-2 mt-4">
-                                        <button class="accordion-button"><span>Hemograma Completo (CBC)</span><span class="icon"></span></button>
-                                        <div class="accordion-content"><p>La <strong>trombocitopenia</strong> es un criterio diagnóstico cardinal, con un umbral de &lt; 100,000 plaquetas/mm³. La anemia puede estar presente, reflejando el grado de hemólisis.</p></div>
-                                        
-                                        <button class="accordion-button"><span>Frotis de Sangre Periférica</span><span class="icon"></span></button>
-                                        <div class="accordion-content"><p>Este es uno de los exámenes más importantes. La observación de <strong>esquistocitos, células en casco (helmet cells) o células de Burr</strong> es diagnóstica de anemia hemolítica microangiopática (AHMA) y proporciona una prueba visual directa del proceso de fragmentación eritrocitaria.</p><div class="image-placeholder">Espacio para Microfotografía: Esquistocitos en frotis de sangre</div></div>
-
-                                        <button class="accordion-button"><span>Marcadores de Hemólisis</span><span class="icon"></span></button>
-                                        <div class="accordion-content"><p>La tríada bioquímica de hemólisis incluye: <strong>LDH elevada</strong> (&gt; 600 UI/L), <strong>Bilirrubina total elevada</strong> (&gt; 1.2 mg/dL, a expensas de la indirecta), y <strong>Haptoglobina sérica baja o indetectable</strong>.</p></div>
-                                        
-                                        <button class="accordion-button"><span>Pruebas de Función Hepática (LFTs)</span><span class="icon"></span></button>
-                                        <div class="accordion-content"><p>La elevación de las transaminasas <strong>AST y ALT</strong> es otro pilar diagnóstico. Típicamente, los valores se encuentran al menos al doble del límite superior de la normalidad, o por encima de 70 UI/L.</p></div>
-
-                                        <button class="accordion-button"><span>Estudios de Coagulación</span><span class="icon"></span></button>
-                                        <div class="accordion-content"><p>En un HELLP no complicado, TP, TTPa y Fibrinógeno suelen ser normales. Su alteración debe hacer sospechar una progresión a <strong>Coagulación Intravascular Diseminada (CID)</strong>.</p></div>
+                                    <h3>2.2. Interpretación de Laboratorio</h3>
+                                    <p>Un abordaje sistemático de las pruebas de laboratorio es crucial para un diagnóstico rápido y preciso.</p>
+                                    <div class="clinical-pearl">
+                                        <p><strong>Perla Clínica:</strong> El frotis de sangre es diagnóstico. La presencia de esquistocitos confirma la hemólisis microangiopática y es una prueba fundamental.</p>
                                     </div>
-
-                                    <h3 class="text-indigo-800">2.3. El Diagnóstico Diferencial Crucial</h3>
-                                    <p>Un diagnóstico erróneo de una MAT durante el embarazo puede tener consecuencias catastróficas. Es vital diferenciar HELLP de otras entidades como Hígado Graso Agudo del Embarazo (HGAE), Púrpura Trombocitopénica Trombótica (PTT) y Síndrome Hemolítico Urémico atípico (SHUa).</p>
-                                    <h4>Tabla 2: Diagnóstico Diferencial de las MAT en el Embarazo</h4>
-                                    <table>
-                                        <thead><tr><th>Característica</th><th>HELLP</th><th>HGAE</th><th>PTT</th><th>SHUa</th></tr></thead>
-                                        <tbody>
-                                            <tr><td><strong>Hipertensión</strong></td><td class="font-bold">Frecuente (85%)</td><td>Menos frecuente (~50%)</td><td>Infrecuente</td><td>Frecuente</td></tr>
-                                            <tr><td><strong>Trombocitopenia</strong></td><td>Moderada</td><td>Leve a moderada</td><td class="font-bold">Profunda (&lt;30,000)</td><td>Moderada a severa</td></tr>
-                                            <tr><td><strong>Enzimas Hepáticas</strong></td><td class="font-bold">Marcadamente elevadas</td><td>Marcadamente elevadas</td><td>Levemente elevadas</td><td>Levemente elevadas</td></tr>
-                                            <tr><td><strong>Insuficiencia Renal</strong></td><td>Leve a moderada</td><td class="font-bold">Frecuente y Severa</td><td>Menos frecuente</td><td class="font-bold">Universal y Severa</td></tr>
-                                            <tr><td><strong>Hipoglucemia</strong></td><td>Ausente</td><td class="font-bold">Frecuente y Severa</td><td>Ausente</td><td>Ausente</td></tr>
-                                            <tr><td><strong>Actividad ADAMTS13</strong></td><td>Normal</td><td>Normal</td><td class="font-bold">Severamente deficiente</td><td>Normal</td></tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                             `
                         },
                         {
-                            title: "Módulo 3: Manejo Médico Agudo y Estabilización",
+                            title: "Módulo 3: Manejo Agudo",
                             content: `
                                 <div class="prose-custom">
-                                    <h3 class="text-indigo-800">3.1. Resucitación Inicial: El Enfoque ABCDE</h3>
-                                    <p>El síndrome de HELLP requiere una evaluación y estabilización rápidas. Esto implica asegurar al menos dos accesos intravenosos de grueso calibre, iniciar la monitorización continua de signos vitales maternos y fetales.</p>
-                                    
-                                    <h3 class="text-indigo-800">3.2. Manejo de la Hipertensión Severa</h3>
-                                    <p>El objetivo es reducir la presión arterial a un rango seguro (PAS 140-150 / PAD 90-100 mmHg) para prevenir un ACV hemorrágico, no normalizarla. El tratamiento debe iniciarse urgentemente (en 30-60 min) si la PAS es &geq; 160 mmHg o la PAD es &geq; 110 mmHg.</p>
-                                    
+                                    <h3>3.1. Manejo de la Hipertensión Severa</h3>
+                                    <p>El objetivo es reducir la PA a un rango seguro (140-150 / 90-100 mmHg) para prevenir un ACV. El tratamiento debe iniciarse urgentemente si la PA es ≥ 160/110 mmHg.</p>
                                     <div class="image-placeholder">Espacio para Infografía: Algoritmo de manejo de crisis hipertensiva</div>
-                                    
-                                    <h3 class="text-indigo-800">3.3. Profilaxis de Convulsiones: Sulfato de Magnesio</h3>
-                                    <p>El sulfato de magnesio es el fármaco de elección para la profilaxis de convulsiones eclámpticas. Actúa como neuroprotector, no como antihipertensivo.</p>
-                                    <ul>
-                                        <li><strong>Dosis de Carga:</strong> 4-6 gramos IV en 20-30 minutos.</li>
-                                        <li><strong>Mantenimiento:</strong> 1-2 gramos/hora en infusión continua.</li>
-                                        <li><strong>Duración:</strong> Al menos 24 horas posparto.</li>
-                                        <li><strong>Monitorización de Toxicidad:</strong> Vigilar reflejos, frecuencia respiratoria y diuresis.</li>
-                                        <li><strong>Antídoto:</strong> Gluconato de calcio 1g IV.</li>
-                                    </ul>
-                                    
-                                    <h3 class="text-indigo-800">3.4. Terapia Transfusional</h3>
-                                    <p>La decisión de transfundir se basa en la clínica, hemorragia activa y modo de parto.</p>
-                                    <ul>
-                                        <li><strong>Plaquetas:</strong> Mantener &gt;20,000 para parto vaginal y &gt;50,000 para cesárea.</li>
-                                        <li><strong>Paquetes Globulares:</strong> Indicados con Hb &lt;7 g/dL o hemorragia masiva.</li>
-                                        <li><strong>Crioprecipitado y PFC:</strong> Reservados para CID o protocolos de transfusión masiva.</li>
-                                    </ul>
-
-                                    <div id="calculator-htn" class="bg-white p-6 rounded-lg shadow-md border border-gray-200 calculator-card mt-12">
-                                        <h4 class="text-lg font-semibold text-gray-900 mb-4">Herramienta Interactiva: Guía de Manejo de Crisis Hipertensiva</h4>
-                                        <p class="text-sm text-gray-600 mb-4">Esta herramienta sigue el protocolo ACOG/CMQCC para guiar el tratamiento farmacológico de la hipertensión severa de inicio agudo en el embarazo.</p>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div><label for="pas" class="block text-sm font-medium text-gray-700">Presión Arterial Sistólica (PAS)</label><input type="number" id="pas" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" placeholder="Ej: 165"></div>
-                                            <div><label for="pad" class="block text-sm font-medium text-gray-700">Presión Arterial Diastólica (PAD)</label><input type="number" id="pad" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm" placeholder="Ej: 112"></div>
-                                            <div class="md:col-span-2"><label class="block text-sm font-medium text-gray-700">¿Contraindicaciones para Labetalol (asma, IC)?</label><div class="mt-2 flex items-center space-x-4"><label><input type="radio" name="labetalol-contra" value="no" class="h-4 w-4" checked> No</label><label><input type="radio" name="labetalol-contra" value="yes" class="h-4 w-4"> Sí</label></div></div>
-                                        </div>
-                                        <button id="calculate-htn" class="mt-6 w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">Obtener Recomendación</button>
-                                        <div id="htn-results" class="mt-6 hidden"></div>
+                                    <h3>3.2. Profilaxis de Convulsiones: Sulfato de Magnesio</h3>
+                                    <p>Es el fármaco de elección para la profilaxis de convulsiones eclámpticas (Carga: 4-6g IV; Mantenimiento: 1-2g/h).</p>
+                                    <div class="clinical-pearl">
+                                        <p><strong>Perla Clínica:</strong> El Sulfato de Magnesio es neuroprotector, no antihipertensivo. Su función principal es prevenir convulsiones.</p>
                                     </div>
                                 </div>
                             `
                         },
                         {
-                            title: "Módulo 4: Decisión Obstétrica y Manejo Periparto",
+                            title: "Módulo 4: Decisión Obstétrica",
                             content: `
                                 <div class="prose-custom">
-                                    <h3 class="text-indigo-800">4.1. El Tratamiento Definitivo: El Momento del Parto</h3>
-                                    <p>La interrupción del embarazo es la única terapia curativa. La decisión sobre el momento se basa en un balance entre el riesgo materno y la edad gestacional. A partir de las 34 semanas, los riesgos de la prematuridad son menores que los riesgos de continuar la gestación.</p>
-                                    <h4>Tabla 4: Indicaciones para la Finalización del Embarazo</h4>
-                                    <table>
-                                        <thead><tr><th>Edad Gestacional</th><th>Estrategia de Manejo</th></tr></thead>
-                                        <tbody>
-                                            <tr><td><strong>&geq; 34 0/7 semanas</strong></td><td><strong>Finalizar la gestación</strong> tras estabilización materna.</td></tr>
-                                            <tr><td><strong>Viable a 33 6/7 semanas</strong></td><td><strong>Manejo Expectante</strong> en centro de tercer nivel con corticoides para maduración pulmonar, si la madre y el feto están estables.</td></tr>
-                                            <tr><td><strong>&lt; 24 semanas (Pre-viable)</strong></td><td>Consejería sobre la terminación del embarazo debido a los altos riesgos maternos.</td></tr>
-                                        </tbody>
-                                    </table>
-                                    
-                                    <h3 class="text-indigo-800">4.2. Vía del Parto: Inducción vs. Cesárea</h3>
-                                    <p>Se prefiere el <strong>parto vaginal</strong> si es factible en un tiempo razonable, ya que evita el estrés y riesgo de una cirugía mayor en una paciente crítica. La cesárea se indica por razones obstétricas habituales o por deterioro materno/fetal rápido.</p>
-
+                                    <h3>4.1. El Momento del Parto</h3>
+                                    <p>La interrupción del embarazo es la única terapia curativa. La decisión se basa en un balance entre el riesgo materno y la edad gestacional.</p>
                                     <div class="image-placeholder">Espacio para Diagrama: Árbol de decisión para vía de parto</div>
-
-                                    <h3 class="text-indigo-800">4.3. Consideraciones Anestésicas</h3>
-                                    <p>La trombocitopenia es la principal preocupación. La anestesia neuroaxial (epidural/espinal) está <strong>contraindicada con plaquetas &lt; 75,000-80,000/mm³</strong> por el riesgo de hematoma epidural. En estos casos, puede ser necesaria la anestesia general.</p>
+                                    <div class="clinical-pearl">
+                                        <p><strong>Perla Clínica:</strong> El parto es el único tratamiento curativo. Todas las demás medidas son de soporte y estabilización.</p>
+                                    </div>
                                 </div>
                             `
                         },
                         {
-                            title: "Módulo 5: Cuidados Posparto y Perspectivas Futuras",
+                            title: "Módulo 5: Cuidados Posparto",
                             content: `
                                 <div class="prose-custom">
-                                    <h3 class="text-indigo-800">5.1. Manejo en la UCI Posparto: El Pico de la Tormenta</h3>
-                                    <p>Un concepto fundamental es que la enfermedad a menudo se exacerba en el puerperio, con un <strong>pico de severidad entre las 24 y 48 horas posparto</strong>. Este periodo requiere vigilancia intensiva en UCI. La resolución (aumento de plaquetas, normalización de LFTs) suele comenzar al tercer o cuarto día.</p>
-                                    
+                                    <h3>5.1. El Pico de la Tormenta Posparto</h3>
+                                    <p>La enfermedad a menudo se exacerba en las primeras 24-48 horas posparto, requiriendo vigilancia intensiva.</p>
                                     <div class="image-placeholder">Espacio para Gráfica: Evolución de Plaquetas y LFTs en el posparto</div>
-
-                                    <h3 class="text-indigo-800">5.2. Consejería para Futuros Embarazos y Salud a Largo Plazo</h3>
-                                    <p>Haber sufrido un síndrome de HELLP es un marcador de <strong>riesgo cardiovascular futuro</strong>. La consejería debe incluir:</p>
-                                    <ul>
-                                        <li><strong>Riesgo de Recurrencia:</strong> ~20-25% para preeclampsia, 2-19% para HELLP.</li>
-                                        <li><strong>Prevención Futura:</strong> Dosis bajas de aspirina (81mg/día) desde la semana 12-16 en la siguiente gestación.</li>
-                                        <li><strong>Seguimiento a Largo Plazo:</strong> Control anual de PA, IMC y perfil lipídico/glucémico.</li>
-                                        <li><strong>Apoyo Psicológico:</strong> Reconocer y abordar el posible trauma de la experiencia.</li>
-                                    </ul>
+                                    <h3>5.2. Salud a Largo Plazo</h3>
+                                    <p>Haber padecido HELLP es un marcador de riesgo cardiovascular futuro. Requiere consejería y seguimiento.</p>
+                                    <div class="clinical-pearl">
+                                        <p><strong>Perla Clínica:</strong> El puerperio es un periodo de alto riesgo. La enfermedad a menudo debuta o empeora en las primeras 48 horas posparto.</p>
+                                    </div>
+                                </div>
+                            `
+                        },
+                        {
+                            title: "Acciones Prioritarias",
+                            content: `
+                                <div class="prose-custom">
+                                    <h3>Acciones Prioritarias en el Manejo Agudo del Síndrome de HELLP</h3>
+                                    <ol class="list-decimal list-inside space-y-3">
+                                        <li><strong>Estabilización Inicial (ABC):</strong> Asegurar 2 accesos IV, iniciar monitorización continua materno-fetal.</li>
+                                        <li><strong>Laboratorios de Emergencia:</strong> BH, PFH, marcadores de hemólisis (LDH), tiempos de coagulación.</li>
+                                        <li><strong>Controlar Hipertensión Severa (PA ≥ 160/110 mmHg):</strong> Iniciar antihipertensivo IV (Labetalol/Hidralazina) en < 30-60 min.</li>
+                                        <li><strong>Iniciar Profilaxis de Convulsiones:</strong> Administrar dosis de carga de Sulfato de Magnesio (4-6g IV).</li>
+                                        <li><strong>Evaluar y Decidir Interrupción del Embarazo:</strong> Planificar momento y vía del parto.</li>
+                                        <li><strong>Manejo de Fluidos y Transfusiones:</strong> Balance de líquidos estricto y transfusión según umbrales.</li>
+                                        <li><strong>Coordinar Ingreso a UCI:</strong> Anticipar necesidad de vigilancia posparto intensiva.</li>
+                                    </ol>
+                                </div>
+                            `
+                        },
+                        {
+                            title: "Flujograma Primer Nivel (MX)",
+                            content: `
+                                <div class="prose-custom">
+                                    <h3>Flujograma de Manejo en Primer Nivel de Atención (México)</h3>
+                                    <p>Basado en los principios de las Guías de Práctica Clínica (CENETEC). El objetivo es sospechar, estabilizar y referir de forma segura y urgente.</p>
+                                    <div class="image-placeholder">Espacio para Flujograma de Primer Nivel de Atención</div>
                                 </div>
                             `
                         }
@@ -295,303 +180,70 @@
                 neuro: {
                     title: "Abordaje Integral del Paciente Neurocrítico",
                     modules: [
-                        {
-                            title: "Módulo 1: Valoración Inicial y Fisiopatología Fundamental",
-                            content: `
-                                <div class="prose-custom">
-                                    <h3 class="text-teal-800">1.1. El Paciente Neurocrítico y la Lesión Cerebral Secundaria</h3>
-                                    <p>El objetivo central de los cuidados neurocríticos no es revertir la lesión primaria (el impacto o infarto inicial), sino prevenir o mitigar la <strong>lesión cerebral secundaria</strong>. Este es el daño neuronal que ocurre en las horas y días posteriores debido a hipoxia, isquemia, edema e hipertensión intracraneal (HIC).</p>
-
-                                    <h3 class="text-teal-800">1.2. La Doctrina de Monro-Kellie: El Principio Unificador</h3>
-                                    <p>Este principio establece que, al estar el cerebro en un cráneo rígido, el volumen total ($V_{cerebro} + V_{sangre} + V_{LCR}$) es constante. Un aumento en un componente debe ser compensado por la disminución de otro para mantener la PIC normal (5-15 mmHg). Cuando la compensación falla, pequeños aumentos de volumen causan aumentos exponenciales de la PIC.</p>
-                                    <div class="image-placeholder">Espacio para Gráfica: Curva de Volumen-Presión de Monro-Kellie</div>
-
-                                    <h3 class="text-teal-800">1.3. Evaluación Neurológica Sistemática</h3>
-                                    <p>El examen neurológico es la herramienta de neuromonitorización más fundamental. Se utilizan escalas estandarizadas para una evaluación objetiva.</p>
-                                    
-                                    <div id="calculator-gcs" class="bg-white p-6 rounded-lg shadow-md border border-gray-200 calculator-card mt-12">
-                                        <h4 class="text-lg font-semibold text-gray-900 mb-4">Herramienta Interactiva: Calculadora de Escala de Coma de Glasgow (GCS y GCS-P)</h4>
-                                        <p class="text-sm text-gray-600 mb-4">Evalúe el nivel de conciencia de forma objetiva. Una puntuación ≤ 8 define un TCE severo y es indicación para monitorización de PIC. La adición de la respuesta pupilar (GCS-P) mejora el poder pronóstico.</p>
-                                        <div class="space-y-4">
-                                            <div><label class="block text-sm font-medium text-gray-700">Apertura Ocular (E)</label><select id="gcs-eye" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"><option value="4">4 - Espontánea</option><option value="3">3 - A la voz</option><option value="2">2 - Al dolor</option><option value="1">1 - Ninguna</option></select></div>
-                                            <div><label class="block text-sm font-medium text-gray-700">Respuesta Verbal (V)</label><select id="gcs-verbal" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"><option value="5">5 - Orientada</option><option value="4">4 - Confusa</option><option value="3">3 - Palabras inapropiadas</option><option value="2">2 - Sonidos incomprensibles</option><option value="1">1 - Ninguna</option></select></div>
-                                            <div><label class="block text-sm font-medium text-gray-700">Respuesta Motora (M)</label><select id="gcs-motor" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"><option value="6">6 - Obedece órdenes</option><option value="5">5 - Localiza el dolor</option><option value="4">4 - Retirada al dolor</option><option value="3">3 - Flexión anormal (decorticación)</option><option value="2">2 - Extensión anormal (descerebración)</option><option value="1">1 - Ninguna</option></select></div>
-                                            <div><label class="block text-sm font-medium text-gray-700">Respuesta Pupilar (P)</label><select id="gcs-pupil" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm"><option value="0">0 - Ambas reactivas</option><option value="1">1 - Una no reactiva</option><option value="2">2 - Ninguna reactiva</option></select></div>
-                                        </div>
-                                        <button id="calculate-gcs" class="mt-6 w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700">Calcular GCS</button>
-                                        <div id="gcs-results" class="mt-6 hidden"></div>
-                                    </div>
-                                </div>
-                            `
-                        },
-                        {
-                            title: "Módulo 2: Monitorización Neurológica Avanzada",
-                            content: `
-                                <div class="prose-custom">
-                                    <h3 class="text-teal-800">2.1. Monitorización Invasiva de la PIC</h3>
-                                    <p>La monitorización de la PIC está indicada en TCE severo (GCS 3-8) con TC anormal. El umbral de tratamiento es una PIC sostenida <strong>> 22 mmHg</strong>. El <strong>drenaje ventricular externo (DVE)</strong> es el estándar de oro, ya que permite medir y tratar (drenando LCR).</p>
-                                    <div class="image-placeholder">Espacio para Imagen: Catéter de DVE y monitor de PIC</div>
-
-                                    <h3 class="text-teal-800">2.2. Monitorización Multimodal (MMM): Más Allá de la Presión</h3>
-                                    <p>Depender solo de la PIC es insuficiente. La MMM integra varias tecnologías para una visión completa del estado cerebral, permitiendo una terapia individualizada.</p>
-                                    <h4>Tabla 5: Monitorización Multimodal: Objetivos y Umbrales</h4>
-                                    <table>
-                                        <thead><tr><th>Parámetro</th><th>Modalidad</th><th>Objetivo/Meta</th><th>Umbral de Intervención</th></tr></thead>
-                                        <tbody>
-                                            <tr><td><strong>PIC</strong></td><td>DVE / Sonda</td><td>&lt; 22 mmHg</td><td>&gt; 22 mmHg</td></tr>
-                                            <tr><td><strong>PPC (PAM - PIC)</strong></td><td>Cálculo</td><td><strong>60 - 70 mmHg</strong></td><td>&lt; 60 o &gt; 70 mmHg</td></tr>
-                                            <tr><td><strong>$PbtO_2$ (Oxig. Tisular)</strong></td><td>Sonda</td><td>&gt; 20 mmHg</td><td><strong>&lt; 20 mmHg</strong></td></tr>
-                                            <tr><td><strong>Convulsiones</strong></td><td>EEG Continuo</td><td>Actividad normal</td><td>Actividad epileptiforme</td></tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            `
-                        },
-                        {
-                            title: "Módulo 3: Manejo Hemodinámico y Respiratorio",
-                            content: `
-                                <div class="prose-custom">
-                                    <h3 class="text-teal-800">3.1. Optimización de la Presión de Perfusión Cerebral (PPC)</h3>
-                                    <p>La PPC es el gradiente que impulsa el flujo sanguíneo al cerebro. El objetivo es mantenerla entre <strong>60-70 mmHg</strong>. Esto se logra manejando la PAM con fluidoterapia y vasopresores (noradrenalina) y disminuyendo la PIC.</p>
-                                    
-                                    <h3 class="text-teal-800">3.2. Ventilación Mecánica Neuroprotectora</h3>
-                                    <p>El ventilador es una herramienta potente para manejar la PIC. La PaCO₂ es un potente vasodilatador cerebral. La hipercapnia aumenta la PIC, mientras que la hipocapnia la reduce pero puede causar isquemia.</p>
-                                    <ul>
-                                        <li><strong>Objetivo de Oxigenación:</strong> Evitar la hipoxemia (PaO₂ &lt; 60 mmHg).</li>
-                                        <li><strong>Objetivo de Ventilación:</strong> Mantener una estricta <strong>normocapnia (PaCO₂ 35-40 mmHg)</strong>.</li>
-                                    </ul>
-
-                                    <div class="image-placeholder">Espacio para Gráfica: Efecto de la PaCO₂ en el flujo sanguíneo cerebral</div>
-
-                                    <h3 class="text-teal-800">3.3. Sedación y Analgesia</h3>
-                                    <p>Una sedoanalgesia adecuada es terapéutica. Reduce la demanda metabólica cerebral y previene picos de PIC. El <strong>propofol</strong> y el <strong>fentanilo</strong> son fármacos de elección por su corta vida media, que permite "vacaciones de sedación" para la evaluación neurológica.</p>
-
-                                    <div id="calculator-nihss" class="bg-white p-6 rounded-lg shadow-md border border-gray-200 calculator-card mt-12">
-                                        <h4 class="text-lg font-semibold text-gray-900 mb-4">Herramienta Interactiva: Calculadora de la Escala de Ictus del NIH (NIHSS)</h4>
-                                        <p class="text-sm text-gray-600 mb-4">Herramienta estándar para cuantificar la severidad del ictus isquémico agudo. Se presenta un ejemplo simplificado.</p>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div><label for="nihss-1a" class="block text-sm font-medium text-gray-700">1a. Nivel de Conciencia</label><select id="nihss-1a" class="nihss-item mt-1 block w-full rounded-md border-gray-300 shadow-sm"><option value="0">0 - Alerta</option><option value="1">1 - Somnoliento</option><option value="2">2 - Estuporoso</option><option value="3">3 - Coma</option></select></div>
-                                            <div><label for="nihss-5" class="block text-sm font-medium text-gray-700">5. Paresia Brazo Izquierdo</label><select id="nihss-5" class="nihss-item mt-1 block w-full rounded-md border-gray-300 shadow-sm"><option value="0">0 - Sin caída</option><option value="1">1 - Caída</option><option value="2">2 - Vence gravedad</option><option value="3">3 - No vence gravedad</option><option value="4">4 - No movimiento</option></select></div>
-                                        </div>
-                                        <button id="calculate-nihss" class="mt-6 w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-teal-600 hover:bg-teal-700">Calcular NIHSS (Ejemplo)</button>
-                                        <div id="nihss-results" class="mt-6 hidden"></div>
-                                    </div>
-                                </div>
-                            `
-                        },
-                        {
-                            title: "Módulo 4: Manejo de Complicaciones Agudas",
-                            content: `
-                                <div class="prose-custom">
-                                    <h3 class="text-teal-800">4.1. Manejo Escalonado de la Hipertensión Intracraneal Refractaria</h3>
-                                    <p>El enfoque por niveles (tiered approach) proporciona un algoritmo estructurado para intensificar el tratamiento de la HIC (PIC > 22 mmHg), comenzando con las medidas más seguras y escalando solo si es necesario.</p>
-                                    <h4>Tabla 6: Protocolo Escalonado para el Manejo de la HIC</h4>
-                                    <table>
-                                        <thead><tr><th>Nivel (Tier)</th><th>Intervención</th><th>Especificaciones</th></tr></thead>
-                                        <tbody>
-                                            <tr><td><strong>Nivel 0 (Base)</strong></td><td>Medidas Generales</td><td>Cabecera a 30°, cuello neutro, normotermia.</td></tr>
-                                            <tr><td rowspan="3"><strong>Nivel 1 (1ª Línea)</strong></td><td>Optimizar Sedoanalgesia</td><td>Aumentar propofol/fentanilo.</td></tr>
-                                            <tr><td>Drenaje de LCR</td><td>Si hay DVE, drenar LCR.</td></tr>
-                                            <tr><td>Terapia Hiperosmolar</td><td>Manitol o Solución Salina Hipertónica.</td></tr>
-                                            <tr><td rowspan="2"><strong>Nivel 2 (Escalamiento)</strong></td><td>Hiperventilación Leve</td><td>Objetivo PaCO₂ 30-35 mmHg.</td></tr>
-                                            <tr><td>Bloqueo Neuromuscular</td><td>Infusión de cisatracurio.</td></tr>
-                                            <tr><td rowspan="3"><strong>Nivel 3 (Rescate)</strong></td><td>Coma Barbitúrico</td><td>Infusión de pentobarbital.</td></tr>
-                                            <tr><td>Hipotermia Terapéutica</td><td>Enfriar a 32-36°C.</td></tr>
-                                            <tr><td>Craniectomía Descompresiva</td><td>Consulta neuroquirúrgica.</td></tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            `
-                        },
-                        {
-                            title: "Módulo 5: Rehabilitación Neurológica Temprana",
-                            content: `
-                                <div class="prose-custom">
-                                    <h3 class="text-teal-800">5.1. Principios de la Neurorrehabilitación Temprana</h3>
-                                    <p>El paradigma ha cambiado del reposo a la <strong>movilización temprana, estructurada y segura</strong> en la UCI. Esto es una intervención terapéutica para prevenir la debilidad adquirida en UCI (DAUCI) y mejorar los resultados funcionales.</p>
-                                    <ul>
-                                        <li><strong>Inicio Temprano:</strong> Tan pronto como el paciente esté estable (24-72h).</li>
-                                        <li><strong>Seguridad Primero:</strong> Usar criterios fisiológicos claros para movilizar.</li>
-                                        <li><strong>Intensidad:</strong> Objetivo de 45-60 min diarios de cada terapia necesaria.</li>
-                                    </ul>
-                                    <div class="image-placeholder">Espacio para Foto: Equipo de rehabilitación trabajando con un paciente en UCI</div>
-                                    <h3 class="text-teal-800">5.2. El Equipo de Rehabilitación Interdisciplinario</h3>
-                                    <p>La rehabilitación es un esfuerzo de equipo coordinado que incluye médicos, enfermería, fisioterapeutas, terapeutas ocupacionales y fonoaudiólogos.</p>
-                                </div>
-                            `
-                        }
+                        { title: "Módulo 1: Valoración Inicial", content: "Contenido del Módulo 1 de Neurocrítico..." },
+                        { title: "Módulo 2: Monitorización", content: "Contenido del Módulo 2 de Neurocrítico..." },
+                        { title: "Módulo 3: Manejo Hemodinámico", content: "Contenido del Módulo 3 de Neurocrítico..." },
+                        { title: "Módulo 4: Complicaciones", content: "Contenido del Módulo 4 de Neurocrítico..." },
+                        { title: "Módulo 5: Rehabilitación", content: "Contenido del Módulo 5 de Neurocrítico..." },
                     ]
                 }
             };
 
-            function renderModule() {
+            function renderSubNav() {
                 const courseData = courses[currentCourse];
-                const moduleData = courseData.modules[currentModule];
-                
+                let subNavHtml = '<div class="flex flex-wrap gap-2">';
+                courseData.modules.forEach((module, index) => {
+                    const isActive = index === currentModuleIndex;
+                    subNavHtml += `<button class="sub-tab-button px-4 py-2 text-sm rounded-md ${isActive ? 'sub-tab-active' : 'sub-tab-inactive'}" data-index="${index}">${module.title}</button>`;
+                });
+                subNavHtml += '</div>';
+                subNavContainer.innerHTML = subNavHtml;
+
+                document.querySelectorAll('.sub-tab-button').forEach(button => {
+                    button.addEventListener('click', (e) => {
+                        currentModuleIndex = parseInt(e.target.dataset.index);
+                        renderContent();
+                        renderSubNav(); 
+                    });
+                });
+            }
+
+            function renderContent() {
+                const moduleData = courses[currentCourse].modules[currentModuleIndex];
                 let contentHtml = `
                     <div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg module-content">
-                        <div class="flex justify-between items-start mb-6 border-b pb-4">
-                            <div>
-                                <h2 class="text-2xl font-bold text-gray-900">${courseData.title}</h2>
-                                <p class="text-lg font-semibold text-gray-600 mt-1">${moduleData.title}</p>
-                            </div>
-                            <span class="text-sm font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full whitespace-nowrap">Módulo ${currentModule + 1} / ${courseData.modules.length}</span>
-                        </div>
-                        <div>
-                            ${moduleData.content}
-                        </div>
-                        <div class="mt-8 pt-6 border-t flex justify-between">
-                            <button id="prev-module" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed" ${currentModule === 0 ? 'disabled' : ''}>Anterior</button>
-                            <button id="next-module" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed" ${currentModule === courseData.modules.length - 1 ? 'disabled' : ''}>Siguiente</button>
-                        </div>
+                        ${moduleData.content}
                     </div>
                 `;
                 courseContent.innerHTML = contentHtml;
-                
-                document.getElementById('prev-module')?.addEventListener('click', () => {
-                    if (currentModule > 0) {
-                        currentModule--;
-                        renderModule();
-                    }
-                });
-
-                document.getElementById('next-module')?.addEventListener('click', () => {
-                    if (currentModule < courseData.modules.length - 1) {
-                        currentModule++;
-                        renderModule();
-                    }
-                });
-
-                attachEventListeners();
             }
 
-            function attachEventListeners() {
-                const accordionButtons = document.querySelectorAll('.accordion-button');
-                accordionButtons.forEach(button => {
-                    button.addEventListener('click', () => {
-                        button.classList.toggle('active');
-                        const content = button.nextElementSibling;
-                        content.style.display = content.style.display === 'block' ? 'none' : 'block';
-                    });
-                });
-
-                const calculateHellpBtn = document.getElementById('calculate-hellp');
-                if (calculateHellpBtn) {
-                    calculateHellpBtn.addEventListener('click', () => {
-                        const platelets = parseInt(document.getElementById('platelets').value) || 0;
-                        const ast = parseInt(document.getElementById('ast').value) || 0;
-                        const ldh = parseInt(document.getElementById('ldh').value) || 0;
-                        const resultsDiv = document.getElementById('hellp-results');
-                        
-                        let mississippiClass = "No clasifica";
-                        if (ldh >= 600) {
-                            if (platelets <= 50000 && ast >= 70) mississippiClass = "Clase I (Severo)";
-                            else if (platelets > 50000 && platelets <= 100000 && ast >= 70) mississippiClass = "Clase II (Moderado)";
-                            else if (platelets > 100000 && platelets <= 150000 && ast >= 40) mississippiClass = "Clase III (Leve)";
-                        }
-
-                        let tennesseeClass = "No cumple criterios para HELLP Completo";
-                        if (platelets <= 100000 && ast >= 70 && ldh >= 600) {
-                            tennesseeClass = "Síndrome de HELLP Completo";
-                        } else if (platelets <= 150000 || ast >= 40 || ldh >= 600) {
-                            if (platelets <= 150000 && ast >= 40 && ldh >= 600) {
-                                tennesseeClass = "Sugerente de Síndrome de HELLP Parcial/Incompleto";
-                            }
-                        }
-
-                        resultsDiv.innerHTML = `<div class="result-box p-4 rounded-md"><h5 class="font-semibold text-gray-800">Resultados de Estadificación:</h5><p class="text-sm text-gray-700 mt-2"><strong>Clasificación de Mississippi:</strong> ${mississippiClass}</p><p class="text-sm text-gray-700 mt-1"><strong>Criterios de Tennessee:</strong> ${tennesseeClass}</p></div>`;
-                        resultsDiv.classList.remove('hidden');
-                    });
-                }
-
-                const calculateHtnBtn = document.getElementById('calculate-htn');
-                if(calculateHtnBtn) {
-                    calculateHtnBtn.addEventListener('click', () => {
-                        const pas = parseInt(document.getElementById('pas').value) || 0;
-                        const pad = parseInt(document.getElementById('pad').value) || 0;
-                        const contra = document.querySelector('input[name="labetalol-contra"]:checked').value;
-                        const resultsDiv = document.getElementById('htn-results');
-
-                        let recommendation = "PA no en rango de crisis hipertensiva.";
-                        if (pas >= 160 || pad >= 110) {
-                            if (contra === 'no') {
-                                recommendation = "<strong>Fármaco de Primera Línea: Labetalol IV.</strong><br>Dosis inicial: <strong>20 mg IV</strong> en 2 minutos. Reevaluar PA en 10 minutos. Si persiste, escalar a 40 mg, luego 80 mg.";
-                            } else {
-                                recommendation = "<strong>Fármaco Alternativo: Hidralazina IV o Nifedipino VO.</strong><br><strong>Hidralazina:</strong> 5-10 mg IV en 2 minutos. Reevaluar en 20 min.<br><strong>Nifedipino IR:</strong> 10-20 mg VO. Reevaluar en 20 min.";
-                            }
-                        }
-                        
-                        resultsDiv.innerHTML = `<div class="result-box p-4 rounded-md"><h5 class="font-semibold text-gray-800">Recomendación Terapéutica:</h5><p class="text-sm text-gray-700 mt-2">${recommendation}</p></div>`;
-                        resultsDiv.classList.remove('hidden');
-                    });
-                }
-
-                const calculateGcsBtn = document.getElementById('calculate-gcs');
-                if (calculateGcsBtn) {
-                    calculateGcsBtn.addEventListener('click', () => {
-                        const eye = parseInt(document.getElementById('gcs-eye').value);
-                        const verbal = parseInt(document.getElementById('gcs-verbal').value);
-                        const motor = parseInt(document.getElementById('gcs-motor').value);
-                        const pupil = parseInt(document.getElementById('gcs-pupil').value);
-                        const resultsDiv = document.getElementById('gcs-results');
-
-                        const gcsScore = eye + verbal + motor;
-                        const gcsPScore = gcsScore - pupil;
-                        
-                        let severity = "";
-                        if (gcsScore >= 13) severity = "TCE Leve";
-                        else if (gcsScore >= 9) severity = "TCE Moderado";
-                        else severity = "TCE Severo";
-
-                        resultsDiv.innerHTML = `<div class="result-box p-4 rounded-md bg-teal-50 border-l-4 border-teal-500"><h5 class="font-semibold text-gray-800">Resultados de GCS:</h5><p class="text-sm text-gray-700 mt-2"><strong>Puntuación GCS:</strong> ${gcsScore} (${severity})</p><p class="text-sm text-gray-700 mt-1"><strong>Puntuación GCS-P:</strong> ${gcsPScore}</p></div>`;
-                        resultsDiv.classList.remove('hidden');
-                    });
-                }
-                
-                const calculateNihssBtn = document.getElementById('calculate-nihss');
-                if (calculateNihssBtn) {
-                    calculateNihssBtn.addEventListener('click', () => {
-                        const items = document.querySelectorAll('.nihss-item');
-                        let score = 0;
-                        items.forEach(item => {
-                            score += parseInt(item.value);
-                        });
-                        const resultsDiv = document.getElementById('nihss-results');
-                        
-                        let severity = "Ictus Menor";
-                        if (score > 20) severity = "Ictus Severo";
-                        else if (score > 15) severity = "Ictus Moderado-Severo";
-                        else if (score > 4) severity = "Ictus Moderado";
-
-                        resultsDiv.innerHTML = `<div class="result-box p-4 rounded-md bg-teal-50 border-l-4 border-teal-500"><h5 class="font-semibold text-gray-800">Resultados de NIHSS (Ejemplo):</h5><p class="text-sm text-gray-700 mt-2"><strong>Puntuación Total (simplificada):</strong> ${score}</p><p class="text-sm text-gray-700 mt-1"><strong>Severidad Estimada:</strong> ${severity}</p></div>`;
-                        resultsDiv.classList.remove('hidden');
-                    });
-                }
-            }
-
-            function switchTab(course) {
+            function switchCourse(course) {
                 currentCourse = course;
-                currentModule = 0;
-                tabs.forEach(tab => {
-                    tab.classList.remove('tab-active', 'tab-inactive', 'text-indigo-600', 'border-indigo-500', 'text-teal-600', 'border-teal-500', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
-                    if (tab.id === `tab-${course}`) {
-                        tab.classList.add('tab-active');
-                        tab.classList.add(course === 'hellp' ? 'text-indigo-600' : 'text-teal-600');
-                        tab.classList.add(course === 'hellp' ? 'border-indigo-500' : 'border-teal-500');
+                currentModuleIndex = 0;
+                mainTabs.forEach(tab => {
+                    const isTabActive = tab.id === `tab-${course}`;
+                    tab.classList.toggle('main-tab-active', isTabActive);
+                    tab.classList.toggle('main-tab-inactive', !isTabActive);
+                    if (isTabActive) {
+                        tab.classList.add(course === 'hellp' ? 'text-indigo-600' : 'text-teal-600', course === 'hellp' ? 'border-indigo-500' : 'border-teal-500');
+                        tab.classList.remove(course === 'hellp' ? 'text-teal-600' : 'text-gray-500', course === 'hellp' ? 'border-teal-500' : 'border-gray-300');
                     } else {
-                        tab.classList.add('tab-inactive', 'text-gray-500', 'hover:text-gray-700', 'hover:border-gray-300');
+                         tab.classList.remove('text-indigo-600', 'border-indigo-500', 'text-teal-600', 'border-teal-500');
                     }
                 });
-                renderModule();
+                renderSubNav();
+                renderContent();
             }
 
-            tabs.forEach(tab => {
+            mainTabs.forEach(tab => {
                 tab.addEventListener('click', (e) => {
-                    switchTab(e.target.id.split('-')[1]);
+                    switchCourse(e.target.id.split('-')[1]);
                 });
             });
 
-            switchTab('hellp');
+            // Initial load
+            switchCourse('hellp');
         });
     </script>
 </body>
