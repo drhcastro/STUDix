@@ -10,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     let courseData = null;
     let currentCourseKey = '';
     let currentModuleIndex = 0;
-
     // --- CARGA DE DATOS ---
     async function loadCourseData() {
         try {
