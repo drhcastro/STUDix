@@ -6,10 +6,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const courseTitleEl = document.getElementById('course-title');
     const courseContent = document.getElementById('course-content');
     const subNavContainer = document.getElementById('sub-nav-container');
-    
+
     let courseData = null;
     let currentCourseKey = '';
     let currentModuleIndex = 0;
+
     // --- CARGA DE DATOS ---
     async function loadCourseData() {
         try {
@@ -26,15 +27,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- NAVEGACIÓN PRINCIPAL ---
     function showCourse(courseKey) {
-        if (!courseData || !courseData[courseKey]) return;
+        if (!courseData || !courseData.hasOwnProperty(courseKey)) return;
         currentCourseKey = courseKey;
         homeScreen.classList.add('hidden');
         courseContainer.classList.remove('hidden');
-        
-        const data = courseData[currentCourseKey];
+
+        const data = courseData.hellp; // Asumimos que solo tenemos el curso 'hellp'
         courseTitleEl.textContent = data.title;
         currentModuleIndex = 0;
-        
+
         renderSubNav(data);
         renderModule(data);
     }
@@ -48,18 +49,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderSubNav(data) {
         let subNavHtml = '<div class="flex flex-wrap gap-2">';
         const specialModuleTitles = ["Acciones Prioritarias", "Flujograma (MX)", "Referencias"];
-        
+
         data.modules.forEach((module, index) => {
             const isActive = index === currentModuleIndex;
             let tabTitle = module.title;
-            
-            // Lógica corregida para nombrar los botones
+
             if (!specialModuleTitles.includes(tabTitle)) {
-                // Filtramos solo los módulos principales para obtener el número correcto
                 const mainModules = data.modules.filter(m => !specialModuleTitles.includes(m.title));
                 const moduleNumber = mainModules.indexOf(module) + 1;
                 if (moduleNumber > 0) {
-                   tabTitle = `Módulo ${moduleNumber}`;
+                    tabTitle = `Módulo ${moduleNumber}`;
                 }
             }
 
@@ -78,8 +77,15 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderModule(data) {
-        const moduleData = data.modules[currentModuleIndex];
-        courseContent.innerHTML = `<div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg module-content">${moduleData.content}</div>`;
+        const moduleData = data.modules.at(currentModuleIndex);
+        if (!moduleData) return;
+
+        // Aseguramos que las rutas de las imágenes sean correctas (relativas al index.html)
+        let contentWithCorrectedImages = moduleData.content.replace(/<img src="([^"]*)"/g, (match, p1) => {
+            return `<img src="${p1}"`;
+        });
+
+        courseContent.innerHTML = `<div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg module-content">${contentWithCorrectedImages}</div>`;
         attachModuleEventListeners();
     }
 
@@ -93,67 +99,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 const ast = parseInt(document.getElementById('ast').value) || 0;
                 const ldh = parseInt(document.getElementById('ldh').value) || 0;
                 const resultsDiv = document.getElementById('hellp-results');
-                
+
                 let mississippiClass = "No clasifica o datos insuficientes.";
                 if (ldh >= 600) {
                     if (platelets <= 50000 && ast >= 70) mississippiClass = "Clase I (Severo)";
                     else if (platelets > 50000 && platelets <= 100000 && ast >= 70) mississippiClass = "Clase II (Moderado)";
                 }
-                
+
                 let tennesseeClass = "No cumple criterios para HELLP Completo.";
-                 if (platelets <= 100000 && ast >= 70 && ldh >= 600) {
+                if (platelets <= 100000 && ast >= 70 && ldh >= 600) {
                     tennesseeClass = "Síndrome de HELLP Completo.";
                 }
 
-                resultsDiv.innerHTML = `<p><strong>Clasificación de Mississippi:</strong> ${mississippiClass}</p><p><strong>Criterios de Tennessee:</strong> ${tennesseeClass}</p>`;
-                resultsDiv.classList.remove('hidden');
-            });
-        }
-        
-        // Acordeón para Clase de Laboratorio
-        const accordionButtons = document.querySelectorAll('.accordion-button');
-        accordionButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                button.classList.toggle('active');
-                const content = button.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
-            });
-        });
-
-        // Tabla Interactiva de Diagnóstico Diferencial
-        const diffBtns = document.querySelectorAll('.diff-btn');
-        if (diffBtns.length > 0) {
-            diffBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const colIdentifier = btn.textContent.trim(); // "Hipoglucemia Severa", "Trombocitopenia Profunda", etc.
-                    const table = document.getElementById('diff-table');
-                    
-                    let colIndex = -1;
-                    if (colIdentifier.includes("Hipoglucemia")) colIndex = 2; // HGAE
-                    if (colIdentifier.includes("Trombocitopenia")) colIndex = 3; // PTT
-                    if (colIdentifier.includes("Renal")) colIndex = 4; // SHUa
-                    if (colIdentifier.includes("ADAMTS13")) colIndex = 3; // PTT
-                    
-                    if (colIndex !== -1) {
-                        table.querySelectorAll('td, th').forEach(cell => cell.classList.remove('highlight-col'));
-                        table.querySelectorAll(`tr td:nth-child(${colIndex + 1}), tr th:nth-child(${colIndex + 1})`).forEach(cell => {
-                            cell.classList.add('highlight-col');
-                        });
-                    }
-                });
-            });
-        }
-    }
-
-    // --- INICIALIZACIÓN ---
-    async function init() {
-        await loadCourseData();
-        selectHellpBtn.addEventListener('click', () => showCourse('hellp'));
-        backToHomeBtn.addEventListener('click', showHome);
+                resultsDiv.innerHTML = `<p><strong>Clasificación de Mississippi:</strong> ${mississippiClass}</p><p><strong>Criterios de Tennessee:</strong> ${
     }
 
     init();
