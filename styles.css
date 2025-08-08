@@ -101,3 +101,30 @@ body {
     background-color: #fef9c3 !important;
     transition: background-color 0.3s;
 }
+
+/* --- AÑADIR ESTO AL FINAL DE STYLES.CSS --- */
+
+/* Estilos para la herramienta interactiva de laboratorio */
+.lab-tab-btn {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.375rem;
+    border: 1px solid #d1d5db;
+    background-color: #f9fafb;
+    font-weight: 500;
+    transition: all 0.2s ease-in-out;
+}
+.lab-tab-btn:hover {
+    background-color: #eef2ff;
+    border-color: #818cf8;
+}
+.lab-tab-active {
+    background-color: #4338ca;
+    color: #ffffff;
+    border-color: #4338ca;
+}
+.lab-content-pane {
+    padding: 1rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 0.375rem;
+    background-color: #fdfdff;
+}
