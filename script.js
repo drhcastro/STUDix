@@ -11,21 +11,17 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentCourseKey = '';
     let currentModuleIndex = 0;
 
-    // --- CARGA DE DATOS ---
     async function loadCourseData() {
         try {
             const response = await fetch('course-data.json');
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             courseData = await response.json();
         } catch (error) {
             console.error("Error al cargar los datos del curso:", error);
-            courseContent.innerHTML = "<p class='text-red-500'>Error: No se pudo cargar el contenido del curso. Asegúrese de que el archivo 'course-data.json' sea válido y accesible.</p>";
+            courseContent.innerHTML = "<p class='text-red-500'>Error: No se pudo cargar el contenido del curso.</p>";
         }
     }
 
-    // --- NAVEGACIÓN PRINCIPAL ---
     function showCourse(courseKey) {
         if (!courseData || !courseData[courseKey]) return;
         currentCourseKey = courseKey;
@@ -45,26 +41,13 @@ document.addEventListener('DOMContentLoaded', () => {
         courseContainer.classList.add('hidden');
     }
 
-    // --- RENDERIZADO DE CONTENIDO ---
     function renderSubNav(data) {
         let subNavHtml = '<div class="flex flex-wrap gap-2">';
-        const specialModuleTitles = ["Acciones Prioritarias", "Flujograma (MX)", "Referencias"];
-        
         data.modules.forEach((module, index) => {
             const isActive = index === currentModuleIndex;
-            let tabTitle = module.title;
-            
-            // Lógica para nombrar los botones de los módulos principales
-            if (!specialModuleTitles.includes(tabTitle)) {
-                const mainModules = data.modules.filter(m => !specialModuleTitles.includes(m.title));
-                const moduleNumber = mainModules.findIndex(m => m.id === module.id) + 1;
-                if (moduleNumber > 0) {
-                   tabTitle = `Módulo ${moduleNumber}`;
-                }
-            }
-
-            subNavHtml += `<button class="sub-tab-button px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200 ${isActive ? 'sub-tab-active' : 'sub-tab-inactive'}" data-index="${index}">${tabTitle}</button>`;
+            subNavHtml += `<button class="sub-tab-button px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200 ${isActive ? 'sub-tab-active' : 'sub-tab-inactive'}" data-index="${index}">Módulo ${index + 1}</button>`;
         });
+        // Aquí agregaremos los botones para Acciones, Flujograma, etc. en futuros pasos
         subNavHtml += '</div>';
         subNavContainer.innerHTML = subNavHtml;
 
@@ -83,9 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         attachModuleEventListeners();
     }
 
-    // --- MANEJO DE EVENTOS DE MÓDULOS ---
     function attachModuleEventListeners() {
-        // Calculadora de Estadificación HELLP
         const calculateHellpBtn = document.getElementById('calculate-hellp-btn');
         if (calculateHellpBtn) {
             calculateHellpBtn.addEventListener('click', () => {
@@ -110,47 +91,27 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
         
-        // Acordeón para Clase de Laboratorio
-        const accordionButtons = document.querySelectorAll('.accordion-button');
-        accordionButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                button.classList.toggle('active');
-                const content = button.nextElementSibling;
-                if (content.style.maxHeight) {
-                    content.style.maxHeight = null;
-                } else {
-                    content.style.maxHeight = content.scrollHeight + "px";
-                }
-            });
-        });
-
-        // Tabla Interactiva de Diagnóstico Diferencial
-        const diffBtns = document.querySelectorAll('.diff-btn');
-        if (diffBtns.length > 0) {
-            diffBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    const colIdentifier = btn.textContent.trim();
-                    const table = document.getElementById('diff-table');
-
-                    let colIndex = -1;
-                    if (colIdentifier.includes("Hipoglucemia")) colIndex = 4;
-                    if (colIdentifier.includes("Trombocitopenia")) colIndex = 1;
-                    if (colIdentifier.includes("Renal")) colIndex = 3;
-                    if (colIdentifier.includes("ADAMTS13")) colIndex = 5;
+        const labTabButtons = document.querySelectorAll('.lab-tab-btn');
+        if(labTabButtons.length > 0) {
+            const labContentPanes = document.querySelectorAll('.lab-content-pane');
+            labTabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    labTabButtons.forEach(btn => btn.classList.remove('lab-tab-active'));
+                    button.classList.add('lab-tab-active');
                     
-                    if (colIndex !== -1) {
-                        table.querySelectorAll('td, th').forEach(cell => cell.classList.remove('highlight-col'));
-                        // nth-child es 1-indexado, por lo que sumamos 1 a todo
-                        table.querySelectorAll(`tr td:nth-child(${colIndex + 1}), tr th:nth-child(${colIndex + 1})`).forEach(cell => {
-                            cell.classList.add('highlight-col');
-                        });
-                    }
+                    const targetId = button.dataset.target;
+                    labContentPanes.forEach(pane => {
+                        if (pane.id === targetId) {
+                            pane.classList.remove('hidden');
+                        } else {
+                            pane.classList.add('hidden');
+                        }
+                    });
                 });
             });
         }
-    } // Esta es la llave que probablemente estaba causando el error
+    }
 
-    // --- INICIALIZACIÓN ---
     async function init() {
         await loadCourseData();
         selectHellpBtn.addEventListener('click', () => showCourse('hellp'));
