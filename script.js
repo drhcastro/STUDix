@@ -88,4 +88,74 @@ document.addEventListener('DOMContentLoaded', () => {
         // Calculadora de Estadificación HELLP
         const calculateHellpBtn = document.getElementById('calculate-hellp-btn');
         if (calculateHellpBtn) {
-            calculateHellpBtn.
+            calculateHellpBtn.addEventListener('click', () => {
+                const platelets = parseInt(document.getElementById('platelets').value) || 0;
+                const ast = parseInt(document.getElementById('ast').value) || 0;
+                const ldh = parseInt(document.getElementById('ldh').value) || 0;
+                const resultsDiv = document.getElementById('hellp-results');
+                
+                let mississippiClass = "No clasifica o datos insuficientes.";
+                if (ldh >= 600) {
+                    if (platelets <= 50000 && ast >= 70) mississippiClass = "Clase I (Severo)";
+                    else if (platelets > 50000 && platelets <= 100000 && ast >= 70) mississippiClass = "Clase II (Moderado)";
+                }
+                
+                let tennesseeClass = "No cumple criterios para HELLP Completo.";
+                 if (platelets <= 100000 && ast >= 70 && ldh >= 600) {
+                    tennesseeClass = "Síndrome de HELLP Completo.";
+                }
+
+                resultsDiv.innerHTML = `<p><strong>Clasificación de Mississippi:</strong> ${mississippiClass}</p><p><strong>Criterios de Tennessee:</strong> ${tennesseeClass}</p>`;
+                resultsDiv.classList.remove('hidden');
+            });
+        }
+        
+        // Acordeón para Clase de Laboratorio
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                button.classList.toggle('active');
+                const content = button.nextElementSibling;
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
+                } else {
+                    content.style.maxHeight = content.scrollHeight + "px";
+                }
+            });
+        });
+
+        // Tabla Interactiva de Diagnóstico Diferencial
+        const diffBtns = document.querySelectorAll('.diff-btn');
+        if (diffBtns.length > 0) {
+            diffBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const colIdentifier = btn.textContent.trim();
+                    const table = document.getElementById('diff-table');
+
+                    let colIndex = -1;
+                    if (colIdentifier.includes("Hipoglucemia")) colIndex = 4;
+                    if (colIdentifier.includes("Trombocitopenia")) colIndex = 1;
+                    if (colIdentifier.includes("Renal")) colIndex = 3;
+                    if (colIdentifier.includes("ADAMTS13")) colIndex = 5;
+                    
+                    if (colIndex !== -1) {
+                        table.querySelectorAll('td, th').forEach(cell => cell.classList.remove('highlight-col'));
+                        // nth-child es 1-indexado, por lo que sumamos 1 a todo
+                        table.querySelectorAll(`tr td:nth-child(${colIndex + 1}), tr th:nth-child(${colIndex + 1})`).forEach(cell => {
+                            cell.classList.add('highlight-col');
+                        });
+                    }
+                });
+            });
+        }
+    } // Esta es la llave que probablemente estaba causando el error
+
+    // --- INICIALIZACIÓN ---
+    async function init() {
+        await loadCourseData();
+        selectHellpBtn.addEventListener('click', () => showCourse('hellp'));
+        backToHomeBtn.addEventListener('click', showHome);
+    }
+
+    init();
+});
