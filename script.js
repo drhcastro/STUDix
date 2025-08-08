@@ -47,7 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const isActive = index === currentModuleIndex;
             subNavHtml += `<button class="sub-tab-button px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200 ${isActive ? 'sub-tab-active' : 'sub-tab-inactive'}" data-index="${index}">Módulo ${index + 1}</button>`;
         });
-        // Aquí agregaremos los botones para Acciones, Flujograma, etc. en futuros pasos
         subNavHtml += '</div>';
         subNavContainer.innerHTML = subNavHtml;
 
@@ -67,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function attachModuleEventListeners() {
+        // ... (La lógica para la calculadora de HELLP se mantiene igual)
         const calculateHellpBtn = document.getElementById('calculate-hellp-btn');
         if (calculateHellpBtn) {
             calculateHellpBtn.addEventListener('click', () => {
@@ -80,17 +80,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (platelets <= 50000 && ast >= 70) mississippiClass = "Clase I (Severo)";
                     else if (platelets > 50000 && platelets <= 100000 && ast >= 70) mississippiClass = "Clase II (Moderado)";
                 }
-                
                 let tennesseeClass = "No cumple criterios para HELLP Completo.";
                  if (platelets <= 100000 && ast >= 70 && ldh >= 600) {
                     tennesseeClass = "Síndrome de HELLP Completo.";
                 }
-
                 resultsDiv.innerHTML = `<p><strong>Clasificación de Mississippi:</strong> ${mississippiClass}</p><p><strong>Criterios de Tennessee:</strong> ${tennesseeClass}</p>`;
                 resultsDiv.classList.remove('hidden');
             });
         }
-        
+
+        // Lógica para la Clase Magistral Interactiva (Tarjetas)
         const labTabButtons = document.querySelectorAll('.lab-tab-btn');
         if(labTabButtons.length > 0) {
             const labContentPanes = document.querySelectorAll('.lab-content-pane');
@@ -101,13 +100,46 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     const targetId = button.dataset.target;
                     labContentPanes.forEach(pane => {
-                        if (pane.id === targetId) {
-                            pane.classList.remove('hidden');
-                        } else {
-                            pane.classList.add('hidden');
-                        }
+                        pane.classList.toggle('hidden', pane.id !== targetId);
                     });
                 });
+            });
+        }
+
+        // Lógica para la Tabla de Diagnóstico Diferencial
+        const diffBtns = document.querySelectorAll('.diff-btn');
+        if (diffBtns.length > 0) {
+            diffBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const colIndex = parseInt(btn.dataset.col);
+                    const table = document.getElementById('diff-table');
+                    
+                    table.querySelectorAll('td, th').forEach(cell => cell.classList.remove('highlight-col'));
+                    // nth-child es 1-indexado, así que sumamos 1
+                    table.querySelectorAll(`tr td:nth-child(${colIndex + 1}), tr th:nth-child(${colIndex + 1})`).forEach(cell => {
+                        cell.classList.add('highlight-col');
+                    });
+                });
+            });
+        }
+
+        // Lógica para la Ventana Modal de Signos de Alarma
+        const modal = document.getElementById('hepatic-complication-modal');
+        const openBtn = document.getElementById('hepatic-complication-btn');
+        const closeBtn = document.getElementById('close-modal-btn');
+
+        if(modal && openBtn && closeBtn) {
+            openBtn.addEventListener('click', () => {
+                modal.classList.remove('hidden');
+            });
+            closeBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+            });
+            // Cerrar al hacer clic fuera del contenido
+            modal.addEventListener('click', (event) => {
+                if (event.target === modal) {
+                    modal.classList.add('hidden');
+                }
             });
         }
     }
