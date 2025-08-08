@@ -27,11 +27,9 @@ document.addEventListener('DOMContentLoaded', () => {
         currentCourseKey = courseKey;
         homeScreen.classList.add('hidden');
         courseContainer.classList.remove('hidden');
-        
         const data = courseData[currentCourseKey];
         courseTitleEl.textContent = data.title;
         currentModuleIndex = 0;
-        
         renderSubNav(data);
         renderModule(data);
     }
@@ -66,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function attachModuleEventListeners() {
-        // ... (La lógica para la calculadora de HELLP se mantiene igual)
         const calculateHellpBtn = document.getElementById('calculate-hellp-btn');
         if (calculateHellpBtn) {
             calculateHellpBtn.addEventListener('click', () => {
@@ -74,7 +71,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const ast = parseInt(document.getElementById('ast').value) || 0;
                 const ldh = parseInt(document.getElementById('ldh').value) || 0;
                 const resultsDiv = document.getElementById('hellp-results');
-                
                 let mississippiClass = "No clasifica o datos insuficientes.";
                 if (ldh >= 600) {
                     if (platelets <= 50000 && ast >= 70) mississippiClass = "Clase I (Severo)";
@@ -89,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Lógica para la Clase Magistral Interactiva (Tarjetas)
         const labTabButtons = document.querySelectorAll('.lab-tab-btn');
         if(labTabButtons.length > 0) {
             const labContentPanes = document.querySelectorAll('.lab-content-pane');
@@ -97,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 button.addEventListener('click', () => {
                     labTabButtons.forEach(btn => btn.classList.remove('lab-tab-active'));
                     button.classList.add('lab-tab-active');
-                    
                     const targetId = button.dataset.target;
                     labContentPanes.forEach(pane => {
                         pane.classList.toggle('hidden', pane.id !== targetId);
@@ -106,41 +100,37 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Lógica para la Tabla de Diagnóstico Diferencial
         const diffBtns = document.querySelectorAll('.diff-btn');
         if (diffBtns.length > 0) {
             diffBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const colIndex = parseInt(btn.dataset.col);
                     const table = document.getElementById('diff-table');
-                    
                     table.querySelectorAll('td, th').forEach(cell => cell.classList.remove('highlight-col'));
-                    // nth-child es 1-indexado, así que sumamos 1
-                    table.querySelectorAll(`tr td:nth-child(${colIndex + 1}), tr th:nth-child(${colIndex + 1})`).forEach(cell => {
+                    // nth-child es 1-indexado, y nuestra primera columna (0) es 'Característica', así que sumamos 2 a los índices base
+                    table.querySelectorAll(`tr td:nth-child(${colIndex + 2}), tr th:nth-child(${colIndex + 2})`).forEach(cell => {
                         cell.classList.add('highlight-col');
                     });
                 });
             });
         }
 
-        // Lógica para la Ventana Modal de Signos de Alarma
-        const modal = document.getElementById('hepatic-complication-modal');
-        const openBtn = document.getElementById('hepatic-complication-btn');
-        const closeBtn = document.getElementById('close-modal-btn');
+        const hepaticModal = document.getElementById('hepatic-complication-modal');
+        const openHepaticBtn = document.getElementById('hepatic-complication-btn');
+        const closeHepaticBtn = document.getElementById('close-hepatic-modal-btn');
+        if(hepaticModal && openHepaticBtn && closeHepaticBtn) {
+            openHepaticBtn.addEventListener('click', () => hepaticModal.classList.remove('hidden'));
+            closeHepaticBtn.addEventListener('click', () => hepaticModal.classList.add('hidden'));
+            hepaticModal.addEventListener('click', (e) => { if (e.target === hepaticModal) hepaticModal.classList.add('hidden'); });
+        }
 
-        if(modal && openBtn && closeBtn) {
-            openBtn.addEventListener('click', () => {
-                modal.classList.remove('hidden');
-            });
-            closeBtn.addEventListener('click', () => {
-                modal.classList.add('hidden');
-            });
-            // Cerrar al hacer clic fuera del contenido
-            modal.addEventListener('click', (event) => {
-                if (event.target === modal) {
-                    modal.classList.add('hidden');
-                }
-            });
+        const adamts13Modal = document.getElementById('adamts13-modal');
+        const openAdamts13Btn = document.getElementById('adamts13-modal-btn');
+        const closeAdamts13Btn = document.getElementById('close-adamts13-modal-btn');
+        if(adamts13Modal && openAdamts13Btn && closeAdamts13Btn) {
+            openAdamts13Btn.addEventListener('click', () => adamts13Modal.classList.remove('hidden'));
+            closeAdamts13Btn.addEventListener('click', () => adamts13Modal.classList.add('hidden'));
+            adamts13Modal.addEventListener('click', (e) => { if (e.target === adamts13Modal) adamts13Modal.classList.add('hidden'); });
         }
     }
 
