@@ -50,16 +50,18 @@ document.addEventListener('DOMContentLoaded', () => {
         let subNavHtml = '<div class="flex flex-wrap gap-2">';
         const specialModuleTitles = ["Acciones Prioritarias", "Flujograma (MX)", "Referencias"];
         
-        // Asumiendo que los módulos especiales estarán al final
-        const totalModules = courseData.hellp.modules.length;
-        const mainModuleCount = totalModules - specialModuleTitles.length;
-
         data.modules.forEach((module, index) => {
             const isActive = index === currentModuleIndex;
             let tabTitle = module.title;
             
-            if (index < mainModuleCount) {
-                 tabTitle = `Módulo ${index + 1}`;
+            // Lógica corregida para nombrar los botones
+            if (!specialModuleTitles.includes(tabTitle)) {
+                // Filtramos solo los módulos principales para obtener el número correcto
+                const mainModules = data.modules.filter(m => !specialModuleTitles.includes(m.title));
+                const moduleNumber = mainModules.indexOf(module) + 1;
+                if (moduleNumber > 0) {
+                   tabTitle = `Módulo ${moduleNumber}`;
+                }
             }
 
             subNavHtml += `<button class="sub-tab-button px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200 ${isActive ? 'sub-tab-active' : 'sub-tab-inactive'}" data-index="${index}">${tabTitle}</button>`;
@@ -115,27 +117,37 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('click', () => {
                 button.classList.toggle('active');
                 const content = button.nextElementSibling;
-                if (content.style.display === 'block') {
-                    content.style.display = 'none';
+                if (content.style.maxHeight) {
+                    content.style.maxHeight = null;
                 } else {
-                    content.style.display = 'block';
+                    content.style.maxHeight = content.scrollHeight + "px";
                 }
             });
         });
 
         // Tabla Interactiva de Diagnóstico Diferencial
         const diffBtns = document.querySelectorAll('.diff-btn');
-        diffBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const colIndex = parseInt(btn.dataset.col);
-                const table = document.getElementById('diff-table');
-                table.querySelectorAll('td, th').forEach(cell => cell.classList.remove('highlight-col'));
-                // nth-child es 1-indexado, por lo que sumamos 1 al índice de la columna
-                table.querySelectorAll(`tr td:nth-child(${colIndex + 1}), tr th:nth-child(${colIndex + 1})`).forEach(cell => {
-                    cell.classList.add('highlight-col');
+        if (diffBtns.length > 0) {
+            diffBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const colIdentifier = btn.textContent.trim(); // "Hipoglucemia Severa", "Trombocitopenia Profunda", etc.
+                    const table = document.getElementById('diff-table');
+                    
+                    let colIndex = -1;
+                    if (colIdentifier.includes("Hipoglucemia")) colIndex = 2; // HGAE
+                    if (colIdentifier.includes("Trombocitopenia")) colIndex = 3; // PTT
+                    if (colIdentifier.includes("Renal")) colIndex = 4; // SHUa
+                    if (colIdentifier.includes("ADAMTS13")) colIndex = 3; // PTT
+                    
+                    if (colIndex !== -1) {
+                        table.querySelectorAll('td, th').forEach(cell => cell.classList.remove('highlight-col'));
+                        table.querySelectorAll(`tr td:nth-child(${colIndex + 1}), tr th:nth-child(${colIndex + 1})`).forEach(cell => {
+                            cell.classList.add('highlight-col');
+                        });
+                    }
                 });
             });
-        });
+        }
     }
 
     // --- INICIALIZACIÓN ---
