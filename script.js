@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const subNavContainer = document.getElementById('sub-nav-container');
     
     let courseData = null;
+    let currentCourseKey = '';
     let currentModuleIndex = 0;
 
     // --- CARGA DE DATOS ---
@@ -26,11 +27,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- NAVEGACIÓN PRINCIPAL ---
     function showCourse(courseKey) {
-        if (!courseData) return;
+        if (!courseData || !courseData[courseKey]) return;
+        currentCourseKey = courseKey;
         homeScreen.classList.add('hidden');
         courseContainer.classList.remove('hidden');
         
-        const data = courseData[courseKey];
+        const data = courseData[currentCourseKey];
         courseTitleEl.textContent = data.title;
         currentModuleIndex = 0;
         
@@ -46,13 +48,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- RENDERIZADO DE CONTENIDO ---
     function renderSubNav(data) {
         let subNavHtml = '<div class="flex flex-wrap gap-2">';
-        const specialModules = ["Acciones Prioritarias", "Flujograma (MX)", "Referencias"];
+        const specialModuleTitles = ["Acciones Prioritarias", "Flujograma (MX)", "Referencias"];
+        
+        // Asumiendo que los módulos especiales estarán al final
+        const totalModules = courseData.hellp.modules.length;
+        const mainModuleCount = totalModules - specialModuleTitles.length;
+
         data.modules.forEach((module, index) => {
             const isActive = index === currentModuleIndex;
             let tabTitle = module.title;
             
-            // Simplificamos el nombre para las pestañas de módulos principales
-            if (!specialModules.includes(tabTitle)) {
+            if (index < mainModuleCount) {
                  tabTitle = `Módulo ${index + 1}`;
             }
 
@@ -65,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             button.addEventListener('click', (e) => {
                 currentModuleIndex = parseInt(e.target.dataset.index);
                 renderModule(data);
-                renderSubNav(data); // Re-render para actualizar la pestaña activa
+                renderSubNav(data);
             });
         });
     }
@@ -102,6 +108,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultsDiv.classList.remove('hidden');
             });
         }
+        
+        // Acordeón para Clase de Laboratorio
+        const accordionButtons = document.querySelectorAll('.accordion-button');
+        accordionButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                button.classList.toggle('active');
+                const content = button.nextElementSibling;
+                if (content.style.display === 'block') {
+                    content.style.display = 'none';
+                } else {
+                    content.style.display = 'block';
+                }
+            });
+        });
+
+        // Tabla Interactiva de Diagnóstico Diferencial
+        const diffBtns = document.querySelectorAll('.diff-btn');
+        diffBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const colIndex = parseInt(btn.dataset.col);
+                const table = document.getElementById('diff-table');
+                table.querySelectorAll('td, th').forEach(cell => cell.classList.remove('highlight-col'));
+                // nth-child es 1-indexado, por lo que sumamos 1 al índice de la columna
+                table.querySelectorAll(`tr td:nth-child(${colIndex + 1}), tr th:nth-child(${colIndex + 1})`).forEach(cell => {
+                    cell.classList.add('highlight-col');
+                });
+            });
+        });
     }
 
     // --- INICIALIZACIÓN ---
