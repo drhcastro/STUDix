@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const courseTitleEl = document.getElementById('course-title');
     const courseContent = document.getElementById('course-content');
     const subNavContainer = document.getElementById('sub-nav-container');
-
+    
     let courseData = null;
     let currentCourseKey = '';
     let currentModuleIndex = 0;
@@ -21,21 +21,21 @@ document.addEventListener('DOMContentLoaded', () => {
             courseData = await response.json();
         } catch (error) {
             console.error("Error al cargar los datos del curso:", error);
-            courseContent.innerHTML = "<p class='text-red-500'>Error: No se pudo cargar el contenido del curso. Asegúrese de que el archivo 'course-data.json' exista y sea accesible.</p>";
+            courseContent.innerHTML = "<p class='text-red-500'>Error: No se pudo cargar el contenido del curso. Asegúrese de que el archivo 'course-data.json' sea válido y accesible.</p>";
         }
     }
 
     // --- NAVEGACIÓN PRINCIPAL ---
     function showCourse(courseKey) {
-        if (!courseData || !courseData.hasOwnProperty(courseKey)) return;
+        if (!courseData || !courseData[courseKey]) return;
         currentCourseKey = courseKey;
         homeScreen.classList.add('hidden');
         courseContainer.classList.remove('hidden');
-
-        const data = courseData.hellp; // Asumimos que solo tenemos el curso 'hellp'
+        
+        const data = courseData[currentCourseKey];
         courseTitleEl.textContent = data.title;
         currentModuleIndex = 0;
-
+        
         renderSubNav(data);
         renderModule(data);
     }
@@ -49,16 +49,17 @@ document.addEventListener('DOMContentLoaded', () => {
     function renderSubNav(data) {
         let subNavHtml = '<div class="flex flex-wrap gap-2">';
         const specialModuleTitles = ["Acciones Prioritarias", "Flujograma (MX)", "Referencias"];
-
+        
         data.modules.forEach((module, index) => {
             const isActive = index === currentModuleIndex;
             let tabTitle = module.title;
-
+            
+            // Lógica para nombrar los botones de los módulos principales
             if (!specialModuleTitles.includes(tabTitle)) {
                 const mainModules = data.modules.filter(m => !specialModuleTitles.includes(m.title));
-                const moduleNumber = mainModules.indexOf(module) + 1;
+                const moduleNumber = mainModules.findIndex(m => m.id === module.id) + 1;
                 if (moduleNumber > 0) {
-                    tabTitle = `Módulo ${moduleNumber}`;
+                   tabTitle = `Módulo ${moduleNumber}`;
                 }
             }
 
@@ -77,15 +78,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function renderModule(data) {
-        const moduleData = data.modules.at(currentModuleIndex);
-        if (!moduleData) return;
-
-        // Aseguramos que las rutas de las imágenes sean correctas (relativas al index.html)
-        let contentWithCorrectedImages = moduleData.content.replace(/<img src="([^"]*)"/g, (match, p1) => {
-            return `<img src="${p1}"`;
-        });
-
-        courseContent.innerHTML = `<div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg module-content">${contentWithCorrectedImages}</div>`;
+        const moduleData = data.modules[currentModuleIndex];
+        courseContent.innerHTML = `<div class="bg-white p-6 sm:p-8 rounded-lg shadow-lg module-content">${moduleData.content}</div>`;
         attachModuleEventListeners();
     }
 
@@ -94,25 +88,4 @@ document.addEventListener('DOMContentLoaded', () => {
         // Calculadora de Estadificación HELLP
         const calculateHellpBtn = document.getElementById('calculate-hellp-btn');
         if (calculateHellpBtn) {
-            calculateHellpBtn.addEventListener('click', () => {
-                const platelets = parseInt(document.getElementById('platelets').value) || 0;
-                const ast = parseInt(document.getElementById('ast').value) || 0;
-                const ldh = parseInt(document.getElementById('ldh').value) || 0;
-                const resultsDiv = document.getElementById('hellp-results');
-
-                let mississippiClass = "No clasifica o datos insuficientes.";
-                if (ldh >= 600) {
-                    if (platelets <= 50000 && ast >= 70) mississippiClass = "Clase I (Severo)";
-                    else if (platelets > 50000 && platelets <= 100000 && ast >= 70) mississippiClass = "Clase II (Moderado)";
-                }
-
-                let tennesseeClass = "No cumple criterios para HELLP Completo.";
-                if (platelets <= 100000 && ast >= 70 && ldh >= 600) {
-                    tennesseeClass = "Síndrome de HELLP Completo.";
-                }
-
-                resultsDiv.innerHTML = `<p><strong>Clasificación de Mississippi:</strong> ${mississippiClass}</p><p><strong>Criterios de Tennessee:</strong> ${
-    }
-
-    init();
-});
+            calculateHellpBtn.
