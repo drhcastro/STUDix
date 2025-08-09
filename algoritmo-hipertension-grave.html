@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Algoritmo Diagnóstico: Estados Hipertensivos del Embarazo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.3s ease-in-out;
+        }
+        .card-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e3a8a;
+            margin-bottom: 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .btn {
+            background-color: #2563eb;
+            color: white;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #1d4ed8;
+        }
+        .input-group {
+            margin-bottom: 16px;
+        }
+        .input-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #374151;
+        }
+        .input-field {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+        }
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            cursor: pointer;
+        }
+        .checkbox-input {
+            height: 20px;
+            width: 20px;
+            margin-right: 12px;
+            accent-color: #2563eb;
+        }
+        .result-card {
+            border-left: 5px solid #1e3a8a;
+        }
+        .hellp-card {
+            border-left: 5px solid #d97706; /* Orange border for HELLP */
+            background-color: #fffbeb;
+        }
+        .result-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        .result-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid #e5e7eb;
+        }
+        .treatment-table th, .treatment-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .hidden {
+            display: none;
+        }
+        .tag {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+        .tag-red { background-color: #fee2e2; color: #b91c1c; }
+        .tag-orange { background-color: #ffedd5; color: #c2410c; }
+        .tag-blue { background-color: #dbeafe; color: #1e40af; }
+        .tag-green { background-color: #dcfce7; color: #15803d; }
+
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-4xl mx-auto">
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Algoritmo Diagnóstico y Terapéutico</h1>
+            <p class="text-lg text-gray-600 mt-2">Estados Hipertensivos Graves del Embarazo</p>
+        </header>
+
+        <!-- Sección de Evaluación Inicial -->
+        <div id="initial-assessment" class="card">
+            <h2 class="card-header">1. Evaluación Inicial de la Paciente</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="input-group">
+                    <label for="tas" class="input-label">Tensión Arterial Sistólica (TAS) mmHg</label>
+                    <input type="number" id="tas" class="input-field" placeholder="Ej: 160">
+                </div>
+                <div class="input-group">
+                    <label for="tad" class="input-label">Tensión Arterial Diastólica (TAD) mmHg</label>
+                    <input type="number" id="tad" class="input-field" placeholder="Ej: 110">
+                </div>
+            </div>
+            <div class="mt-4">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="pre-20-weeks" class="checkbox-input">
+                    <span>Embarazo < 20 semanas O Hipertensión previa conocida</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="proteinuria" class="checkbox-input">
+                    <span>Proteinuria > 300 mg/24h (o cualitativa positiva)</span>
+                </label>
+                <label class="checkbox-label">
+                    <input type="checkbox" id="convulsions" class="checkbox-input">
+                    <span>Presenta convulsiones y/o coma (Eclampsia)</span>
+                </label>
+            </div>
+            <div class="mt-6 text-center">
+                <button id="evaluate-btn" class="btn">Evaluar y Clasificar</button>
+            </div>
+        </div>
+
+        <!-- Sección de Criterios de Severidad (Oculta por defecto) -->
+        <div id="severity-criteria" class="card hidden">
+            <h2 class="card-header">2. Criterios de Preeclampsia Grave (Lesión de Órgano Blanco)</h2>
+            <p class="text-gray-600 mb-4">La preeclampsia se considera <b>grave</b> si cumple <b>CUALQUIERA</b> de los siguientes criterios. Estos también definen la <b>lesión de órgano blanco</b> para una emergencia hipertensiva.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8">
+                <div>
+                    <h3 class="font-semibold text-lg text-gray-700 mb-2">Signos y Síntomas Clínicos</h3>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">Síntomas de inminencia de eclampsia (fosfenos, cefalea, epigastralgia, visión borrosa)</label>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">Dolor en cuadrante superior derecho</label>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">Edema pulmonar y/o cianosis</label>
+                </div>
+                <div>
+                    <h3 class="font-semibold text-lg text-gray-700 mb-2">Hallazgos de Laboratorio y Medición</h3>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">Proteinuria ≥ 5.0 g/24h (+++)</label>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">Oliguria < 0.3 cc/kg/h en 6h (< 500 cc/día)</label>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">Creatinina aumentada</label>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">Trombocitopenia (< 150,000/cc)</label>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">Hemoglobina alterada (aumentada por hemoconcentración o disminuida por hemólisis)</label>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">TTP o INR prolongado</label>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">AST ≥ 40 UI/L</label>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">ALT ≥ 40 UI/L</label>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">LDH ≥ 600 UI/L</label>
+                    <label class="checkbox-label"><input type="checkbox" class="severity-check">Bilirrubinas aumentadas</label>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Sección de Criterios HELLP (Oculta por defecto) -->
+        <div id="hellp-criteria" class="card hellp-card hidden">
+            <h2 class="card-header" style="color: #92400e;">3. Criterios Diagnósticos para Síndrome HELLP</h2>
+             <p class="text-amber-800 mb-4">Marque si la paciente cumple con los siguientes criterios específicos para sospechar HELLP.</p>
+             <label class="checkbox-label"><input type="checkbox" id="hellp-platelets">Plaquetas ≤ 100,000/mm³</label>
+             <label class="checkbox-label"><input type="checkbox" id="hellp-ast-alt">AST y/o ALT ≥ 70 UI/L</label>
+             <label class="checkbox-label"><input type="checkbox" id="hellp-ldh">LDH ≥ 600 UI/L</label>
+        </div>
+
+        <div class="text-center mb-6">
+             <button id="re-evaluate-btn" class="btn hidden">Analizar Severidad y Ver Tratamiento</button>
+        </div>
+
+        <!-- Sección de Resultados (Oculta por defecto) -->
+        <div id="results" class="card result-card hidden">
+            <!-- El contenido se generará dinámicamente -->
+        </div>
+
+    </div>
+
+    <script>
+        // Referencias a elementos del DOM
+        const tasInput = document.getElementById('tas');
+        const tadInput = document.getElementById('tad');
+        const pre20WeeksCheck = document.getElementById('pre-20-weeks');
+        const proteinuriaCheck = document.getElementById('proteinuria');
+        const convulsionsCheck = document.getElementById('convulsions');
+        const evaluateBtn = document.getElementById('evaluate-btn');
+        const reEvaluateBtn = document.getElementById('re-evaluate-btn');
+
+        const severityCriteriaSection = document.getElementById('severity-criteria');
+        const hellpCriteriaSection = document.getElementById('hellp-criteria');
+        const resultsSection = document.getElementById('results');
+        
+        // Event Listeners
+        evaluateBtn.addEventListener('click', classifyHypertension);
+        reEvaluateBtn.addEventListener('click', showTreatmentPlan);
+
+        // Almacenamiento temporal del estado
+        let patientState = {};
+
+        /**
+         * Función principal para la clasificación inicial de la hipertensión.
+         */
+        function classifyHypertension() {
+            const tas = parseInt(tasInput.value);
+            const tad = parseInt(tadInput.value);
+            const pre20 = pre20WeeksCheck.checked;
+            const proteinuria = proteinuriaCheck.checked;
+            const convulsions = convulsionsCheck.checked;
+
+            if (isNaN(tas) || isNaN(tad) || tas <= 0 || tad <= 0) {
+                // Usar un modal simple en lugar de alert
+                resultsSection.innerHTML = `<div class="p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg">Por favor, ingrese valores válidos para la Tensión Arterial.</div>`;
+                resultsSection.classList.remove('hidden');
+                return;
+            }
+
+            patientState = { tas, tad, diagnosis: '', tags: [], isSevere: false };
+            severityCriteriaSection.classList.add('hidden');
+            hellpCriteriaSection.classList.add('hidden');
+            reEvaluateBtn.classList.add('hidden');
+            resultsSection.innerHTML = '';
+            resultsSection.classList.add('hidden');
+
+            if (convulsions) {
+                patientState.diagnosis = 'Eclampsia';
+                patientState.tags.push({ text: 'CRÍTICO', class: 'tag-red' });
+                patientState.isSevere = true;
+            } else if (tas >= 140 || tad >= 90) {
+                if (pre20) {
+                    patientState.diagnosis = 'Hipertensión Crónica Pregestacional';
+                    patientState.tags.push({ text: 'CRÓNICO', class: 'tag-blue' });
+                    if(proteinuria) {
+                         patientState.diagnosis = 'Preeclampsia Sobreimpuesta a Hipertensión Crónica';
+                         patientState.tags.push({ text: 'ALTO RIESGO', class: 'tag-orange' });
+                    }
+                } else { // > 20 semanas
+                    if (proteinuria) {
+                        patientState.diagnosis = 'Preeclampsia';
+                        patientState.tags.push({ text: 'ALTO RIESGO', class: 'tag-orange' });
+                    } else {
+                        patientState.diagnosis = 'Hipertensión Gestacional';
+                        patientState.tags.push({ text: 'EN OBSERVACIÓN', class: 'tag-blue' });
+                    }
+                }
+            } else {
+                patientState.diagnosis = 'Normotensión';
+                patientState.tags.push({ text: 'NORMAL', class: 'tag-green' });
+            }
+
+            if (tas >= 140 || tad >= 90) {
+                severityCriteriaSection.classList.remove('hidden');
+                hellpCriteriaSection.classList.remove('hidden');
+                reEvaluateBtn.classList.remove('hidden');
+                window.scrollTo({ top: severityCriteriaSection.offsetTop - 20, behavior: 'smooth' });
+                let preliminaryHtml = `
+                    <h2 class="result-title">Diagnóstico Preliminar</h2>
+                    <p class="text-xl font-semibold">${patientState.diagnosis} ${generateTags(patientState.tags)}</p>
+                    <p class="mt-4 text-gray-700">Por favor, complete las secciones <b>2 y 3</b> a continuación para determinar la severidad, el riesgo de HELLP y el plan de tratamiento.</p>
+                `;
+                resultsSection.innerHTML = preliminaryHtml;
+                resultsSection.classList.remove('hidden');
+            } else {
+                let finalHtml = `
+                    <h2 class="result-title">Diagnóstico Final</h2>
+                    <p class="text-xl font-semibold">${patientState.diagnosis} ${generateTags(patientState.tags)}</p>
+                    <p class="mt-4 text-gray-700">La paciente no presenta criterios de hipertensión en el embarazo en este momento. Continuar con control prenatal regular.</p>
+                `;
+                resultsSection.innerHTML = finalHtml;
+                resultsSection.classList.remove('hidden');
+            }
+        }
+
+        /**
+         * Función para re-evaluar con criterios de severidad y mostrar el plan de tratamiento.
+         */
+        function showTreatmentPlan() {
+            const severityChecks = document.querySelectorAll('.severity-check:checked');
+            const hasOrganDamage = severityChecks.length > 0 || convulsionsCheck.checked;
+            const tas = patientState.tas;
+            const tad = patientState.tad;
+
+            // Determinar si es Preeclampsia Severa
+            if (patientState.diagnosis.includes('Preeclampsia') || patientState.diagnosis.includes('Hipertensión') || patientState.diagnosis.includes('Eclampsia')) {
+                if (tas >= 160 || tad >= 110 || hasOrganDamage) {
+                    patientState.isSevere = true;
+                    if (!patientState.diagnosis.includes('Eclampsia')) {
+                       patientState.diagnosis = 'Preeclampsia Severa';
+                       patientState.tags = [{ text: 'SEVERA', class: 'tag-red' }];
+                    }
+                }
+            }
+            
+            // Reclasificar Urgencia vs Emergencia
+            let hypertensiveCrisis = '';
+            if (tas >= 160 || tad >= 110) {
+                if(hasOrganDamage) {
+                    hypertensiveCrisis = 'Emergencia Hipertensiva';
+                } else {
+                    hypertensiveCrisis = 'Urgencia Hipertensiva';
+                }
+            }
+            
+            // Determinar si hay Síndrome HELLP
+            const isHellp = document.getElementById('hellp-platelets').checked &&
+                            document.getElementById('hellp-ast-alt').checked &&
+                            document.getElementById('hellp-ldh').checked;
+
+            if (isHellp) {
+                patientState.diagnosis += ' con Síndrome HELLP';
+                patientState.tags.push({ text: 'HELLP', class: 'tag-red' });
+                patientState.isSevere = true; // HELLP implica severidad
+            }
+
+            // Generar el HTML final del resultado
+            let finalHtml = `
+                <h2 class="result-title">Diagnóstico Final y Plan de Manejo</h2>
+                <p class="text-xl font-semibold mb-2">${patientState.diagnosis} ${generateTags(patientState.tags)}</p>
+                ${hypertensiveCrisis ? `<p class="text-lg font-medium mb-4"><span class="tag tag-red">${hypertensiveCrisis}</span></p>` : ''}
+                
+                ${generateTreatmentHtml(hypertensiveCrisis)}
+            `;
+
+            resultsSection.innerHTML = finalHtml;
+            window.scrollTo({ top: resultsSection.offsetTop - 20, behavior: 'smooth' });
+        }
+        
+        /**
+         * Genera el HTML para el plan de tratamiento basado en el diagnóstico.
+         */
+        function generateTreatmentHtml(crisis) {
+            if (!patientState.isSevere && !crisis) {
+                return `<div class="result-section">
+                            <h3 class="font-semibold text-xl mb-2 text-blue-800">Plan de Manejo</h3>
+                            <p>Manejo expectante con vigilancia estrecha de la madre y el feto. Control de TA y proteinuria seriados. No requiere tratamiento antihipertensivo inmediato a menos que la TA supere metas de control.</p>
+                        </div>`;
+            }
+
+            let html = '';
+
+            // Sección de Manejo de Crisis Hipertensiva
+            if(crisis === 'Urgencia Hipertensiva') {
+                html += `<div class="result-section">
+                            <h3 class="font-semibold text-xl mb-2 text-orange-700">Manejo de Urgencia Hipertensiva</h3>
+                            <p><b>Definición:</b> TA ≥ 160/110 mmHg <b>sin</b> lesión de órgano blanco.</p>
+                            <p><b>Meta:</b> Reducción de TA en 24 a 48 horas con antihipertensivos orales.</p>
+                            <p><b>TA Meta en Embarazo:</b> TAS 140-150 mmHg, TAD 90-100 mmHg.</p>
+                         </div>`;
+            }
+            if(crisis === 'Emergencia Hipertensiva') {
+                 html += `<div class="result-section">
+                            <h3 class="font-semibold text-xl mb-2 text-red-700">Manejo de Emergencia Hipertensiva</h3>
+                            <p><b>Definición:</b> TA ≥ 160/110 mmHg <b>con</b> lesión de órgano blanco.</p>
+                            <p><b>Meta:</b> Reducción inmediata de TA con vasodilatadores endovenosos y antihipertensivos orales.</p>
+                            <p><b>TA Meta en Embarazo:</b> TAS 140-150 mmHg, TAD 90-100 mmHg.</p>
+                            <p><b>TA Meta en Puerperio:</b> < 140/90 mmHg en < 24 horas.</p>
+                         </div>`;
+            }
+            
+            if (crisis) {
+                 html += getAntihypertensiveTable();
+            }
+
+            if (patientState.isSevere || patientState.diagnosis.includes('Eclampsia')) {
+                html += getMagnesiumSulfateSection();
+                html += getGeneralManagementSection();
+                html += getObstetricConductSection();
+            }
+            
+            return html;
+        }
+
+        /**
+         * Devuelve el HTML de la tabla de antihipertensivos.
+         */
+        function getAntihypertensiveTable() {
+            return `<div class="result-section">
+                        <h3 class="font-semibold text-xl mb-2 text-blue-800">Tratamiento Antihipertensivo</h3>
+                        <div class="overflow-x-auto">
+                        <table class="w-full text-sm treatment-table">
+                            <thead class="bg-gray-100">
+                                <tr><th class="font-semibold">Fármaco</th><th class="font-semibold">Dosis</th><th class="font-semibold">Comentarios</th></tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="font-medium">Hidralazina (IV)</td>
+                                    <td>Bolo de 5-10 mg cada 15-20 min (máx 30 mg).<br>Infusión: 0.5-10 mg/hora.</td>
+                                    <td>Taquicardia, palpitaciones, cefalea. Cuidado con depleción de volumen.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">Labetalol (IV)</td>
+                                    <td>Inicio 10-20 mg. Aumentar a 40 mg y luego 80 mg cada 10-15 min (máx acumulado 300 mg).</td>
+                                    <td>Mejores resultados en bolos. Contraindicado en asma y falla cardíaca. Puede causar hipotensión y bradicardia neonatal.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">Nifedipina (VO)</td>
+                                    <td>Cápsulas/tabletas 10 mg cada 20 min (hasta 3 dosis). Luego 10 mg cada 6 horas.</td>
+                                    <td>Acción corta. Se ha descrito crisis hipertensiva difícil de controlar.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">Nicardipina (IV)</td>
+                                    <td>Infusión a 5 mg/h. Incrementar 2.5 mg/h cada 5 min (máx 10 mg/h).</td>
+                                    <td>No afecta flujo uteroplacentario, menos taquicardia refleja que nifedipina.</td>
+                                </tr>
+                                <tr>
+                                    <td class="font-medium">Nitroprusiato (IV)</td>
+                                    <td>Infusión 0.2 mcg/kg/min. Incrementar cada 5 min (máx 4 mcg/kg/min).</td>
+                                    <td><b>Uso excepcional ante fracaso de 1ª línea.</b> Riesgo de toxicidad por cianuro y muerte fetal tras 6h de uso.</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        </div>
+                    </div>`;
+        }
+        
+        /**
+         * Devuelve el HTML para la sección de Sulfato de Magnesio.
+         */
+        function getMagnesiumSulfateSection() {
+             return `<div class="result-section">
+                        <h3 class="font-semibold text-xl mb-2 text-red-700">Prevención y Tratamiento de Eclampsia: Sulfato de Magnesio</h3>
+                        <p class="mb-4">Indicado en Preeclampsia Severa y Eclampsia. Continuar hasta 24h post-parto o post-última convulsión.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                                <h4 class="font-bold text-lg">Plan de Ataque (Dosis de Carga)</h4>
+                                <p><b>4g IV al 20%</b> a pasar en 20 minutos (diluido en 150 cc de solución salina isotónica).</p>
+                                <p class="mt-2 text-sm text-gray-600">En caso de convulsión recurrente, se puede administrar un <b>segundo bolo de 2g</b> en 3-5 minutos.</p>
+                            </div>
+                            <div class="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                                <h4 class="font-bold text-lg">Plan de Mantenimiento</h4>
+                                <p><b>Infusión IV: 1-2 g/hora.</b></p>
+                                <p class="text-sm text-gray-600">(Ej: 10 ampollas al 10% en 400cc SS, a 15 microgotas/min para 2-3 g/h).</p>
+                                <p class="mt-2"><b>Alternativa IM:</b> 5g al 50% IM profunda cada 4 horas.</p>
+                            </div>
+                        </div>
+                        <div class="mt-4 p-4 bg-yellow-50 rounded-lg border border-yellow-300">
+                            <h4 class="font-bold text-lg">Controles y Manejo de Intoxicación</h4>
+                            <p><b>Vigilar:</b> Diuresis (>30ml/h), reflejos osteotendinosos (patelar presente), frecuencia respiratoria (>12 rpm).</p>
+                            <p class="mt-2"><b>Signos de Intoxicación:</b> Pérdida de reflejo patelar, FR < 12 rpm, diuresis < 30 ml/h.</p>
+                            <p class="mt-2"><b>Tratamiento de Intoxicación:</b><br>
+                                1. <b>Suspender infusión de MgSO4.</b><br>
+                                2. Asegurar ventilación (manual o mecánica).<br>
+                                3. Administrar <b>Gluconato de Calcio 1g IV al 10%</b> (si la paciente no tiene ventilación asistida).
+                            </p>
+                        </div>
+                    </div>`;
+        }
+
+        /**
+         * Devuelve el HTML para la sección de manejo general.
+         */
+        function getGeneralManagementSection() {
+            const isEclampsia = patientState.diagnosis.includes('Eclampsia');
+            return `<div class="result-section">
+                        <h3 class="font-semibold text-xl mb-2 text-blue-800">Esquema de Manejo General (Preeclampsia Severa / Eclampsia)</h3>
+                        <ol class="list-decimal list-inside space-y-2">
+                            ${isEclampsia ? `
+                            <li class="text-red-700 font-bold"><b>¡MANEJO DE CONVULSIÓN (ECLAMPSIA)!</b><br>
+                                - Asegurar vía aérea (cánula de Mayo), evitar mordedura de lengua.<br>
+                                - Iniciar O₂ a 5 L/min (meta SatO₂ > 95%).
+                            </li>` : ''}
+                            <li>Asegurar <b>2 accesos venosos</b> con catéter 16 o 18.</li>
+                            <li>Iniciar <b>cristaloides a 1 cc/kg/h</b> (incluyendo goteo de MgSO4).</li>
+                            <li>Colocar <b>sonda vesical</b> para control de diuresis.</li>
+                            <li>Iniciar <b>Sulfato de Magnesio</b> (ver esquema de prevención).</li>
+                            <li>Iniciar <b>tratamiento antihipertensivo</b> (ver tabla de fármacos).</li>
+                            <li><b>Tomar exámenes:</b> Hemograma con plaquetas, pruebas hepáticas (LDH, AST, ALT), Creatinina.</li>
+                            <li><b>Remitir a nivel de alta complejidad</b> con personal capacitado, monitorizando TA cada 5-10 min y administrando dosis de rescate si es necesario.</li>
+                        </ol>
+                    </div>`;
+        }
+
+        /**
+         * Devuelve el HTML para la sección de conducta obstétrica.
+         */
+        function getObstetricConductSection() {
+            const isEclampsia = patientState.diagnosis.includes('Eclampsia');
+            return `<div class="result-section">
+                        <h3 class="font-semibold text-xl mb-2 text-blue-800">Conducta Obstétrica</h3>
+                        ${isEclampsia ? `
+                        <div class="p-4 bg-red-50 rounded-lg border border-red-200 mb-4">
+                            <h4 class="font-bold text-lg text-red-800">En Eclampsia</h4>
+                            <p><b>La meta principal es la estabilización materna.</b> NO realizar cesárea de emergencia si la madre está inestable. Si después de 10 minutos de la convulsión persiste bradicardia fetal, proceder a interrupción de la gestación.</p>
+                        </div>` : ''}
+                        <div class="p-4 bg-green-50 rounded-lg border border-green-200">
+                             <h4 class="font-bold text-lg text-green-800">En Preeclampsia Severa</h4>
+                             <ul class="list-disc list-inside space-y-1">
+                                <li><b>< 32 semanas:</b> Manejo expectante SOLO en unidades de alta complejidad (terapia intensiva materna y neonatal) para maduración pulmonar fetal.</li>
+                                <li><b>> 32 semanas (o no candidata a manejo expectante):</b> Finalización del embarazo.</li>
+                                <li>El <b>parto vaginal</b> es una opción, con monitorización continua.</li>
+                                <li>La <b>analgesia/anestesia regional</b> es posible si el conteo de plaquetas es > 75,000/cc (6 horas antes del parto).</li>
+                             </ul>
+                        </div>
+                    </div>`;
+        }
+
+        /**
+         * Helper para generar las etiquetas de diagnóstico.
+         */
+        function generateTags(tags) {
+            return tags.map(tag => `<span class="tag ${tag.class}">${tag.text}</span>`).join(' ');
+        }
+
+    </script>
+</body>
+</html>
