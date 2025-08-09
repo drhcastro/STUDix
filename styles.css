@@ -158,6 +158,8 @@ body {
     color: #312e81;
 }
 
+/* --- REEMPLAZA ESTA SECCIÓN EN TU ARCHIVO STYLES.CSS --- */
+
 /* Estilos para la ventana Modal */
 .modal-overlay {
     position: fixed;
@@ -172,9 +174,8 @@ body {
     z-index: 1000;
     animation: fadeIn 0.3s;
 }
-.modal-content-warning {
-    background-color: #fff7ed; /* Naranja muy claro */
-    border-left: 5px solid #ef4444; /* Borde rojo de alarma */
+
+.modal-base-styles {
     padding: 2rem;
     border-radius: 0.5rem;
     max-width: 500px;
@@ -182,12 +183,31 @@ body {
     position: relative;
     box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
 }
+
+.modal-content-warning {
+    background-color: #fff7ed; /* Naranja muy claro */
+    border-left: 5px solid #ef4444; /* Borde rojo de alarma */
+}
+
 .modal-content-warning h4 {
     color: #b91c1c; /* Rojo oscuro para el título */
+}
+
+.modal-content-info {
+    background-color: #f0f9ff; /* Azul muy claro */
+    border-left: 5px solid #3b82f6; /* Borde azul */
+}
+
+.modal-content-info h4 {
+    color: #1e3a8a; /* Azul oscuro para el título */
+}
+
+.modal-base-styles h4 {
     font-weight: 700;
     font-size: 1.25rem;
     margin-bottom: 1rem;
 }
+
 .close-btn {
     position: absolute;
     top: 0.5rem;
@@ -197,6 +217,7 @@ body {
     background: none;
     border: none;
     cursor: pointer;
+    line-height: 1;
 }
 .close-btn:hover {
     color: #1f2937;
