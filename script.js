@@ -41,17 +41,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderSubNav(data) {
         let subNavHtml = '<div class="flex flex-wrap gap-2">';
-        const specialModuleTitles = ["Acciones Prioritarias", "Flujograma (MX)", "Referencias"];
+        const linkMap = {
+            'module4_link': { href: 'tratamiento-definitivo.html', text: 'Módulo 4' },
+            'module5_link': { href: 'posparto.html', text: 'Módulo 5' },
+            'sdra_link': { href: 'sdra-embarazo.html', text: 'SDRA' },
+            'uci_link': { href: 'hellp-uci.html', text: 'UCI' }
+        };
+
         data.modules.forEach((module, index) => {
             const isActive = index === currentModuleIndex;
-            let tabTitle = module.title;
-            if (!specialModuleTitles.includes(tabTitle)) {
-                tabTitle = `Módulo ${index + 1}`;
-            }
-
-            if (module.id === 'module4') {
-                subNavHtml += `<a href="tratamiento-definitivo.html" target="_blank" class="sub-tab-button sub-tab-inactive px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200">${tabTitle} ↗</a>`;
+            
+            if (linkMap[module.id]) {
+                const linkInfo = linkMap[module.id];
+                subNavHtml += `<a href="${linkInfo.href}" target="_blank" class="sub-tab-button sub-tab-inactive px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200">${linkInfo.text} ↗</a>`;
             } else {
+                let tabTitle = module.title;
+                if(module.id.startsWith('module')) {
+                    tabTitle = `Módulo ${index + 1}`;
+                }
                 subNavHtml += `<button class="sub-tab-button px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200 ${isActive ? 'sub-tab-active' : 'sub-tab-inactive'}" data-index="${index}">${tabTitle}</button>`;
             }
         });
