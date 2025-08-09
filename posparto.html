@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Síndrome de HELLP - Cuidados Posparto con Gráfica</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f9ff; /* Light blue background */
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+            overflow: hidden;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .card-header {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+        }
+        .card-icon {
+            flex-shrink: 0;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .card-content {
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+            transition: max-height 0.7s ease-in-out, opacity 0.5s ease-in-out, padding 0.7s ease-in-out;
+            padding: 0 1.5rem;
+        }
+        .card-content.show {
+            max-height: 1000px; /* Large enough to fit content */
+            opacity: 1;
+            padding: 0 1.5rem 1.5rem 1.5rem;
+        }
+        .btn-toggle {
+            margin-left: auto;
+            transition: transform 0.3s ease;
+        }
+        .btn-toggle.rotate {
+            transform: rotate(180deg);
+        }
+        ul {
+            list-style-position: inside;
+        }
+        li::marker {
+            color: #2563eb; /* Blue-600 */
+        }
+        .chart-container-card {
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-16">
+        
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-gray-900 mb-2">Cuidados Posparto y Complicaciones</h1>
+            <p class="text-lg md:text-xl text-blue-700 font-semibold">Manejo Integral del Síndrome de HELLP</p>
+        </header>
+
+        <!-- Infographic Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+
+            <!-- Card 5.1 -->
+            <div class="card" id="card-1">
+                <div class="card-header">
+                    <div class="card-icon bg-blue-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">5.1 Manejo en la UCI Posparto</h2>
+                        <p class="text-sm text-gray-500">El Pico de la Tormenta</p>
+                    </div>
+                    <div class="btn-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="prose max-w-none text-gray-700">
+                        <p class="font-semibold text-blue-800">Un concepto fundamental es que la enfermedad a menudo se exacerba en el puerperio, con un pico de severidad entre las 24 y 48 horas posparto.</p>
+                        <p>Este periodo de máximo riesgo requiere una vigilancia intensiva continuada, ya que la cascada inflamatoria y microtrombótica sistémica tarda tiempo en resolverse tras la extracción de la placenta.</p>
+                        <h4 class="font-semibold mt-4">Puntos Clave de Monitorización:</h4>
+                        <ul class="list-disc space-y-2 mt-2">
+                            <li><strong>Vigilancia intensiva:</strong> En UCI o unidad de alta dependencia durante al menos 48 horas.</li>
+                            <li><strong>Monitorización continua:</strong> Presión arterial, parámetros de laboratorio (plaquetas, LFTs, LDH), diuresis y estado clínico general.</li>
+                            <li><strong>Resolución esperada:</strong> El recuento de plaquetas comienza a aumentar hacia el 3er o 4º día posparto, y las enzimas hepáticas se normalizan en 3 a 7 días. La persistencia de alteraciones debe levantar sospechas de un diagnóstico alternativo (PTT o SHUa).</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5.2 -->
+            <div class="card" id="card-2">
+                <div class="card-header">
+                    <div class="card-icon bg-red-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">5.2 Complicaciones Tardías</h2>
+                        <p class="text-sm text-gray-500">Reconocimiento y Alerta</p>
+                    </div>
+                     <div class="btn-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                </div>
+                <div class="card-content">
+                     <div class="prose max-w-none text-gray-700">
+                        <p>El equipo clínico debe mantener un alto índice de sospecha para complicaciones graves que pueden manifestarse en el puerperio.</p>
+                        <h4 class="font-semibold mt-4">Principales Complicaciones a Vigilar:</h4>
+                        <ul class="list-disc space-y-2 mt-2">
+                            <li><strong>Hematoma Hepático Subcapsular o Ruptura Hepática:</strong> Se presenta con dolor súbito y severo en hipocondrio derecho, hipotensión y shock.</li>
+                            <li><strong>Insuficiencia Renal Aguda:</strong> Puede ser severa y requerir diálisis temporal.</li>
+                            <li><strong>Edema Pulmonar:</strong> Resultado de fuga capilar sistémica, sobrecarga de líquidos y disfunción cardíaca.</li>
+                            <li><strong>Eclampsia Posparto:</strong> Las convulsiones pueden ocurrir por primera vez después del parto, justificando la continuación de la profilaxis con sulfato de magnesio.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dynamic Chart Section -->
+            <div class="card md:col-span-2 chart-container-card">
+                <h3 class="text-2xl font-bold text-center text-gray-900 mb-1">Evolución Posparto del Síndrome de HELLP</h3>
+                <p class="text-center text-gray-600 mb-6">Visualización del empeoramiento paradójico y la posterior recuperación.</p>
+                <div class="relative h-80 md:h-96 w-full">
+                    <canvas id="hellpChart"></canvas>
+                </div>
+                <div class="text-center mt-6">
+                    <a href="Gemini_Generated_Image_o5bv0mo5bv0mo5bv.png" target="_blank" class="inline-block bg-blue-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-blue-700 transition-colors duration-300 shadow-md hover:shadow-lg">
+                        Ampliar gráfica
+                    </a>
+                </div>
+            </div>
+
+
+            <!-- Card 5.3 -->
+            <div class="card" id="card-3">
+                <div class="card-header">
+                    <div class="card-icon bg-green-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">5.3 Consejería y Salud a Largo Plazo</h2>
+                        <p class="text-sm text-gray-500">Mirando hacia el Futuro</p>
+                    </div>
+                     <div class="btn-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                </div>
+                <div class="card-content">
+                     <div class="prose max-w-none text-gray-700">
+                        <p>Sufrir un síndrome de HELLP es un marcador de riesgo cardiovascular futuro. La consejería debe extenderse más allá de los riesgos obstétricos.</p>
+                        <h4 class="font-semibold mt-4">Recomendaciones para la Paciente:</h4>
+                        <ul class="list-disc space-y-2 mt-2">
+                            <li><strong>Riesgo de Recurrencia:</strong> Riesgo de preeclampsia futura del 20-25%; riesgo de recurrencia de HELLP del 2-19%.</li>
+                            <li><strong>Prevención:</strong> Se recomienda aspirina a dosis bajas (81 mg/día) desde la semana 12-16 en la siguiente gestación.</li>
+                            <li><strong>Seguimiento Cardiovascular:</strong> Control anual de presión arterial, IMC y detección de diabetes/dislipidemia.</li>
+                            <li><strong>Apoyo Psicológico:</strong> Reconocer la naturaleza traumática de la experiencia y ofrecer apoyo para la ansiedad o el TEPT.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 5.4 -->
+            <div class="card" id="card-4">
+                <div class="card-header">
+                    <div class="card-icon bg-purple-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold text-gray-900">5.4 Equipo Interprofesional</h2>
+                        <p class="text-sm text-gray-500">Colaboración y Comunicación</p>
+                    </div>
+                     <div class="btn-toggle">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                    </div>
+                </div>
+                <div class="card-content">
+                     <div class="prose max-w-none text-gray-700">
+                        <p>El manejo óptimo del síndrome de HELLP es un paradigma del trabajo en equipo. Es imposible lograr buenos resultados sin una colaboración estrecha y coordinada entre múltiples especialidades.</p>
+                        <h4 class="font-semibold mt-4">Pilares del Cuidado:</h4>
+                        <ul class="list-disc space-y-2 mt-2">
+                            <li><strong>Equipo Multidisciplinario:</strong> Obstetricia, medicina materno-fetal, anestesiología, cuidados intensivos, neonatología, enfermería especializada y hematología.</li>
+                            <li><strong>Comunicación:</strong> Una comunicación clara, frecuente y compasiva con la paciente y su familia es fundamental para manejar la incertidumbre y el miedo.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <!-- Footer -->
+        <footer class="text-center mt-16 text-sm text-gray-500">
+            <p>Dr. Héctor Castro.</p>
+            <p>Esta infografía es una herramienta educativa y no reemplaza el juicio clínico profesional y/o las guías ó protocolos de manejo internos de cada unidad hospitalaria.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Script to handle the accordion functionality for each card
+        document.addEventListener('DOMContentLoaded', function () {
+            const cards = document.querySelectorAll('.card:not(.chart-container-card)');
+
+            cards.forEach(card => {
+                const header = card.querySelector('.card-header');
+                const content = card.querySelector('.card-content');
+                const toggleBtn = card.querySelector('.btn-toggle');
+
+                header.addEventListener('click', () => {
+                    content.classList.toggle('show');
+                    toggleBtn.classList.toggle('rotate');
+                });
+            });
+
+            // Chart.js configuration
+            const ctx = document.getElementById('hellpChart').getContext('2d');
+            const hellpChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Parto', '+12h', '+24h', '+36h', '+48h', '+72h', '+96h'],
+                    datasets: [{
+                        label: 'Recuento de Plaquetas (x10³/mm³)',
+                        data: [80, 60, 50, 55, 70, 110, 150],
+                        borderColor: 'rgb(59, 130, 246)',
+                        backgroundColor: 'rgba(59, 130, 246, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        yAxisID: 'y'
+                    }, {
+                        label: 'Enzimas Hepáticas (AST/ALT UI/L)',
+                        data: [150, 250, 400, 350, 200, 100, 50],
+                        borderColor: 'rgb(239, 68, 68)',
+                        backgroundColor: 'rgba(239, 68, 68, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        yAxisID: 'y1'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutQuart'
+                    },
+                    interaction: {
+                        mode: 'index',
+                        intersect: false,
+                    },
+                    stacked: false,
+                    plugins: {
+                        tooltip: {
+                            mode: 'index',
+                            intersect: false,
+                            backgroundColor: '#fff',
+                            titleColor: '#333',
+                            bodyColor: '#666',
+                            borderColor: '#ddd',
+                            borderWidth: 1,
+                            padding: 10,
+                            displayColors: true,
+                        },
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                usePointStyle: true,
+                                color: '#333',
+                                font: {
+                                    size: 14
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Tiempo Posparto',
+                                color: '#333',
+                                font: {
+                                    size: 16,
+                                    weight: 'bold'
+                                }
+                            }
+                        },
+                        y: {
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            title: {
+                                display: true,
+                                text: 'Plaquetas (x10³/mm³)',
+                                color: 'rgb(59, 130, 246)',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                        },
+                        y1: {
+                            type: 'linear',
+                            display: true,
+                            position: 'right',
+                            title: {
+                                display: true,
+                                text: 'AST/ALT (UI/L)',
+                                color: 'rgb(239, 68, 68)',
+                                font: {
+                                    size: 14,
+                                    weight: 'bold'
+                                }
+                            },
+                            grid: {
+                                drawOnChartArea: false, 
+                            },
+                        },
+                    }
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
