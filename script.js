@@ -64,7 +64,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function attachModuleEventListeners() {
-        // ... (La lógica para la calculadora de HELLP se mantiene igual)
         const calculateHellpBtn = document.getElementById('calculate-hellp-btn');
         if (calculateHellpBtn) {
             calculateHellpBtn.addEventListener('click', () => {
@@ -101,7 +100,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Lógica CORREGIDA para la Tabla de Diagnóstico Diferencial
         const diffBtns = document.querySelectorAll('.diff-btn');
         if (diffBtns.length > 0) {
             diffBtns.forEach(btn => {
@@ -109,12 +107,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     const table = document.getElementById('diff-table');
                     table.querySelectorAll('td, th').forEach(cell => cell.classList.remove('highlight-col'));
                     
-                    const colsToHighlight = btn.dataset.col.split(','); // Permite múltiples columnas, ej: "2,4"
+                    const colsToHighlight = btn.dataset.col.split(',');
                     
                     colsToHighlight.forEach(colIndexStr => {
                         const colIndex = parseInt(colIndexStr);
-                        // nth-child es 1-indexado, y nuestra primera columna (0) es 'Característica', así que sumamos 2
-                        table.querySelectorAll(`tr td:nth-child(${colIndex + 2}), tr th:nth-child(${colIndex + 2})`).forEach(cell => {
+                        // nth-child es 1-indexado, y la primera columna de datos es la 2da en el DOM.
+                        table.querySelectorAll(`tr td:nth-child(${colIndex + 1}), tr th:nth-child(${colIndex + 1})`).forEach(cell => {
                             cell.classList.add('highlight-col');
                         });
                     });
