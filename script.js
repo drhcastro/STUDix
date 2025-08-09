@@ -41,9 +41,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderSubNav(data) {
         let subNavHtml = '<div class="flex flex-wrap gap-2">';
+        const specialModuleTitles = ["Acciones Prioritarias", "Flujograma (MX)", "Referencias"];
         data.modules.forEach((module, index) => {
             const isActive = index === currentModuleIndex;
-            subNavHtml += `<button class="sub-tab-button px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200 ${isActive ? 'sub-tab-active' : 'sub-tab-inactive'}" data-index="${index}">Módulo ${index + 1}</button>`;
+            let tabTitle = module.title;
+            if (!specialModuleTitles.includes(tabTitle)) {
+                tabTitle = `Módulo ${index + 1}`;
+            }
+            subNavHtml += `<button class="sub-tab-button px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200 ${isActive ? 'sub-tab-active' : 'sub-tab-inactive'}" data-index="${index}">${tabTitle}</button>`;
         });
         subNavHtml += '</div>';
         subNavContainer.innerHTML = subNavHtml;
@@ -85,7 +90,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Lógica RESTAURADA para la Clase Magistral Interactiva (Tarjetas)
         const labTabButtons = document.querySelectorAll('.lab-tab-btn');
         if(labTabButtons.length > 0) {
             const labContentPanes = document.querySelectorAll('.lab-content-pane');
@@ -101,19 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
-        // Lógica CORREGIDA para la Tabla de Diagnóstico Diferencial
         const diffBtns = document.querySelectorAll('.diff-btn');
         if (diffBtns.length > 0) {
             diffBtns.forEach(btn => {
                 btn.addEventListener('click', () => {
                     const table = document.getElementById('diff-table');
                     table.querySelectorAll('td, th').forEach(cell => cell.classList.remove('highlight-col'));
-                    
                     const colsToHighlight = btn.dataset.col.split(',');
-                    
                     colsToHighlight.forEach(colIndexStr => {
                         const colIndex = parseInt(colIndexStr);
-                        // nth-child es 1-indexado, y la primera columna de datos (HELLP) es la 2da en el DOM
                         table.querySelectorAll(`tr td:nth-child(${colIndex + 1}), tr th:nth-child(${colIndex + 1})`).forEach(cell => {
                             cell.classList.add('highlight-col');
                         });
@@ -122,6 +122,26 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
 
+        const calculateHtnBtn = document.getElementById('calculate-htn-btn');
+        if (calculateHtnBtn) {
+            calculateHtnBtn.addEventListener('click', () => {
+                const pas = parseInt(document.getElementById('pas-input').value) || 0;
+                const pad = parseInt(document.getElementById('pad-input').value) || 0;
+                const contra = document.querySelector('input[name="labetalol-contra"]:checked').value;
+                const resultsDiv = document.getElementById('htn-results');
+                let recommendation = "PA no en rango de crisis hipertensiva.";
+                if (pas >= 160 || pad >= 110) {
+                    if (contra === 'no') {
+                        recommendation = "<strong>Recomendación:</strong> Administrar <strong>Labetalol 20 mg IV</strong> en 2 minutos. Reevaluar PA en 10 minutos.";
+                    } else {
+                        recommendation = "<strong>Recomendación:</strong> Labetalol contraindicado. Administrar <strong>Hidralazina 5-10 mg IV</strong> o <strong>Nifedipino 10-20 mg VO</strong>.";
+                    }
+                }
+                resultsDiv.innerHTML = `<p>${recommendation}</p>`;
+                resultsDiv.classList.remove('hidden');
+            });
+        }
+        
         const hepaticModal = document.getElementById('hepatic-complication-modal');
         const openHepaticBtn = document.getElementById('hepatic-complication-btn');
         const closeHepaticBtn = document.getElementById('close-hepatic-modal-btn');
@@ -138,6 +158,15 @@ document.addEventListener('DOMContentLoaded', () => {
             openAdamts13Btn.addEventListener('click', () => adamts13Modal.classList.remove('hidden'));
             closeAdamts13Btn.addEventListener('click', () => adamts13Modal.classList.add('hidden'));
             adamts13Modal.addEventListener('click', (e) => { if (e.target === adamts13Modal) adamts13Modal.classList.add('hidden'); });
+        }
+
+        const steroidsModal = document.getElementById('steroids-modal');
+        const openSteroidsBtn = document.getElementById('steroids-modal-btn');
+        const closeSteroidsBtn = document.getElementById('close-steroids-modal-btn');
+        if(steroidsModal && openSteroidsBtn && closeSteroidsBtn) {
+            openSteroidsBtn.addEventListener('click', () => steroidsModal.classList.remove('hidden'));
+            closeSteroidsBtn.addEventListener('click', () => steroidsModal.classList.add('hidden'));
+            steroidsModal.addEventListener('click', (e) => { if (e.target === steroidsModal) steroidsModal.classList.add('hidden'); });
         }
     }
 
