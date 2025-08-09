@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Manejo del Síndrome de HELLP</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+        }
+        .card-content {
+            flex-grow: 1;
+        }
+        .tab-button {
+            transition: all 0.3s ease;
+            border-bottom: 4px solid transparent;
+        }
+        .tab-button.active {
+            border-bottom-color: #3b82f6;
+            color: #1e40af;
+            font-weight: 700;
+        }
+        .info-panel {
+            display: none;
+            animation: fadeIn 0.5s;
+        }
+        .info-panel.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .icon-list li {
+            display: flex;
+            align-items: start;
+            margin-bottom: 0.75rem;
+        }
+        .icon-list .icon {
+            flex-shrink: 0;
+            margin-right: 0.75rem;
+            margin-top: 0.25rem;
+        }
+        .flow-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .flow-icon {
+            flex-shrink: 0;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 1rem;
+        }
+        .flow-icon svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: white;
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-6 md:p-8">
+
+    <div class="max-w-5xl mx-auto">
+        
+        <!-- Header -->
+        <header class="text-center mb-8">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Manejo Integral del Síndrome de HELLP</h1>
+            <p class="mt-2 text-lg text-gray-600">Una Guía Visual para Decisiones Críticas</p>
+        </header>
+
+        <!-- ICU Management Flowchart -->
+        <div class="card p-6 md:p-8 mb-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-6">Secuencia de Manejo al Ingreso en UCI</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                
+                <!-- Column 1: Initial Stabilization -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-center text-blue-700 border-b-2 border-blue-200 pb-2">Estabilización Inicial</h3>
+                    <div class="flow-item">
+                        <div class="flow-icon bg-blue-500"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 15L12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" /></svg></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Manejo de Hipertensión</h4>
+                            <p class="text-sm text-gray-500">Labetalol, Hidralazina, Nifedipino. Meta: PAS &lt;160, PAD &lt;105.</p>
+                        </div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-icon bg-purple-500"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.73-.664 1.192-.852l3.106-1.553c1.295-.648 2.553.61 1.905 1.905l-1.553 3.106c-.188.462-.468.875-.852 1.192L13.5 18.75m-2.08-3.58l-3.106 1.553c-1.295.648-2.553-.61-1.905-1.905l1.553-3.106c.188-.462.468-.875.852-1.192l3.03-2.496m-3.58 2.08c-.317.384-.73-.664-1.192-.852l-3.106 1.553c-1.295.648-2.553-.61-1.905-1.905l1.553-3.106c.188-.462.468-.875.852-1.192l2.496-3.03" /></svg></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Profilaxis de Convulsiones</h4>
+                            <p class="text-sm text-gray-500">Sulfato de Magnesio IV. Continuar 24h postparto.</p>
+                        </div>
+                    </div>
+                     <div class="flow-item">
+                        <div class="flow-icon bg-teal-500"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Manejo Cauteloso de Líquidos</h4>
+                            <p class="text-sm text-gray-500">Vigilar sobrecarga de volumen a pesar de posible depleción intravascular.</p>
+                        </div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-icon bg-pink-500"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75l3 3m0 0l3-3m-3 3v-7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Parto/Cesárea (Trat. Definitivo)</h4>
+                            <p class="text-sm text-gray-500">Especialmente >34 sem o si hay deterioro materno/fetal.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2: Monitoring & Support -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-center text-green-700 border-b-2 border-green-200 pb-2">Monitorización y Soporte</h3>
+                    <div class="flow-item">
+                        <div class="flow-icon bg-green-500"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75l-2.489-2.489m0 0a3.375 3.375 0 10-4.773-4.773 3.375 3.375 0 004.774 4.774zM21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Vigilancia Estrecha</h4>
+                            <p class="text-sm text-gray-500">Signos vitales, diuresis, laboratorios (plaquetas, PFH, etc.).</p>
+                        </div>
+                    </div>
+                     <div class="flow-item">
+                        <div class="flow-icon bg-yellow-500"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m-7.512 2.72a3 3 0 01-4.682-2.72 9.094 9.094 0 013.741-.479m7.512 2.72a8.97 8.97 0 01-7.512 0m7.512 0a8.97 8.97 0 00-7.512 0m-3.75 2.25A2.625 2.625 0 0111.25 18v-2.25m0-2.25a2.625 2.625 0 015.25 0v2.25m0-2.25a2.625 2.625 0 01-5.25 0m3.75-2.25A2.625 2.625 0 0111.25 12h-1.5a2.625 2.625 0 01-2.625-2.625V8.25m9 0A2.625 2.625 0 0011.25 6h-1.5a2.625 2.625 0 00-2.625 2.625v1.5" /></svg></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Enfoque Multidisciplinario</h4>
+                            <p class="text-sm text-gray-500">Intensivistas, obstetras, hematólogos, nefrólogos, cirujanos, neonatólogos.</p>
+                        </div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-icon bg-red-500"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" /></svg></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Soporte Orgánico</h4>
+                            <p class="text-sm text-gray-500">Respiratorio, transfusional, renal, hepático, nutricional y manejo del dolor.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3: Specific Treatments & Post-Delivery -->
+                <div class="space-y-6">
+                    <h3 class="text-xl font-bold text-center text-orange-700 border-b-2 border-orange-200 pb-2">Tratamientos y Cuidados</h3>
+                    <div class="flow-item">
+                        <div class="flow-icon bg-orange-500"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Protocolos Específicos</h4>
+                            <p class="text-sm text-gray-500">Vigilar toxicidad por magnesio, usar corticoides (rol debatido), control preciso de TA.</p>
+                        </div>
+                    </div>
+                    <div class="flow-item">
+                        <div class="flow-icon bg-cyan-500"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg></div>
+                        <div>
+                            <h4 class="font-semibold text-gray-700">Cuidados Post-Parto</h4>
+                            <p class="text-sm text-gray-500">Monitorización continua por al menos 48h y planificación del alta.</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-100 p-4 rounded-lg mt-4">
+                        <h4 class="font-bold text-gray-800 text-center">Puntos Clave</h4>
+                        <ul class="text-xs text-gray-600 list-disc list-inside mt-2 space-y-1">
+                            <li>El parto es el tratamiento primario.</li>
+                            <li>Un enfoque multidisciplinario es crucial.</li>
+                            <li>El reconocimiento y manejo temprano salvan vidas.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="card p-6 md:p-8">
+            <div class="card-content">
+                <div class="text-center mb-8">
+                    <h2 class="text-2xl md:text-3xl font-bold text-gray-800">El Tratamiento Definitivo: El Momento del Parto</h2>
+                    <p class="mt-4 text-gray-700 max-w-3xl mx-auto">
+                        La decisión más importante en el manejo del síndrome de HELLP es cuándo finalizar la gestación. Es una evaluación continua que balancea los riesgos para la madre contra los riesgos de la prematuridad para el feto. La <strong class="text-blue-600">edad gestacional</strong> es el factor clave.
+                    </p>
+                </div>
+
+                <!-- Interactive Tabs -->
+                <div class="flex justify-center border-b border-gray-200 mb-8 flex-wrap">
+                    <button class="tab-button text-sm sm:text-base p-4 active" onclick="showPanel('panel1')">≥ 34 Semanas</button>
+                    <button class="tab-button text-sm sm:text-base p-4" onclick="showPanel('panel2')">Viable a 33 <sup>6/7</sup> Semanas</button>
+                    <button class="tab-button text-sm sm:text-base p-4" onclick="showPanel('panel3')">&lt; 24 Semanas (Pre-viable)</button>
+                </div>
+
+                <!-- Info Panels -->
+                <div id="panels-container">
+                    <!-- Panel 1: >= 34 Semanas -->
+                    <div id="panel1" class="info-panel active">
+                        <h2 class="text-2xl font-bold text-blue-700 mb-4">Finalizar la Gestación</h2>
+                        <p class="mb-6 text-gray-600">En esta etapa, los riesgos de la prematuridad para el feto son menores, mientras que los riesgos de complicaciones maternas graves aumentan exponencialmente. El parto está indicado tras la estabilización materna.</p>
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                                <h3 class="font-bold text-red-800 mb-2">Riesgos Maternos (al continuar)</h3>
+                                <ul class="text-red-700 space-y-2 text-sm">
+                                    <li><span class="font-semibold">ACV</span> (Accidente Cerebrovascular)</li>
+                                    <li>Ruptura hepática</li>
+                                    <li>Insuficiencia renal</li>
+                                    <li>Coagulación Intravascular Diseminada (CID)</li>
+                                    <li>Muerte</li>
+                                </ul>
+                            </div>
+                            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                <h3 class="font-bold text-green-800 mb-2">Pronóstico Fetal (al nacer)</h3>
+                                 <p class="text-green-700 text-sm">Los riesgos asociados a la prematuridad son considerablemente menores, con una alta probabilidad de buena evolución neonatal.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Panel 2: Viable a 33 6/7 Semanas -->
+                    <div id="panel2" class="info-panel">
+                        <h2 class="text-2xl font-bold text-blue-700 mb-4">Manejo Expectante</h2>
+                        <p class="mb-6 text-gray-600">Si la madre y el feto están estables, se puede optar por un manejo expectante en un centro de tercer nivel. Esto permite administrar corticoides para la maduración pulmonar fetal, mejorando el pronóstico neonatal.</p>
+                        
+                        <div class="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                            <h3 class="font-bold text-blue-800 mb-4 text-lg">Indicaciones para Finalización INMEDIATA</h3>
+                            <p class="text-blue-700 mb-4 text-sm">Cualquier signo de deterioro materno o fetal debe precipitar el parto de forma inmediata. La vigilancia debe ser intensiva.</p>
+                            <ul class="icon-list text-gray-700 text-sm">
+                                <li><svg class="icon w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg><span>Estado fetal no tranquilizador (PBF anómalo, desaceleraciones tardías).</span></li>
+                                <li><svg class="icon w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg><span>Hipertensión severa no controlada.</span></li>
+                                <li><svg class="icon w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg><span>Eclampsia o síntomas neurológicos persistentes.</span></li>
+                                <li><svg class="icon w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg><span>Edema pulmonar o sospecha de desprendimiento de placenta.</span></li>
+                                <li><svg class="icon w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg><span>CID o empeoramiento de función renal/hepática.</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Panel 3: < 24 Semanas -->
+                    <div id="panel3" class="info-panel">
+                        <h2 class="text-2xl font-bold text-blue-700 mb-4">Consejería para Terminación</h2>
+                        <p class="mb-6 text-gray-600">En embarazos pre-viables, los riesgos maternos de continuar la gestación son extremadamente altos, con una probabilidad mínima de supervivencia neonatal viable. El manejo se centra en la salud materna.</p>
+                        <div class="bg-gray-100 p-6 rounded-lg border border-gray-200">
+                            <h3 class="font-bold text-gray-800 mb-2">Balance de Riesgo-Beneficio</h3>
+                            <p class="text-gray-700">La consejería con la paciente y su familia es fundamental para tomar una decisión informada sobre la interrupción del embarazo, priorizando la vida y la salud de la madre ante un pronóstico neonatal desfavorable.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Additional Sections -->
+        <div class="mt-8 space-y-8">
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Complicaciones Intraparto -->
+                <div class="card p-6">
+                    <div class="card-content">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Manejo de Complicaciones Intraparto</h3>
+                        <p class="text-gray-600 mb-4">El equipo debe estar preparado para complicaciones letales, especialmente la <strong class="text-red-600">hemorragia masiva</strong>. Es crucial tener un plan de acción.</p>
+                        <ul class="space-y-2 text-sm text-gray-700 list-disc list-inside">
+                            <li>Activación de protocolo de transfusión masiva.</li>
+                            <li>Disponibilidad de hemoderivados (plaquetas, plasma, etc.).</li>
+                            <li>Equipo multidisciplinario (obstetras, anestesiólogos, intensivistas, hematólogos).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Indicaciones Cesárea -->
+                <div class="card p-6">
+                     <div class="card-content">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Indicaciones de Cesárea en Preeclampsia</h3>
+                        <p class="text-gray-600 mb-4 text-xs">Referencia: MAGEE L, L, Clinical Practice Guideline Diagnosis,Evaluation and Management of the Hypertensive Disorders of Pregnancy, 2014</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+                            <div>
+                                <h4 class="font-semibold text-blue-800 border-b pb-1 mb-2">Causas Maternas</h4>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                   <li>Hipertensión severa refractaria</li>
+                                   <li>Deterioro plaquetario, hemólisis</li>
+                                   <li>Deterioro de función hepática o renal</li>
+                                   <li>Síntomas neurológicos persistentes</li>
+                                   <li>Datos premonitorios de eclampsia</li>
+                                   <li>Desprendimiento de placenta</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-purple-800 border-b pb-1 mb-2">Causas Fetales</h4>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1">
+                                   <li>Restricción del crecimiento severa</li>
+                                   <li>Estado fetal no confiable</li>
+                                </ul>
+                            </div>
+                        </div>
+                     </div>
+                </div>
+            </div>
+            
+            <!-- NEW ROW FOR DELIVERY AND ANESTHESIA -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Vía del Parto Card -->
+                <div class="card p-6">
+                    <div class="card-content">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Vía del Parto: Inducción vs. Cesárea</h3>
+                        <p class="text-sm text-gray-600 mb-4">La decisión depende de la estabilidad materno-fetal, edad gestacional y condiciones cervicales.</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-4">
+                            <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                                <h4 class="font-semibold text-green-800 mb-2">Parto Vaginal (Preferido)</h4>
+                                <p class="text-xs text-green-700 mb-2">Si es factible en un tiempo razonable.</p>
+                                <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                                    <li>Menor estrés fisiológico</li>
+                                    <li>Menor riesgo de hemorragia</li>
+                                    <li>Evita cirugía mayor</li>
+                                </ul>
+                            </div>
+                            <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                                <h4 class="font-semibold text-orange-800 mb-2">Cesárea (Indicada)</h4>
+                                <p class="text-xs text-orange-700 mb-2">Por razones obstétricas o urgencia.</p>
+                                <ul class="list-disc list-inside text-sm text-gray-700 space-y-1">
+                                    <li>Presentación anómala</li>
+                                    <li>Deterioro materno/fetal rápido</li>
+                                    <li>Parto vaginal no previsible</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Consideraciones Anestésicas Card -->
+                <div class="card p-6">
+                    <div class="card-content">
+                        <h3 class="text-xl font-bold text-gray-800 mb-4">Consideraciones Anestésicas</h3>
+                        <p class="text-sm text-gray-600 mb-4">La <strong class="text-red-600">trombocitopenia</strong> es la principal preocupación y define la técnica a utilizar.</p>
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="font-semibold text-blue-800">Anestesia Neuroaxial (Preferida)</h4>
+                                <p class="text-sm text-gray-700">Ofrece excelente control del dolor y estabilidad hemodinámica.</p>
+                                <div class="mt-2 bg-red-100 border-l-4 border-red-500 text-red-700 p-3 rounded">
+                                    <p class="font-bold">¡Contraindicación!</p>
+                                    <p class="text-sm">Recuento de plaquetas &lt; 75,000-80,000/mm³ por riesgo de hematoma epidural.</p>
+                                </div>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-blue-800">Anestesia General (Alternativa)</h4>
+                                <p class="text-sm text-gray-700">Necesaria si la anestesia neuroaxial está contraindicada. Conlleva riesgos propios como respuesta hipertensiva a la intubación y riesgo de ACV.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // Function to switch between information panels
+        function showPanel(panelId) {
+            // Hide all panels
+            const panels = document.querySelectorAll('.info-panel');
+            panels.forEach(panel => {
+                panel.classList.remove('active');
+            });
+
+            // Deactivate all tab buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show the selected panel
+            const selectedPanel = document.getElementById(panelId);
+            if (selectedPanel) {
+                selectedPanel.classList.add('active');
+            }
+
+            // Activate the clicked tab button
+            const selectedButton = document.querySelector(`[onclick="showPanel('${panelId}')"]`);
+            if (selectedButton) {
+                selectedButton.classList.add('active');
+            }
+        }
+    </script>
+
+</body>
+</html>
