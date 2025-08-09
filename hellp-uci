@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Síndrome de HELLP en la UCI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f0f4f8;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .details.open {
+            max-height: 1000px; /* Adjust as needed */
+        }
+        .icon {
+            width: 60px;
+            height: 60px;
+        }
+        .bg-gradient-header {
+            background: linear-gradient(90deg, #1e3a8a, #3b82f6);
+        }
+        .section-title {
+            border-bottom: 3px solid #3b82f6;
+            padding-bottom: 8px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+
+    <div class="container mx-auto p-4 md:p-8">
+
+        <!-- Header -->
+        <header class="bg-gradient-header text-white p-6 rounded-xl shadow-lg mb-8 text-center">
+            <h1 class="text-3xl md:text-5xl font-bold">Síndrome de HELLP</h1>
+            <p class="text-xl md:text-2xl mt-2 font-light">Manejo en la Unidad de Cuidados Intensivos (UCI)</p>
+        </header>
+
+        <!-- Definición -->
+        <section class="bg-white p-6 rounded-xl shadow-md mb-8">
+            <h2 class="text-2xl font-bold text-blue-800 mb-4 section-title">¿Qué es el Síndrome de HELLP?</h2>
+            <p class="mb-4">Es una complicación grave de la preeclampsia, que amenaza la vida y se caracteriza por:</p>
+            <div class="grid md:grid-cols-3 gap-4 text-center">
+                <div class="bg-blue-100 p-4 rounded-lg">
+                    <h3 class="font-bold text-blue-900">Hemólisis (H)</h3>
+                    <p class="text-sm">Destrucción de glóbulos rojos.</p>
+                </div>
+                <div class="bg-green-100 p-4 rounded-lg">
+                    <h3 class="font-bold text-green-900">Elevated Liver enzymes (EL)</h3>
+                    <p class="text-sm">Enzimas hepáticas elevadas, indicando daño en el hígado.</p>
+                </div>
+                <div class="bg-red-100 p-4 rounded-lg">
+                    <h3 class="font-bold text-red-900">Low Platelets (LP)</h3>
+                    <p class="text-sm">Bajo recuento de plaquetas, afectando la coagulación.</p>
+                </div>
+            </div>
+            <p class="mt-4 text-sm text-gray-600 italic">Ocurre en 0.5-0.9% de los embarazos y en 10-20% de los casos de preeclampsia severa. El ingreso a UCI es recomendado cuando dos o más sistemas de órganos están fallando.</p>
+        </section>
+
+        <!-- Pilares del Manejo en UCI -->
+        <section class="mb-8">
+            <h2 class="text-2xl font-bold text-blue-800 mb-6 section-title">Pilares del Manejo en UCI</h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- Card: Corticosteroides -->
+                <div class="card bg-white p-5 rounded-xl shadow-md" onclick="toggleDetails('corticosteroides')">
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/60x60/a7f3d0/14532d?text=CS" alt="Icono de Corticosteroides" class="icon rounded-full mr-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Corticosteroides</h3>
+                    </div>
+                    <div id="corticosteroides-details" class="details mt-4 text-gray-600">
+                        <p><strong>Propósito:</strong> Acelerar la madurez pulmonar fetal.</p>
+                        <p><strong>Indicación:</strong> Recomendado en embarazos entre 24 y 34 semanas de gestación. El parto se indica 48 horas después de la terapia, a menos que existan condiciones de emergencia (eclampsia, edema pulmonar, CID, etc.).</p>
+                    </div>
+                </div>
+
+                <!-- Card: Sulfato de Magnesio -->
+                <div class="card bg-white p-5 rounded-xl shadow-md" onclick="toggleDetails('magnesio')">
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/60x60/bfdbfe/1e3a8a?text=MgSO4" alt="Icono de Sulfato de Magnesio" class="icon rounded-full mr-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Sulfato de Magnesio</h3>
+                    </div>
+                    <div id="magnesio-details" class="details mt-4 text-gray-600">
+                        <p><strong>Propósito:</strong> Profilaxis y manejo de convulsiones (eclampsia).</p>
+                        <p><strong>Dosis:</strong> Carga de 6g IV en 20 min, seguida de infusión continua de 2g/hr hasta 24h postparto. Se requiere monitoreo estricto de toxicidad.</p>
+                    </div>
+                </div>
+
+                <!-- Card: Terapia Antihipertensiva -->
+                <div class="card bg-white p-5 rounded-xl shadow-md" onclick="toggleDetails('antihipertensivos')">
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/60x60/fecaca/991b1b?text=BP" alt="Icono de Presión Arterial" class="icon rounded-full mr-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Terapia Antihipertensiva</h3>
+                    </div>
+                    <div id="antihipertensivos-details" class="details mt-4 text-gray-600">
+                        <p><strong>Objetivo:</strong> Prevenir lesión cerebrovascular por crisis hipertensiva.</p>
+                        <p><strong>Indicación:</strong> Presión arterial ≥ 160/110 mmHg.</p>
+                        <p><strong>Fármacos:</strong> Labetalol, Hidralazina (IV en bolos) o Nifedipino (oral). El objetivo es mantener la PA en un rango seguro (140-150/90-100 mmHg) sin comprometer la perfusión cerebral y uteroplacentaria.</p>
+                    </div>
+                </div>
+
+                <!-- Card: Transfusión de Plaquetas -->
+                <div class="card bg-white p-5 rounded-xl shadow-md" onclick="toggleDetails('plaquetas')">
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/60x60/fee2e2/991b1b?text=PLT" alt="Icono de Plaquetas" class="icon rounded-full mr-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Transfusión de Plaquetas</h3>
+                    </div>
+                    <div id="plaquetas-details" class="details mt-4 text-gray-600">
+                        <p><strong>Indicación:</strong> Sugerida en trombocitopenia severa.</p>
+                        <ul class="list-disc list-inside">
+                            <li><strong>Cesárea:</strong> Plaquetas &lt; 50,000/µL.</li>
+                            <li><strong>Parto Vaginal:</strong> Plaquetas ≤ 20,000-25,000/µL.</li>
+                            <li><strong>Sangrado Activo:</strong> Siempre, si plaquetas &lt; 20,000/µL.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Card: Parto/Interrupción del Embarazo -->
+                <div class="card bg-white p-5 rounded-xl shadow-md" onclick="toggleDetails('parto')">
+                    <div class="flex items-center">
+                        <img src="https://placehold.co/60x60/e0e7ff/3730a3?text=CURE" alt="Icono de Parto" class="icon rounded-full mr-4">
+                        <h3 class="text-xl font-semibold text-gray-800">Interrupción del Embarazo</h3>
+                    </div>
+                    <div id="parto-details" class="details mt-4 text-gray-600">
+                        <p><strong>Es el único tratamiento curativo.</strong></p>
+                        <p>La decisión sobre el momento y el método depende del criterio clínico, la edad gestacional y la condición materno-fetal. Se recomienda el parto a las 34 semanas o antes si hay deterioro.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Complicaciones y su Manejo -->
+        <section>
+            <h2 class="text-2xl font-bold text-blue-800 mb-6 section-title">Complicaciones Mayores en UCI</h2>
+            <div class="space-y-4">
+                
+                <!-- Complication Item -->
+                <div class="card bg-white rounded-xl shadow-md" onclick="toggleDetails('comp-dic')">
+                    <div class="p-5 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-red-700">Coagulopatía / CID</h3>
+                        <span class="text-red-500 font-bold text-2xl">+</span>
+                    </div>
+                    <div id="comp-dic-details" class="details px-5 pb-5 text-gray-600">
+                        <p><strong>Incidencia:</strong> 15-38% de los casos de HELLP. Requiere parto urgente.</p>
+                        <p><strong>Manejo:</strong> Transfusión masiva de hemoderivados (iniciar ante sospecha clínica), control de la hemorragia uterina. El Factor VIIa recombinante es una opción controversial en casos refractarios.</p>
+                    </div>
+                </div>
+                
+                <!-- Complication Item -->
+                <div class="card bg-white rounded-xl shadow-md" onclick="toggleDetails('comp-ards')">
+                    <div class="p-5 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-blue-700">Síndrome de Dificultad Respiratoria Aguda (SDRA)</h3>
+                        <span class="text-blue-500 font-bold text-2xl">+</span>
+                    </div>
+                    <div id="comp-ards-details" class="details px-5 pb-5 text-gray-600">
+                        <p><strong>Incidencia:</strong> &lt;1% de los casos, pero con alta mortalidad (23% anteparto, 50% postparto). Frecuentemente requiere ventilación mecánica.</p>
+                        <p><strong>Manejo:</strong> ¡Atención al edema laríngeo! Puede complicar la intubación. Tener equipo quirúrgico listo para una vía aérea de emergencia.</p>
+                    </div>
+                </div>
+
+                <!-- Complication Item -->
+                <div class="card bg-white rounded-xl shadow-md" onclick="toggleDetails('comp-renal')">
+                    <div class="p-5 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-purple-700">Insuficiencia Renal Aguda (IRA)</h3>
+                        <span class="text-purple-500 font-bold text-2xl">+</span>
+                    </div>
+                    <div id="comp-renal-details" class="details px-5 pb-5 text-gray-600">
+                        <p><strong>Incidencia:</strong> 7.4% en HELLP. Aumenta significativamente la mortalidad materna.</p>
+                        <p><strong>Manejo:</strong> Estabilización hemodinámica, balance de líquidos cuidadoso (por la permeabilidad vascular y tercer espacio), corrección de electrolitos y posible diálisis.</p>
+                    </div>
+                </div>
+
+                <!-- Complication Item -->
+                <div class="card bg-white rounded-xl shadow-md" onclick="toggleDetails('comp-hepatico')">
+                    <div class="p-5 flex justify-between items-center">
+                        <h3 class="text-lg font-semibold text-yellow-700">Disfunción / Ruptura Hepática</h3>
+                        <span class="text-yellow-500 font-bold text-2xl">+</span>
+                    </div>
+                    <div id="comp-hepatico-details" class="details px-5 pb-5 text-gray-600">
+                        <p><strong>Complicación grave:</strong> El hematoma subcapsular hepático (0.9-1.6% de los casos) puede romperse, resultando en un desenlace catastrófico.</p>
+                        <p><strong>Manejo:</strong> La cirugía es el pilar para la ruptura. En hematomas no rotos, el manejo conservador (transfusiones, corrección de coagulopatía, vigilancia con imagen) puede ser exitoso.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="mt-10 text-center text-sm text-gray-500">
+            <p>Infografía basada en "Intensive Care Unit issues in eclampsia and HELLP syndrome" por Lam & Dierking (2017).</p>
+            <p>Diseño interactivo para fines educativos.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        // Función para mostrar/ocultar los detalles de las tarjetas
+        function toggleDetails(id) {
+            const detailsElement = document.getElementById(id + '-details');
+            if (detailsElement) {
+                detailsElement.classList.toggle('open');
+            }
+        }
+    </script>
+
+</body>
+</html>
