@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Manejo de SDRA en el Embarazo (con IA)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #1e293b;
+        }
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .card {
+            background-color: white;
+            border-radius: 1rem;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .ventilator-btn {
+            transition: all 0.3s ease;
+        }
+        .ventilator-btn.active {
+            background-color: #2563eb !important;
+            color: white !important;
+            box-shadow: 0 4px 14px 0 rgba(37, 99, 235, 0.39);
+        }
+        #lung-fill {
+            transition: height 1s ease-in-out, y 1s ease-in-out;
+        }
+        #uterus-group {
+            transition: transform 1s ease-in-out;
+            transform-origin: bottom center;
+        }
+        .gemini-btn {
+            background-color: #8b5cf6;
+            color: white;
+            transition: background-color 0.3s;
+        }
+        .gemini-btn:hover {
+            background-color: #7c3aed;
+        }
+        .gemini-btn:disabled {
+            background-color: #a78bfa;
+            cursor: not-allowed;
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #8b5cf6;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 90%;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease;
+        }
+        .modal-overlay.visible .modal-content {
+            transform: translateY(0);
+        }
+        .strategy-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-20">
+        <div class="container mx-auto px-6 py-4 text-center">
+            <h1 class="text-2xl md:text-4xl font-bold text-blue-600">Manejo del SDRA en la Paciente Embarazada</h1>
+            <p class="text-slate-600 mt-2">Una Guía Visual Interactiva con Asistente de IA ✨</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12">
+
+        <!-- Section 1: Physiological Changes -->
+        <section id="physiology" class="mb-24 fade-in">
+             <h2 class="text-3xl font-bold text-center mb-4">El Desafío Fisiológico del Embarazo</h2>
+            <p class="text-center text-slate-600 max-w-3xl mx-auto mb-12">El embarazo induce cambios únicos que alteran la respuesta a la insuficiencia respiratoria. Observa cómo cambia la anatomía.</p>
+            
+            <div class="flex flex-col lg:flex-row items-center justify-center gap-8">
+                <!-- Interactive SVG -->
+                <div class="w-full lg:w-1/3 flex justify-center">
+                    <svg id="pregnancy-svg" viewBox="0 0 300 450" class="max-w-xs w-full">
+                        <!-- Body Outline -->
+                        <path d="M150 5 C 50 5, 50 150, 60 250 C 70 350, 100 445, 150 445 C 200 445, 230 350, 240 250 C 250 150, 250 5, 150 5 Z" fill="#fde4e4" stroke="#d1a0a0" stroke-width="2"/>
+                        <!-- Lungs -->
+                        <g id="lungs-group">
+                            <path d="M150 50 C 120 50, 100 80, 100 120 L 100 180 L 140 180 L 140 80 C 140 60, 150 50, 150 50 Z" fill="#a7c7e7" stroke="#4a6c8c" stroke-width="1.5"/>
+                            <path d="M150 50 C 180 50, 200 80, 200 120 L 200 180 L 160 180 L 160 80 C 160 60, 150 50, 150 50 Z" fill="#a7c7e7" stroke="#4a6c8c" stroke-width="1.5"/>
+                            <!-- Lung Fill representing CRF -->
+                            <rect id="lung-fill" x="100" y="130" width="100" height="50" fill="#4a90e2" />
+                            <text x="150" y="155" font-size="12" fill="white" text-anchor="middle" font-weight="bold">CRF</text>
+                        </g>
+                        <!-- Uterus -->
+                        <g id="uterus-group" transform="scale(0.5)">
+                             <path d="M150, 200 a75,75 0 1,1 150,0 a100,120 0 0,0 -150,0" fill="#f8c8dc" stroke="#c8839d" stroke-width="2" transform="translate(-150, 100)"/>
+                             <!-- Fetus icon -->
+                             <text x="150" y="330" font-size="60" text-anchor="middle">👶</text>
+                        </g>
+                        <!-- Diaphragm -->
+                        <path id="diaphragm" d="M100 180 Q 150 200 200 180" stroke="#c8839d" stroke-width="3" fill="none" style="transition: all 1s ease-in-out;"/>
+                    </svg>
+                </div>
+
+                <!-- Explanations -->
+                <div class="w-full lg:w-1/2">
+                    <div class="space-y-6">
+                        <div class="card p-6 flex items-start gap-4">
+                            <div class="text-3xl">💨</div>
+                            <div>
+                                <h3 class="font-bold text-lg">Aumento del Consumo de O₂</h3>
+                                <p class="text-slate-600">El consumo de oxígeno (VO₂) se incrementa un 20-30% para el feto y la placenta, dejando menos reserva para la madre.</p>
+                            </div>
+                        </div>
+                        <div class="card p-6 flex items-start gap-4">
+                            <div class="text-3xl">📉</div>
+                            <div>
+                                <h3 class="font-bold text-lg">Menor Capacidad Pulmonar</h3>
+                                <p class="text-slate-600">El útero eleva el diafragma, reduciendo la Capacidad Residual Funcional (CRF) un 20%. Esto acelera la desaturación.</p>
+                            </div>
+                        </div>
+                        <div class="card p-6 flex items-start gap-4">
+                            <div class="text-3xl">🔥</div>
+                            <div>
+                                <h3 class="font-bold text-lg">Estado Proinflamatorio</h3>
+                                <p class="text-slate-600">El embarazo es un estado proinflamatorio, lo que puede intensificar la respuesta a una infección, llevando a un SDRA más severo.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Ventilator Management -->
+        <section id="ventilator" class="mb-24 fade-in">
+            <h2 class="text-3xl font-bold text-center mb-4">Ventilación Mecánica Protectora</h2>
+            <p class="text-center text-slate-600 max-w-3xl mx-auto mb-12">El objetivo es proteger los pulmones maternos ("baby lung") mientras se asegura la oxigenación fetal. Interactúa con el panel y el asistente de IA.</p>
+
+            <div class="card max-w-5xl mx-auto p-4 sm:p-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                    <!-- Ventilator Display -->
+                    <div class="bg-slate-800 rounded-lg p-6 flex flex-col justify-between text-white">
+                        <div>
+                            <div class="flex justify-between items-center border-b border-slate-600 pb-2 mb-4">
+                                <h3 class="font-bold text-xl">Panel Ventilatorio</h3>
+                                <span class="text-green-400 font-mono">MODO: V-AC</span>
+                            </div>
+                            <div id="ventilator-display" class="text-center p-4 rounded-md bg-slate-900/50">
+                                <p id="display-param" class="text-2xl font-bold text-cyan-400">Selecciona un Parámetro</p>
+                                <p id="display-value" class="text-5xl font-mono my-2 text-white">-</p>
+                                <p id="display-desc" class="text-sm text-slate-300 h-12">Haz clic en los botones de la derecha para ver la información.</p>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <button id="simplify-concept-btn" class="gemini-btn w-full font-bold py-2 px-4 rounded-lg flex items-center justify-center gap-2" disabled>
+                                ✨ VM para Dummies
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Control Buttons -->
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                        <button class="ventilator-btn card p-4 text-center" data-param="Vt" data-value="4-6 mL/kg" data-desc="Basado en peso predicho para evitar sobredistensión pulmonar (volutrauma).">
+                            <p class="font-bold text-lg">Vt</p>
+                            <p class="text-xs text-slate-500">Volumen Tidal</p>
+                        </button>
+                        <button class="ventilator-btn card p-4 text-center" data-param="Pplat" data-value="≤ 30" data-desc="Refleja la presión alveolar. Mantenerla baja previene el daño por presión (barotrauma).">
+                            <p class="font-bold text-lg">Pplat</p>
+                            <p class="text-xs text-slate-500">P. Meseta</p>
+                        </button>
+                         <button class="ventilator-btn card p-4 text-center" data-param="ΔP" data-value="< 15" data-desc="Driving Pressure (Pplat - PEEP). Es el mejor predictor de mortalidad. Mantenerlo bajo es crucial.">
+                            <p class="font-bold text-lg">ΔP</p>
+                            <p class="text-xs text-slate-500">Driving Pressure</p>
+                        </button>
+                        <button class="ventilator-btn card p-4 text-center" data-param="PEEP" data-value="Tabla" data-desc="Titular según tabla PEEP/FiO₂ para reclutar alvéolos y mejorar la oxigenación.">
+                            <p class="font-bold text-lg">PEEP</p>
+                            <p class="text-xs text-slate-500">PEEP</p>
+                        </button>
+                        <button class="ventilator-btn card p-4 text-center" data-param="SpO₂" data-value="94-96%" data-desc="Meta de saturación para asegurar un adecuado suministro de oxígeno al feto.">
+                            <p class="font-bold text-lg">SpO₂</p>
+                            <p class="text-xs text-slate-500">Saturación O₂</p>
+                        </button>
+                        <button class="ventilator-btn card p-4 text-center" data-param="PaO₂" data-value="> 70" data-desc="Asegura un gradiente de presión de oxígeno suficiente a través de la placenta.">
+                            <p class="font-bold text-lg">PaO₂</p>
+                            <p class="text-xs text-slate-500">Presión O₂</p>
+                        </button>
+                        <button class="ventilator-btn card p-4 text-center" data-param="FR" data-value="Ajustar" data-desc="Ajustar para mantener el pH objetivo, balanceando la eliminación de CO₂.">
+                            <p class="font-bold text-lg">FR</p>
+                            <p class="text-xs text-slate-500">Frec. Resp.</p>
+                        </button>
+                        <button class="ventilator-btn card p-4 text-center" data-param="pH" data-value="≥ 7.25" data-desc="Se permite una hipercapnia leve, pero se evita la acidosis severa para no afectar al feto.">
+                            <p class="font-bold text-lg">pH</p>
+                            <p class="text-xs text-slate-500">pH Arterial</p>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Key Strategies -->
+        <section id="strategies" class="mb-24 fade-in">
+            <h2 class="text-3xl font-bold text-center mb-12">Estrategias y Consideraciones Clave</h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+                <!-- Severity Card -->
+                <div class="card p-6 strategy-card">
+                    <div class="text-5xl mb-4">📊</div>
+                    <h3 class="text-xl font-bold mb-2">Clasificación de Severidad</h3>
+                    <p class="text-slate-600 text-sm">Basada en la PaO₂/FiO₂ (Definición de Berlín):</p>
+                    <ul class="text-left mt-4 space-y-2 text-sm">
+                        <li><span class="font-bold text-green-600">Leve:</span> 201-300</li>
+                        <li><span class="font-bold text-yellow-600">Moderado:</span> 101-200</li>
+                        <li><span class="font-bold text-red-600">Severo:</span> ≤ 100</li>
+                    </ul>
+                </div>
+                <!-- Fluids Card -->
+                <div class="card p-6 strategy-card">
+                    <div class="text-5xl mb-4">💧</div>
+                    <h3 class="text-xl font-bold mb-2">Manejo de Fluidos</h3>
+                    <p class="text-slate-600 text-sm">Una vez estabilizada la hemodinamia, se prefiere una **estrategia conservadora** para evitar empeorar el edema pulmonar y mejorar los días libres de ventilador.</p>
+                </div>
+                <!-- NMB Card -->
+                <div class="card p-6 strategy-card">
+                    <div class="text-5xl mb-4">⚡️</div>
+                    <h3 class="text-xl font-bold mb-2">Bloqueo Neuromuscular</h3>
+                    <p class="text-slate-600 text-sm">Considerado en SDRA severo para mejorar la sincronía con el ventilador y reducir el consumo de O₂. Usar por periodos cortos (≤ 48h).</p>
+                </div>
+                <!-- Delivery Card -->
+                <div class="card p-6 strategy-card">
+                    <div class="text-5xl mb-4">⚖️</div>
+                    <h3 class="text-xl font-bold mb-2">El Papel del Parto</h3>
+                    <p class="text-slate-600 text-sm">Decisión compleja. **No es una cura para el SDRA**. Se considera por sufrimiento fetal o deterioro materno refractario (>32-34 sem) para mejorar la mecánica pulmonar.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 4: Advanced Therapies -->
+        <section id="therapies" class="mb-24 fade-in">
+            <h2 class="text-3xl font-bold text-center mb-12">Terapias Avanzadas y de Rescate</h2>
+            <div class="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
+                <!-- Prone Positioning -->
+                <div class="card p-8 text-center">
+                    <h3 class="text-2xl font-bold mb-4">Posición Prono</h3>
+                    <p class="text-slate-600 mb-6">Para SDRA moderado-severo (PaO₂/FiO₂ < 150). Mejora la oxigenación y es segura en el embarazo con la técnica adecuada.</p>
+                    <div class="relative w-full max-w-md mx-auto aspect-[2/1]">
+                        <!-- Supine SVG -->
+                        <svg viewBox="0 0 300 150" class="absolute top-0 left-0 rounded-lg w-full h-full bg-slate-100 border border-slate-200">
+                            <title>Paciente en posición supina</title>
+                            <rect x="10" y="100" width="280" height="30" rx="5" fill="#d1d5db"/>
+                            <rect x="20" y="130" width="20" height="15" fill="#9ca3af"/>
+                            <rect x="260" y="130" width="20" height="15" fill="#9ca3af"/>
+                            <rect x="40" y="90" width="50" height="20" rx="5" fill="#e5e7eb"/>
+                            <path d="M 80 95 C 90 85, 100 85, 110 90 L 130 100 C 140 105, 150 115, 160 110 L 240 100" stroke="#4b5563" stroke-width="4" fill="none" stroke-linecap="round"/>
+                            <path d="M130,100 C130,80 170,80 170,110" stroke="#4b5563" stroke-width="4" fill="#fde4e4"/>
+                        </svg>
+                        <!-- Prone SVG -->
+                        <svg viewBox="0 0 300 150" class="absolute top-0 left-0 rounded-lg w-full h-full bg-blue-100 border border-blue-200 opacity-0 hover:opacity-100 transition-opacity duration-500">
+                             <title>Paciente en posición prono modificada</title>
+                            <rect x="10" y="100" width="280" height="30" rx="5" fill="#d1d5db"/>
+                            <rect x="20" y="130" width="20" height="15" fill="#9ca3af"/>
+                            <rect x="260" y="130" width="20" height="15" fill="#9ca3af"/>
+                            <rect x="60" y="85" width="80" height="25" rx="8" fill="#a7c7e7" stroke="#4a6c8c" stroke-width="1"/>
+                            <rect x="170" y="85" width="80" height="25" rx="8" fill="#a7c7e7" stroke="#4a6c8c" stroke-width="1"/>
+                            <path d="M 80 90 C 100 80, 120 80, 140 85 L 220 95" stroke="#4b5563" stroke-width="4" fill="none" stroke-linecap="round"/>
+                            <circle cx="70" cy="90" r="10" fill="#fde4e4" stroke="#4b5563" stroke-width="2"/>
+                            <path d="M145,85 C140,105 165,105 165,85" stroke="#4b5563" stroke-width="4" fill="#fde4e4" stroke-linecap="round"/>
+                            <text x="155" y="135" font-size="10" fill="#1e3a8a" text-anchor="middle" font-weight="bold">Abdomen libre</text>
+                        </svg>
+                        <div class="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded pointer-events-none">Pasa el cursor para ver</div>
+                    </div>
+                    <p class="mt-4 text-sm text-slate-500">Se usan cojines para liberar el abdomen de la compresión, protegiendo al feto y evitando la compresión aortocava.</p>
+                </div>
+                <!-- ECMO -->
+                <div class="card p-8 text-center">
+                     <h3 class="text-2xl font-bold mb-4">ECMO</h3>
+                    <p class="text-slate-600 mb-6">La Oxigenación por Membrana Extracorpórea es una terapia de rescate para hipoxemia refractaria severa.</p>
+                    <div class="flex justify-center items-center h-48">
+                        <svg class="w-32 h-32 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                        <svg class="w-24 h-24 text-blue-500 -ml-16" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </div>
+                    <p class="mt-4 text-sm text-slate-500">Estudios muestran tasas de supervivencia relativamente altas en pacientes embarazadas, probablemente por su menor edad y comorbilidades.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 5: Gemini Clinical Case -->
+        <section id="clinical-case" class="mb-24 fade-in">
+            <h2 class="text-3xl font-bold text-center mb-4">✨ Caso Clínico Interactivo</h2>
+            <p class="text-center text-slate-600 max-w-3xl mx-auto mb-8">Pon a prueba tus conocimientos. Pide a la IA que genere un caso clínico para analizar.</p>
+            <div class="text-center mb-8">
+                <button id="generate-case-btn" class="gemini-btn font-bold py-3 px-6 rounded-lg flex items-center justify-center gap-2 mx-auto">
+                    <span id="generate-case-btn-text">Generar Nuevo Caso Clínico</span>
+                    <div id="generate-case-loader" class="loader hidden"></div>
+                </button>
+            </div>
+            <div id="case-container" class="card max-w-4xl mx-auto p-8 hidden">
+                <div id="case-content" class="prose max-w-none">
+                    <!-- Gemini content will be injected here -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-slate-800 text-white text-center py-6">
+        <p>&copy; 2024 Guía Educativa &bull; Dr. Héctor Castro</p>
+        <p class="text-sm text-slate-300 mt-2">Contenido basado en la guía de manejo de SDRA en embarazo.</p>
+        <p class="text-xs text-slate-400 mt-1">Esta es una herramienta de aprendizaje y no sustituye el juicio clínico profesional.</p>
+    </footer>
+
+    <!-- Modal for Gemini Explanations -->
+    <div id="gemini-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h3 id="modal-title" class="text-2xl font-bold mb-4 text-purple-600">✨ VM para Dummies</h3>
+            <div id="modal-loader" class="flex justify-center items-center h-24">
+                <div class="loader"></div>
+            </div>
+            <div id="modal-content-text" class="prose max-w-none"></div>
+            <div class="text-right mt-6">
+                <button id="modal-close-btn" class="bg-slate-200 text-slate-800 font-bold py-2 px-4 rounded-lg">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- CONFIGURATION ---
+        const API_KEY = ""; // Leave as an empty string
+        const API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+        
+        // --- DOM ELEMENTS ---
+        const ventilatorButtons = document.querySelectorAll('.ventilator-btn');
+        const displayParam = document.getElementById('display-param');
+        const displayValue = document.getElementById('display-value');
+        const displayDesc = document.getElementById('display-desc');
+        const simplifyConceptBtn = document.getElementById('simplify-concept-btn');
+        const generateCaseBtn = document.getElementById('generate-case-btn');
+        const generateCaseBtnText = document.getElementById('generate-case-btn-text');
+        const generateCaseLoader = document.getElementById('generate-case-loader');
+        const caseContainer = document.getElementById('case-container');
+        const caseContent = document.getElementById('case-content');
+        const modal = document.getElementById('gemini-modal');
+        const modalTitle = document.getElementById('modal-title');
+        const modalLoader = document.getElementById('modal-loader');
+        const modalContentText = document.getElementById('modal-content-text');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+
+        let activeVentilatorParam = null;
+
+        // --- GEMINI API CALLER ---
+        async function callGeminiAPI(prompt, maxRetries = 3) {
+            let attempt = 0;
+            while (attempt < maxRetries) {
+                try {
+                    const payload = {
+                        contents: [{ role: "user", parts: [{ text: prompt }] }]
+                    };
+                    const response = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    
+                    if (result.candidates && result.candidates.length > 0 &&
+                        result.candidates[0].content && result.candidates[0].content.parts &&
+                        result.candidates[0].content.parts.length > 0) {
+                        return result.candidates[0].content.parts[0].text;
+                    } else {
+                        console.error("Invalid response structure from Gemini API:", result);
+                        return "No se pudo obtener una respuesta válida del asistente de IA.";
+                    }
+                } catch (error) {
+                    console.error(`Attempt ${attempt + 1} failed:`, error);
+                    attempt++;
+                    if (attempt < maxRetries) {
+                        const delay = Math.pow(2, attempt) * 1000; // Exponential backoff
+                        await new Promise(res => setTimeout(res, delay));
+                    } else {
+                        return "Error al contactar al asistente de IA. Por favor, inténtalo de nuevo más tarde.";
+                    }
+                }
+            }
+        }
+
+        // --- MODAL LOGIC ---
+        function showModal(title) {
+            modalTitle.textContent = title;
+            modalLoader.style.display = 'flex';
+            modalContentText.innerHTML = '';
+            modal.classList.add('visible');
+        }
+
+        function hideModal() {
+            modal.classList.remove('visible');
+        }
+
+        function setModalContent(htmlContent) {
+            modalLoader.style.display = 'none';
+            // Basic Markdown to HTML conversion
+            let formattedHtml = htmlContent
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+            modalContentText.innerHTML = formattedHtml;
+        }
+
+        modalCloseBtn.addEventListener('click', hideModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                hideModal();
+            }
+        });
+
+        // --- EVENT LISTENERS ---
+
+        // Ventilator display logic
+        ventilatorButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                ventilatorButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+
+                activeVentilatorParam = {
+                    name: button.querySelector('p:first-child').textContent.trim(),
+                    description: button.dataset.desc
+                };
+
+                displayParam.textContent = activeVentilatorParam.name;
+                displayValue.textContent = button.dataset.value;
+                displayDesc.textContent = activeVentilatorParam.description;
+                simplifyConceptBtn.disabled = false;
+            });
+        });
+
+        // Simplify Concept Button
+        simplifyConceptBtn.addEventListener('click', async () => {
+            if (!activeVentilatorParam) return;
+            
+            showModal(`✨ VM para Dummies: ${activeVentilatorParam.name}`);
+            const prompt = `Explica el concepto de '${activeVentilatorParam.name}' en ventilación mecánica de una forma muy simple, usando una analogía fácil de entender para alguien que no es médico. La explicación debe ser breve, en español y empezar directamente con la analogía.`;
+            
+            const explanation = await callGeminiAPI(prompt);
+            setModalContent(explanation);
+        });
+
+        // Generate Clinical Case Button
+        generateCaseBtn.addEventListener('click', async () => {
+            generateCaseBtn.disabled = true;
+            generateCaseBtnText.classList.add('hidden');
+            generateCaseLoader.classList.remove('hidden');
+            caseContainer.classList.remove('hidden');
+            caseContent.innerHTML = '<div class="flex justify-center items-center"><div class="loader"></div></div>';
+
+            const prompt = `Genera un caso clínico conciso y educativo para un estudiante de medicina. El caso debe ser sobre una paciente embarazada de 32 semanas que desarrolla SDRA (Síndrome de Dificultad Respiratoria Aguda) secundario a un Síndrome de HELLP severo. Incluye: 1) Presentación inicial y signos vitales (incluyendo presión arterial alta). 2) Laboratorios clave que confirmen HELLP (plaquetas bajas, enzimas hepáticas elevadas, datos de hemólisis como LDH). 3) Gasometría arterial que muestre hipoxemia. 4) Parámetros iniciales clave de ventilación mecánica (Modo, Vt, PEEP, FiO2, Pplat, Driving Pressure). El texto debe estar en formato Markdown con títulos (usando ## para los títulos).`;
+
+            const caseText = await callGeminiAPI(prompt);
+            let formattedCase = caseText
+                .replace(/##\s*(.*)/g, '<h3 class="text-xl font-bold mt-4 mb-2">$1</h3>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\n/g, '<br>');
+            caseContent.innerHTML = formattedCase;
+
+            generateCaseBtn.disabled = false;
+            generateCaseBtnText.classList.remove('hidden');
+            generateCaseLoader.classList.add('hidden');
+        });
+
+
+        // --- SCROLL ANIMATIONS ---
+        const faders = document.querySelectorAll('.fade-in');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        faders.forEach(fader => {
+            observer.observe(fader);
+        });
+
+        // Interactive SVG animation based on scroll
+        const physiologySection = document.getElementById('physiology');
+        const lungFill = document.getElementById('lung-fill');
+        const uterusGroup = document.getElementById('uterus-group');
+        const diaphragm = document.getElementById('diaphragm');
+
+        const svgObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Animate to "pregnant" state
+                    lungFill.style.height = '25px'; // Reduce CRF visual
+                    lungFill.style.y = '155px';
+                    uterusGroup.style.transform = 'scale(1)';
+                    diaphragm.setAttribute('d', 'M100 180 Q 150 160 200 180');
+                } else {
+                    // Reset to "non-pregnant" state
+                    lungFill.style.height = '50px';
+                    lungFill.style.y = '130px';
+                    uterusGroup.style.transform = 'scale(0.5)';
+                    diaphragm.setAttribute('d', 'M100 180 Q 150 200 200 180');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        if (physiologySection) {
+            svgObserver.observe(physiologySection);
+        }
+
+    </script>
+
+</body>
+</html>
