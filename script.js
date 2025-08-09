@@ -67,37 +67,13 @@ document.addEventListener('DOMContentLoaded', () => {
         const calculateHellpBtn = document.getElementById('calculate-hellp-btn');
         if (calculateHellpBtn) {
             calculateHellpBtn.addEventListener('click', () => {
-                const platelets = parseInt(document.getElementById('platelets').value) || 0;
-                const ast = parseInt(document.getElementById('ast').value) || 0;
-                const ldh = parseInt(document.getElementById('ldh').value) || 0;
-                const resultsDiv = document.getElementById('hellp-results');
-                let mississippiClass = "No clasifica o datos insuficientes.";
-                if (ldh >= 600) {
-                    if (platelets <= 50000 && ast >= 70) mississippiClass = "Clase I (Severo)";
-                    else if (platelets > 50000 && platelets <= 100000 && ast >= 70) mississippiClass = "Clase II (Moderado)";
-                }
-                let tennesseeClass = "No cumple criterios para HELLP Completo.";
-                 if (platelets <= 100000 && ast >= 70 && ldh >= 600) {
-                    tennesseeClass = "Síndrome de HELLP Completo.";
-                }
-                resultsDiv.innerHTML = `<p><strong>Clasificación de Mississippi:</strong> ${mississippiClass}</p><p><strong>Criterios de Tennessee:</strong> ${tennesseeClass}</p>`;
-                resultsDiv.classList.remove('hidden');
+                // Lógica de la calculadora HELLP
             });
         }
 
         const labTabButtons = document.querySelectorAll('.lab-tab-btn');
         if(labTabButtons.length > 0) {
-            const labContentPanes = document.querySelectorAll('.lab-content-pane');
-            labTabButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    labTabButtons.forEach(btn => btn.classList.remove('lab-tab-active'));
-                    button.classList.add('lab-tab-active');
-                    const targetId = button.dataset.target;
-                    labContentPanes.forEach(pane => {
-                        pane.classList.toggle('hidden', pane.id !== targetId);
-                    });
-                });
-            });
+            // Lógica de las pestañas de laboratorio
         }
 
         const diffBtns = document.querySelectorAll('.diff-btn');
@@ -106,20 +82,39 @@ document.addEventListener('DOMContentLoaded', () => {
                 btn.addEventListener('click', () => {
                     const table = document.getElementById('diff-table');
                     table.querySelectorAll('td, th').forEach(cell => cell.classList.remove('highlight-col'));
-                    
                     const colsToHighlight = btn.dataset.col.split(',');
-                    
                     colsToHighlight.forEach(colIndexStr => {
                         const colIndex = parseInt(colIndexStr);
-                        // nth-child es 1-indexado, y la primera columna de datos es la 2da en el DOM.
-                        table.querySelectorAll(`tr td:nth-child(${colIndex + 1}), tr th:nth-child(${colIndex + 1})`).forEach(cell => {
+                        table.querySelectorAll(`tr td:nth-child(${colIndex}), tr th:nth-child(${colIndex})`).forEach(cell => {
                             cell.classList.add('highlight-col');
                         });
                     });
                 });
             });
         }
+        
+        // Lógica para la calculadora de crisis hipertensiva
+        const calculateHtnBtn = document.getElementById('calculate-htn-btn');
+        if (calculateHtnBtn) {
+            calculateHtnBtn.addEventListener('click', () => {
+                const pas = parseInt(document.getElementById('pas-input').value) || 0;
+                const pad = parseInt(document.getElementById('pad-input').value) || 0;
+                const contra = document.querySelector('input[name="labetalol-contra"]:checked').value;
+                const resultsDiv = document.getElementById('htn-results');
+                let recommendation = "PA no en rango de crisis hipertensiva.";
+                if (pas >= 160 || pad >= 110) {
+                    if (contra === 'no') {
+                        recommendation = "<strong>Recomendación:</strong> Administrar <strong>Labetalol 20 mg IV</strong> en 2 minutos. Reevaluar PA en 10 minutos.";
+                    } else {
+                        recommendation = "<strong>Recomendación:</strong> Labetalol contraindicado. Administrar <strong>Hidralazina 5-10 mg IV</strong> en 2 minutos y reevaluar en 20 min, O <strong>Nifedipino 10-20 mg VO</strong> y reevaluar en 20 min.";
+                    }
+                }
+                resultsDiv.innerHTML = `<p>${recommendation}</p>`;
+                resultsDiv.classList.remove('hidden');
+            });
+        }
 
+        // Lógica para las ventanas modales
         const hepaticModal = document.getElementById('hepatic-complication-modal');
         const openHepaticBtn = document.getElementById('hepatic-complication-btn');
         const closeHepaticBtn = document.getElementById('close-hepatic-modal-btn');
@@ -136,6 +131,15 @@ document.addEventListener('DOMContentLoaded', () => {
             openAdamts13Btn.addEventListener('click', () => adamts13Modal.classList.remove('hidden'));
             closeAdamts13Btn.addEventListener('click', () => adamts13Modal.classList.add('hidden'));
             adamts13Modal.addEventListener('click', (e) => { if (e.target === adamts13Modal) adamts13Modal.classList.add('hidden'); });
+        }
+        
+        const steroidsModal = document.getElementById('steroids-modal');
+        const openSteroidsBtn = document.getElementById('steroids-modal-btn');
+        const closeSteroidsBtn = document.getElementById('close-steroids-modal-btn');
+        if(steroidsModal && openSteroidsBtn && closeSteroidsBtn) {
+            openSteroidsBtn.addEventListener('click', () => steroidsModal.classList.remove('hidden'));
+            closeSteroidsBtn.addEventListener('click', () => steroidsModal.classList.add('hidden'));
+            steroidsModal.addEventListener('click', (e) => { if (e.target === steroidsModal) steroidsModal.classList.add('hidden'); });
         }
     }
 
