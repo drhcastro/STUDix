@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografía: Hipertensión en el Embarazo</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            background-color: #4f46e5;
+            color: white;
+            border-color: #4f46e5;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .icon-bg {
+            background-color: rgba(79, 70, 229, 0.1);
+            color: #4338ca;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8">
+        
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-indigo-700 mb-2">Hipertensión y Gestación: Guía Interactiva</h1>
+            <p class="text-md text-gray-600 max-w-3xl mx-auto">Un resumen visual de las definiciones, categorías y criterios de gravedad basados en el protocolo del Hospital Clínic y Hospital Sant Joan de Déu.</p>
+        </header>
+
+        <!-- Pestañas Principales -->
+        <div class="mb-8">
+            <div class="flex flex-wrap justify-center border-b border-gray-200">
+                <button class="tab-btn active py-3 px-6 font-semibold text-gray-600 border-b-2 border-transparent focus:outline-none" onclick="openTab(event, 'definiciones')">
+                    Definiciones
+                </button>
+                <button class="tab-btn py-3 px-6 font-semibold text-gray-600 border-b-2 border-transparent focus:outline-none" onclick="openTab(event, 'categorias')">
+                    Categorías
+                </button>
+                <button class="tab-btn py-3 px-6 font-semibold text-gray-600 border-b-2 border-transparent focus:outline-none" onclick="openTab(event, 'gravedad')">
+                    Criterios de Gravedad
+                </button>
+            </div>
+        </div>
+
+        <!-- Contenido de las Pestañas -->
+        <div id="definiciones" class="tab-content active">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Card: HTA -->
+                <div class="card bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-700 mb-3">Hipertensión Arterial (HTA)</h3>
+                    <p class="text-gray-600">TAS &ge;140 mmHg o TAD &ge;90 mmHg en dos tomas separadas por 6h, tras 10 min de reposo.</p>
+                    <p class="text-gray-600 mt-2">También: 2 tomas de TAS &ge;160 o TAD &ge;110 separadas 15 min.</p>
+                </div>
+                <!-- Card: HTA Severa -->
+                <div class="card bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-700 mb-3">Hipertensión Severa</h3>
+                    <p class="text-gray-600">Dos tomas de TAS &ge;160 mmHg o TAD &ge;110 mmHg separadas por 15 minutos. Siempre requiere tratamiento.</p>
+                </div>
+                <!-- Card: Proteinuria -->
+                <div class="card bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-700 mb-3">Proteinuria</h3>
+                    <p class="text-gray-600">Ratio proteína/creatinina &ge;0.3 mg/mg o >300 mg en orina de 24h, sin infección.</p>
+                </div>
+                <!-- Card: Lesión de Órgano Diana -->
+                <div class="card bg-white p-6 rounded-xl shadow-md md:col-span-2 lg:col-span-3">
+                    <h3 class="font-bold text-xl text-indigo-700 mb-3">Signos de Lesión de Órgano Diana</h3>
+                    <ul class="list-disc list-inside text-gray-600 space-y-2">
+                        <li>Doppler uterino patológico.</li>
+                        <li>Presencia de proteinuria.</li>
+                        <li>Plaquetopenia (&lt;100.000 mm&sup3;).</li>
+                        <li>LDH o AST/ALT elevadas (x2 el límite superior).</li>
+                        <li>Creatinina >1.2 mg/dL.</li>
+                        <li>Alteración de la coagulación (TP &lt;60%, TTPa >40seg).</li>
+                        <li>Dolor epigástrico/vómitos, edema agudo de pulmón o sintomatología neurológica.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="categorias" class="tab-content">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-700 mb-3">Hipertensión Crónica</h3>
+                    <p class="text-gray-600">HTA presente antes de la gestación o diagnosticada antes de la semana 20.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-700 mb-3">Hipertensión de Bata Blanca</h3>
+                    <p class="text-gray-600">HTA en consulta, pero cifras <135/85 en monitorización ambulatoria.</p>
+                </div>
+                 <div class="bg-white p-6 rounded-xl shadow-md md:col-span-2">
+                    <h3 class="font-bold text-xl text-indigo-700 mb-3">Hipertensión Inducida por la Gestación (Aparece >20 sem)</h3>
+                    <div class="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <div class="border border-indigo-200 bg-indigo-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-lg text-indigo-800">Hipertensión Gestacional</h4>
+                            <p class="text-sm text-indigo-700 mt-1">HTA sin lesión de órgano diana.</p>
+                        </div>
+                        <div class="border border-purple-200 bg-purple-50 p-4 rounded-lg">
+                            <h4 class="font-semibold text-lg text-purple-800">Preeclampsia (PE)</h4>
+                            <p class="text-sm text-purple-700 mt-1">HTA + signos/síntomas de afectación de órgano diana.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-700 mb-3">Eclampsia</h3>
+                    <p class="text-gray-600">Aparición de convulsiones tipo gran mal o coma, no atribuibles a otras causas.</p>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-md">
+                    <h3 class="font-bold text-xl text-indigo-700 mb-3">Síndrome de HELLP</h3>
+                    <p class="text-gray-600">Variante de la PE grave con: Hemólisis (LDH x2), Enzimas hepáticas elevadas (GOT/GPT x2), y Plaquetas bajas (<100.000/&micro;l).</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="gravedad" class="tab-content">
+             <div class="text-center mb-6">
+                <h2 class="text-2xl font-bold text-red-700">Preeclampsia con Criterios de Gravedad</h2>
+                <p class="text-gray-600 mt-1">La aparición de uno o más de estos criterios establece el diagnóstico de gravedad.</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Criterios de Gravedad -->
+                <div class="flex items-start bg-white p-4 rounded-lg shadow">
+                    <div class="flex-shrink-0 icon-bg rounded-full p-3 mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">HTA Severa Refractaria</h4>
+                        <p class="text-sm text-gray-600">TAS &ge;160 y/o TAD &ge;110 mantenida pese a 2-3 fármacos.</p>
+                    </div>
+                </div>
+                 <div class="flex items-start bg-white p-4 rounded-lg shadow">
+                    <div class="flex-shrink-0 icon-bg rounded-full p-3 mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Pródromos de Eclampsia</h4>
+                        <p class="text-sm text-gray-600">Cefalea intensa, alteraciones visuales, hiperreflexia con clonus, epigastralgia.</p>
+                    </div>
+                </div>
+                 <div class="flex items-start bg-white p-4 rounded-lg shadow">
+                    <div class="flex-shrink-0 icon-bg rounded-full p-3 mr-4">
+                         <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Insuficiencia Renal</h4>
+                        <p class="text-sm text-gray-600">Oliguria o Creatinina sérica >1.2 mg/dL.</p>
+                    </div>
+                </div>
+                 <div class="flex items-start bg-white p-4 rounded-lg shadow">
+                    <div class="flex-shrink-0 icon-bg rounded-full p-3 mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 18.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636m12.728 12.728L5.636 5.636"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Trombocitopenia</h4>
+                        <p class="text-sm text-gray-600">Plaquetas &lt;100.000 mm&sup3;.</p>
+                    </div>
+                </div>
+                 <div class="flex items-start bg-white p-4 rounded-lg shadow">
+                    <div class="flex-shrink-0 icon-bg rounded-full p-3 mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Afectación Hepática</h4>
+                        <p class="text-sm text-gray-600">GOT o GPT x2 el límite superior de la normalidad.</p>
+                    </div>
+                </div>
+                 <div class="flex items-start bg-white p-4 rounded-lg shadow">
+                    <div class="flex-shrink-0 icon-bg rounded-full p-3 mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Hemólisis</h4>
+                        <p class="text-sm text-gray-600">LDH x2 el límite superior de la normalidad.</p>
+                    </div>
+                </div>
+                 <div class="flex items-start bg-white p-4 rounded-lg shadow">
+                    <div class="flex-shrink-0 icon-bg rounded-full p-3 mr-4">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z"></path></svg>
+                    </div>
+                    <div>
+                        <h4 class="font-semibold text-gray-800">Edema de Pulmón</h4>
+                        <p class="text-sm text-gray-600">Acumulación de líquido en los pulmones.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Ocultar todo el contenido de las pestañas
+            let tabcontent = document.getElementsByClassName("tab-content");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+                tabcontent[i].classList.remove("active");
+            }
+
+            // Quitar la clase 'active' de todos los botones
+            let tablinks = document.getElementsByClassName("tab-btn");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].classList.remove("active");
+            }
+
+            // Mostrar la pestaña actual y añadir la clase 'active' al botón
+            document.getElementById(tabName).style.display = "block";
+            document.getElementById(tabName).classList.add("active");
+            evt.currentTarget.classList.add("active");
+        }
+
+        // Asegurar que la primera pestaña esté visible al cargar
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelector('.tab-btn.active').click();
+        });
+    </script>
+</body>
+</html>
