@@ -222,3 +222,45 @@ body {
 .close-btn:hover {
     color: #1f2937;
 }
+/* --- AÑADIR ESTO AL FINAL DE STYLES.CSS --- */
+
+/* Estilos para Flujograma Dinámico */
+.flowchart-container {
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    background-color: #f9fafb;
+    border: 1px solid #e5e7eb;
+    text-align: center;
+}
+.flow-step, .flow-step-red {
+    background-color: white;
+    padding: 0.75rem 1.25rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.375rem;
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    display: inline-block;
+    max-width: 90%;
+    transition: all 0.2s ease-in-out;
+}
+.flow-step:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    border-color: #6366f1;
+}
+.flow-step.start { background-color: #e0e7ff; border-color: #a5b4fc; }
+.flow-step.decision { background-color: #fef9c3; border-color: #fde047; }
+.flow-step.process { background-color: #e0f2fe; border-color: #7dd3fc; }
+.flow-step.end { background-color: #d1fae5; border-color: #6ee7b7; }
+.flow-step.end-red { background-color: #fee2e2; border-color: #fca5a5; }
+
+.flow-step span, .flow-step small { display: block; }
+.flow-step small { font-size: 0.8rem; color: #4b5563; margin-top: 0.25rem; }
+.flow-arrow { font-size: 1.5rem; color: #9ca3af; margin: 0.5rem 0; }
+.flow-split { display: flex; justify-content: space-around; }
+.flow-path { width: 45%; }
+.flow-connectors { position: relative; height: 20px; }
+.flow-line { border-bottom: 2px solid #d1d5db; width: 100%; position: absolute; top: 10px; }
+.flow-line-branch { border-left: 2px solid #d1d5db; height: 20px; position: absolute; left: 50%; }
+.flow-label { font-weight: 600; color: #4b5563; margin-bottom: 0.25rem; }
+.flow-label.yes { color: #16a34a; }
+.flow-label.no { color: #dc2626; }
