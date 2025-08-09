@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infografía: Manejo del Síndrome de HELLP</title>
+    <title>Sumario de manejo Síndrome de Hellp</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -18,6 +18,10 @@
             transition: all 0.3s ease-in-out;
             display: flex;
             flex-direction: column;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
         }
         .card-content {
             flex-grow: 1;
@@ -66,11 +70,73 @@
             align-items: center;
             justify-content: center;
             margin-right: 1rem;
+            transition: transform 0.3s ease;
+        }
+        .flow-item:hover .flow-icon {
+            transform: scale(1.1);
         }
         .flow-icon svg {
             width: 1.5rem;
             height: 1.5rem;
             color: white;
+        }
+        /* Timeline styles */
+        .timeline {
+            position: relative;
+            padding: 2rem 0;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 1.5rem;
+            height: 100%;
+            width: 4px;
+            background: #e5e7eb;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+            padding-left: 4rem;
+        }
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        .timeline-icon {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 3rem;
+            height: 3rem;
+            border-radius: 50%;
+            background: white;
+            border: 4px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .timeline-icon svg {
+             width: 1.5rem;
+             height: 1.5rem;
+        }
+        .gemini-button {
+            transition: all 0.2s ease-in-out;
+        }
+        .gemini-button:hover {
+            transform: scale(1.05);
+        }
+        .loader {
+            border: 4px solid #f3f3f3;
+            border-radius: 50%;
+            border-top: 4px solid #3498db;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
@@ -80,7 +146,7 @@
         
         <!-- Header -->
         <header class="text-center mb-8">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Manejo Integral del Síndrome de HELLP</h1>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800">Sumario de manejo Síndrome de Hellp</h1>
             <p class="mt-2 text-lg text-gray-600">Una Guía Visual para Decisiones Críticas</p>
         </header>
 
@@ -347,35 +413,198 @@
             </div>
         </div>
 
+        <!-- NEW SECTION: Treatment and Resolution Sequence -->
+        <div class="card p-6 md:p-8 mt-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-6">Secuencia de Tratamiento y Resolución</h2>
+            <div class="timeline">
+                <!-- Step 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-icon bg-blue-500 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M9 10.5a1.5 1.5 0 113 0v3a1.5 1.5 0 01-3 0v-3z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a.75.75 0 100-1.5.75.75 0 000 1.5z" /></svg>
+                    </div>
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                        <h4 class="font-bold text-blue-800">1. Diagnóstico y Estabilización Inicial</h4>
+                        <p class="text-sm text-gray-600 mt-1">Confirmar diagnóstico de HELLP. Iniciar manejo agresivo de la hipertensión, profilaxis con Sulfato de Magnesio y manejo cuidadoso de fluidos IV.</p>
+                    </div>
+                </div>
+                <!-- Step 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-icon bg-green-500 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h.01M15 12h.01M10.5 16.5h3m-6.38-3.39l-1.62-1.62a3.75 3.75 0 010-5.304l1.62-1.62a3.75 3.75 0 015.304 0l1.62 1.62a3.75 3.75 0 010 5.304l-1.62 1.62a3.75 3.75 0 01-5.304 0z" /></svg>
+                    </div>
+                    <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                        <h4 class="font-bold text-green-800">2. Evaluación Materno-Fetal Continua</h4>
+                        <p class="text-sm text-gray-600 mt-1">Monitorización intensiva de signos vitales, laboratorios (plaquetas, PFH, función renal) y estado de bienestar fetal (RCTG, Perfil Biofísico).</p>
+                    </div>
+                </div>
+                <!-- Step 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-icon bg-yellow-500 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                    </div>
+                    <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                        <h4 class="font-bold text-yellow-800">3. Decisión: Momento del Parto</h4>
+                        <p class="text-sm text-gray-600 mt-1">Basado en edad gestacional y estabilidad. Parto inmediato si ≥34 sem o hay deterioro. Considerar manejo expectante y corticoides si <34 sem y estables.</p>
+                    </div>
+                </div>
+                <!-- Step 4 -->
+                <div class="timeline-item">
+                    <div class="timeline-icon bg-purple-500 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 9.75h16.5m-16.5 4.5h16.5m-16.5 4.5h16.5m-16.5-13.5h16.5" /></svg>
+                    </div>
+                    <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                        <h4 class="font-bold text-purple-800">4. Elección de la Vía del Parto</h4>
+                        <p class="text-sm text-gray-600 mt-1">Se prefiere parto vaginal si es seguro y previsible. Cesárea por indicaciones obstétricas o deterioro rápido que impida un parto vaginal oportuno.</p>
+                    </div>
+                </div>
+                <!-- Step 5 -->
+                <div class="timeline-item">
+                    <div class="timeline-icon bg-red-500 text-white">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12c0-1.232-.046-2.453-.138-3.662a4.006 4.006 0 00-3.7-3.7 48.678 48.678 0 00-7.324 0 4.006 4.006 0 00-3.7 3.7c-.092 1.21-.138 2.43-.138 3.662v4.5a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 16.5v-4.5z" /><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9.75h7.5v.008h-7.5V9.75z" /></svg>
+                    </div>
+                    <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                        <h4 class="font-bold text-red-800">5. Manejo Anestésico</h4>
+                        <p class="text-sm text-gray-600 mt-1">Anestesia neuroaxial (epidural/espinal) es de elección si las plaquetas son >75,000. Anestesia general si hay contraindicación por trombocitopenia severa.</p>
+                    </div>
+                </div>
+                 <!-- Step 6 -->
+                <div class="timeline-item">
+                    <div class="timeline-icon bg-cyan-500 text-white">
+                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 9V5.25A2.25 2.25 0 0110.5 3h6a2.25 2.25 0 012.25 2.25v13.5A2.25 2.25 0 0116.5 21h-6a2.25 2.25 0 01-2.25-2.25V15m-3 0l3-3m0 0l3 3m-3-3V9" /></svg>
+                    </div>
+                    <div class="bg-cyan-50 p-4 rounded-lg border border-cyan-200">
+                        <h4 class="font-bold text-cyan-800">6. Cuidados Postparto y Alta</h4>
+                        <p class="text-sm text-gray-600 mt-1">Vigilancia intensiva por al menos 48 horas postparto, ya que la enfermedad puede empeorar. Planificar el alta cuando la paciente esté estable, con laboratorios en mejoría y capaz de autocuidado.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- NEW Gemini API Section -->
+        <div class="card p-6 md:p-8 mt-8">
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800 text-center mb-2">🤖 Simulador de Decisiones Clínicas con IA</h2>
+            <p class="text-center text-gray-500 mb-6">Selecciona los parámetros del caso para obtener una recomendación de manejo.</p>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div>
+                    <label for="gestationalAge" class="block text-sm font-medium text-gray-700">Semanas de Gestación</label>
+                    <select id="gestationalAge" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="< 34 semanas">&lt; 34 semanas</option>
+                        <option value="34 a 37 semanas">34 a 37 semanas</option>
+                        <option value="> 37 semanas">&gt; 37 semanas</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="plateletCount" class="block text-sm font-medium text-gray-700">Conteo de Plaquetas</label>
+                    <select id="plateletCount" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="> 100,000/mm³">&gt; 100,000/mm³</option>
+                        <option value="75,000 - 100,000/mm³">75,000 - 100,000/mm³</option>
+                        <option value="< 75,000/mm³">&lt; 75,000/mm³</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="clinicalStatus" class="block text-sm font-medium text-gray-700">Estado Clínico Materno/Fetal</label>
+                    <select id="clinicalStatus" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        <option value="Estable, sin datos de sufrimiento fetal">Estable</option>
+                        <option value="Con signos de deterioro o sufrimiento fetal agudo">Con deterioro</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="flex justify-center">
+                <button id="generateRecommendationBtn" class="gemini-button w-full md:w-auto flex items-center justify-center gap-2 bg-indigo-600 text-white font-bold py-3 px-6 rounded-md hover:bg-indigo-700">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.375 3.375 0 0114 18.442V19.5a3.375 3.375 0 01-6.75 0v-1.058c0-.777.285-1.486.764-2.008l.548-.547z" />
+                    </svg>
+                    Generar Recomendación con IA
+                </button>
+            </div>
+            
+            <div id="geminiResult" class="mt-6 p-4 bg-gray-50 rounded-md border border-gray-200 min-h-[150px]">
+                <div id="loader" class="hidden justify-center items-center gap-2 text-gray-500">
+                    <div class="loader"></div>
+                    <span>Analizando caso y generando recomendación...</span>
+                </div>
+                <p class="text-gray-500 text-center">La recomendación de la IA aparecerá aquí.</p>
+            </div>
+        </div>
+
     </div>
 
     <script>
         // Function to switch between information panels
         function showPanel(panelId) {
-            // Hide all panels
             const panels = document.querySelectorAll('.info-panel');
-            panels.forEach(panel => {
-                panel.classList.remove('active');
-            });
-
-            // Deactivate all tab buttons
+            panels.forEach(panel => panel.classList.remove('active'));
             const buttons = document.querySelectorAll('.tab-button');
-            buttons.forEach(button => {
-                button.classList.remove('active');
-            });
-
-            // Show the selected panel
-            const selectedPanel = document.getElementById(panelId);
-            if (selectedPanel) {
-                selectedPanel.classList.add('active');
-            }
-
-            // Activate the clicked tab button
-            const selectedButton = document.querySelector(`[onclick="showPanel('${panelId}')"]`);
-            if (selectedButton) {
-                selectedButton.classList.add('active');
-            }
+            buttons.forEach(button => button.classList.remove('active'));
+            document.getElementById(panelId).classList.add('active');
+            document.querySelector(`[onclick="showPanel('${panelId}')"]`).classList.add('active');
         }
+
+        // Gemini API Interaction for Decision Simulator
+        const generateRecommendationBtn = document.getElementById('generateRecommendationBtn');
+        const geminiResultDiv = document.getElementById('geminiResult');
+        const loader = document.getElementById('loader');
+
+        const callGeminiAPI = async (prompt) => {
+            loader.style.display = 'flex';
+            geminiResultDiv.innerHTML = ''; // Clear previous results
+            geminiResultDiv.appendChild(loader);
+
+            let chatHistory = [{ role: "user", parts: [{ text: prompt }] }];
+            const payload = { contents: chatHistory };
+            const apiKey = ""; // API key is handled by the environment
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
+
+            try {
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Error en la API: ${response.statusText}`);
+                }
+
+                const result = await response.json();
+                
+                let text = "No se pudo generar una respuesta. Por favor, intente de nuevo.";
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    text = result.candidates[0].content.parts[0].text;
+                }
+                
+                geminiResultDiv.innerHTML = text.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+            } catch (error) {
+                console.error("Error calling Gemini API:", error);
+                geminiResultDiv.innerHTML = `<p class="text-red-500 text-center">Error al generar la respuesta. Por favor, verifique la consola para más detalles.</p>`;
+            } finally {
+                loader.style.display = 'none';
+            }
+        };
+
+        generateRecommendationBtn.addEventListener('click', () => {
+            const gestationalAge = document.getElementById('gestationalAge').value;
+            const plateletCount = document.getElementById('plateletCount').value;
+            const clinicalStatus = document.getElementById('clinicalStatus').value;
+
+            const prompt = `
+                Actúa como un médico especialista en medicina materno-fetal y anestesiología obstétrica. Basado en el siguiente caso clínico simulado de una paciente con síndrome de HELLP, proporciona una recomendación clara y justificada sobre:
+                1. **Interrupción del Embarazo:** ¿Cuál es el manejo recomendado (expectante o finalización inmediata)? Justifica tu respuesta basándote en la edad gestacional y el estado clínico.
+                2. **Técnica Anestésica:** ¿Cuál es la técnica anestésica más apropiada (neuroaxial o general)? Justifica tu decisión basándote principalmente en el conteo plaquetario y los riesgos asociados.
+
+                Datos del Caso:
+                - Semanas de Gestación: ${gestationalAge}
+                - Conteo de Plaquetas: ${plateletCount}
+                - Estado Clínico Materno/Fetal: ${clinicalStatus}
+
+                Presenta la respuesta de forma estructurada con encabezados claros para cada recomendación. La respuesta debe estar en español.
+            `;
+            callGeminiAPI(prompt);
+        });
     </script>
 
 </body>
