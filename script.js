@@ -48,14 +48,19 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!specialModuleTitles.includes(tabTitle)) {
                 tabTitle = `Módulo ${index + 1}`;
             }
-            subNavHtml += `<button class="sub-tab-button px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200 ${isActive ? 'sub-tab-active' : 'sub-tab-inactive'}" data-index="${index}">${tabTitle}</button>`;
+
+            if (module.id === 'module4') {
+                subNavHtml += `<a href="tratamiento-definitivo.html" target="_blank" class="sub-tab-button sub-tab-inactive px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200">${tabTitle} ↗</a>`;
+            } else {
+                subNavHtml += `<button class="sub-tab-button px-3 py-2 text-xs sm:text-sm rounded-md transition-colors duration-200 ${isActive ? 'sub-tab-active' : 'sub-tab-inactive'}" data-index="${index}">${tabTitle}</button>`;
+            }
         });
         subNavHtml += '</div>';
         subNavContainer.innerHTML = subNavHtml;
 
-        document.querySelectorAll('.sub-tab-button').forEach(button => {
+        document.querySelectorAll('.sub-tab-button[data-index]').forEach(button => {
             button.addEventListener('click', (e) => {
-                currentModuleIndex = parseInt(e.target.dataset.index);
+                currentModuleIndex = parseInt(e.currentTarget.dataset.index);
                 renderModule(data);
                 renderSubNav(data);
             });
@@ -170,11 +175,4 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function init() {
-        await loadCourseData();
-        selectHellpBtn.addEventListener('click', () => showCourse('hellp'));
-        backToHomeBtn.addEventListener('click', showHome);
-    }
-
-    init();
-});
+    async function
