@@ -175,4 +175,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    async function
+    async function init() {
+        await loadCourseData();
+        selectHellpBtn.addEventListener('click', () => showCourse('hellp'));
+        backToHomeBtn.addEventListener('click', showHome);
+    }
+
+    init();
+});
